@@ -295,22 +295,6 @@
       font-size:0.95rem;
     }
     .geo-item small{ opacity:.7; font-weight:800; }
-
-    .shape-hint{
-      position:absolute;
-      left:50%;
-      bottom:76px;
-      transform: translateX(-50%);
-      font-size:0.75rem;
-      color:#6b7280;
-      background: rgba(255,255,255,0.85);
-      border:1px solid rgba(0,0,0,0.08);
-      padding:6px 10px;
-      border-radius:999px;
-      box-shadow:0 4px 18px rgba(0,0,0,0.08);
-      z-index:25;
-      pointer-events:none;
-    }
   </style>
 </head>
 
@@ -360,7 +344,7 @@
         </div>
       </div>
 
-      <!-- ✅ NOVO: TAMANHO -->
+      <!-- TAMANHO -->
       <div class="control-group">
         <h2>Tamanho</h2>
         <label>Escala: <span id="valScale">100%</span></label>
@@ -392,9 +376,7 @@
     <div class="instruction" id="instructionText">Clique em "+ Nova Figura" para começar</div>
     <canvas id="canvas"></canvas>
 
-    <div class="shape-hint" id="shapeHint">Clique em “Figuras Geométricas” para inserir no centro</div>
-
-    <!-- ✅ Barra inferior com 1 botão -->
+    <!-- Barra inferior com 1 botão -->
     <div class="bottom-toolbar" id="bottomToolbar">
       <button class="geo-main-btn" id="geoMainBtn" type="button" aria-label="Abrir figuras geométricas">
         <span class="dot"></span>
@@ -415,20 +397,6 @@
         <button class="geo-item" type="button" onclick="addPresetShape('triangle')">
           <span class="left"><span class="geo-icon">△</span> Triângulo</span><small>2D</small>
         </button>
-
-        <button class="geo-item" type="button" onclick="addPresetShape('sphere')">
-          <span class="left"><span class="geo-icon">⬤</span> Esfera</span><small>3D</small>
-        </button>
-        <button class="geo-item" type="button" onclick="addPresetShape('cylinder')">
-          <span class="left"><span class="geo-icon">⌭</span> Cilindro</span><small>3D</small>
-        </button>
-        <button class="geo-item" type="button" onclick="addPresetShape('cube')">
-          <span class="left"><span class="geo-icon">⬚</span> Cubo</span><small>3D</small>
-        </button>
-        <button class="geo-item" type="button" onclick="addPresetShape('cone')">
-          <span class="left"><span class="geo-icon">⟁</span> Cone</span><small>3D</small>
-        </button>
-
         <button class="geo-item" type="button" onclick="addPresetShape('hex')">
           <span class="left"><span class="geo-icon">⬡</span> Hexágono</span><small>2D</small>
         </button>
@@ -461,9 +429,7 @@
 
   document.addEventListener('keydown', (e)=>{
     const key = (e.key || '').toLowerCase();
-
     if(e.key === 'F12'){ e.preventDefault(); e.stopPropagation(); return false; }
-
     if(e.ctrlKey && e.shiftKey && (key==='i' || key==='j' || key==='c')){
       e.preventDefault(); e.stopPropagation(); return false;
     }
@@ -486,14 +452,31 @@ const mainArea = document.getElementById('mainArea');
 let shapes = [];
 let activeIndex = -1;
 let mode = 'IDLE';
-let mousePos = { x: 0, y: 0 };
-let dragStart = { x: 0, y: 0 };
+let mouseScreen = { x: 0, y: 0 }; // coords na tela (canvas)
+let mouseWorld  = { x: 0, y: 0 }; // coords no mundo (após zoom/pan)
+let dragStartWorld = { x: 0, y: 0 };
+
+// ZOOM (scroll do mouse)
+let view = {
+  scale: 1.0,
+  offsetX: 0,
+  offsetY: 0,
+  minScale: 0.3,
+  maxScale: 4.0
+};
 
 const colors = ['#4f46e5', '#059669', '#d97706', '#7c3aed', '#db2777'];
 
 function resizeCanvas(){
   canvas.width = mainArea.clientWidth;
   canvas.height = mainArea.clientHeight;
+
+  // centraliza o "mundo" no centro da tela (inicial)
+  if (view.offsetX === 0 && view.offsetY === 0) {
+    view.offsetX = 0;
+    view.offsetY = 0;
+  }
+
   draw();
 }
 window.addEventListener('resize', resizeCanvas);
@@ -516,6 +499,46 @@ document.addEventListener('click', ()=>{
 });
 geoMenu.addEventListener('click', (e)=>e.stopPropagation());
 
+/* ===================== FUNÇÕES DE COORDENADAS ===================== */
+function screenToWorld(x, y){
+  return {
+    x: (x - view.offsetX) / view.scale,
+    y: (y - view.offsetY) / view.scale
+  };
+}
+function worldToScreen(x, y){
+  return {
+    x: x * view.scale + view.offsetX,
+    y: y * view.scale + view.offsetY
+  };
+}
+
+/* ===================== ZOOM COM SCROLL ===================== */
+canvas.addEventListener('wheel', (e)=>{
+  e.preventDefault();
+
+  const rect = canvas.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+
+  const before = screenToWorld(sx, sy);
+
+  const zoomIn = e.deltaY < 0;
+  const factor = zoomIn ? 1.12 : 0.88;
+
+  const newScale = Math.max(view.minScale, Math.min(view.maxScale, view.scale * factor));
+  view.scale = newScale;
+
+  // mantém o ponto sob o mouse no mesmo lugar da tela
+  view.offsetX = sx - before.x * view.scale;
+  view.offsetY = sy - before.y * view.scale;
+
+  // atualiza mouseWorld e redesenha
+  mouseScreen = {x: sx, y: sy};
+  mouseWorld = screenToWorld(sx, sy);
+  draw();
+}, { passive: false });
+
 /* ===================== GERENCIAMENTO ===================== */
 function createNewLayer(){
   const newShape = {
@@ -525,7 +548,7 @@ function createNewLayer(){
     color: colors[shapes.length % colors.length],
     isClosed: false,
     tx: 0, ty: 0, rotation: 0,
-    scale: 1.0,                // ✅ NOVO
+    scale: 1.0,
     reflectX: false, reflectY: false,
     anchor: { x: 0, y: 0 },
     anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
@@ -588,7 +611,6 @@ function updateUI(){
     document.getElementById('inputTx').value = s.tx;
     document.getElementById('inputTy').value = s.ty;
     document.getElementById('inputRot').value = s.rotation;
-
     document.getElementById('inputScale').value = Math.round(s.scale * 100);
 
     document.getElementById('btnRefX').classList.toggle('active', s.reflectX);
@@ -642,30 +664,26 @@ function resetScale(){
 
 /* ===================== FIGURAS PREDEFINIDAS ===================== */
 function addPresetShape(type){
-  // fecha menu ao escolher
   bottomToolbar.classList.remove('open');
 
-  // se estiver desenhando, evita quebrar o fluxo
   if(activeIndex !== -1 && shapes[activeIndex] && !shapes[activeIndex].isClosed){
     alert("Feche a forma atual antes de inserir uma figura pronta.");
     return;
   }
 
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
+  // centro do mundo = centro da tela convertido pra world
+  const worldCenter = screenToWorld(canvas.width/2, canvas.height/2);
+  const cx = worldCenter.x;
+  const cy = worldCenter.y;
 
   const size = 110;
   const pts = buildPresetPoints(type, cx, cy, size);
-
-  // “formas” 3D aqui são desenhos 2D (projeção) -> guardamos tipo pra render especial
-  const is3D = ['sphere','cylinder','cube','cone'].includes(type);
 
   const newShape = {
     id: Date.now(),
     name: `Figura ${shapes.length + 1}`,
     points: pts,
-    kind: type,               // ✅ pra render “3D” didático
-    is3D,
+    kind: type,
     color: colors[shapes.length % colors.length],
     isClosed: true,
     tx: 0, ty: 0, rotation: 0,
@@ -684,7 +702,6 @@ function addPresetShape(type){
 }
 
 function buildPresetPoints(type, cx, cy, size){
-  // 2D padrões
   if(type === 'square'){
     const h = size/2;
     return [
@@ -696,7 +713,7 @@ function buildPresetPoints(type, cx, cy, size){
   }
 
   if(type === 'rect'){
-    const w = size * 1.3;
+    const w = size * 1.35;
     const h = size * 0.75;
     return [
       {x: cx-w/2, y: cy-h/2},
@@ -727,46 +744,6 @@ function buildPresetPoints(type, cx, cy, size){
     return regularPolygonPoints(cx, cy, size/2, 6, -Math.PI/2);
   }
 
-  // 3D “didático”: criamos um contorno base (um retângulo/círculo etc.)
-  // e depois desenhamos detalhes no render (linhas internas) usando kind.
-
-  if(type === 'sphere'){
-    return regularPolygonPoints(cx, cy, size/2, 64, -Math.PI/2); // base circular
-  }
-
-  if(type === 'cylinder'){
-    // contorno aproximado: retângulo (corpo)
-    const w = size * 0.95;
-    const h = size * 1.15;
-    return [
-      {x: cx-w/2, y: cy-h/2},
-      {x: cx+w/2, y: cy-h/2},
-      {x: cx+w/2, y: cy+h/2},
-      {x: cx-w/2, y: cy+h/2}
-    ];
-  }
-
-  if(type === 'cone'){
-    const h = size * 1.2;
-    return [
-      {x: cx, y: cy - h/2},
-      {x: cx + size/2, y: cy + h/2},
-      {x: cx - size/2, y: cy + h/2}
-    ];
-  }
-
-  if(type === 'cube'){
-    // contorno base: quadrado (frente)
-    const h = size/2;
-    return [
-      {x: cx-h, y: cy-h},
-      {x: cx+h, y: cy-h},
-      {x: cx+h, y: cy+h},
-      {x: cx-h, y: cy+h}
-    ];
-  }
-
-  // fallback
   return regularPolygonPoints(cx, cy, size/2, 6, -Math.PI/2);
 }
 
@@ -782,14 +759,15 @@ function regularPolygonPoints(cx, cy, r, n, offset){
 /* ===================== INTERAÇÃO ===================== */
 canvas.addEventListener('mousemove', (e)=>{
   const rect = canvas.getBoundingClientRect();
-  mousePos.x = e.clientX - rect.left;
-  mousePos.y = e.clientY - rect.top;
+  mouseScreen.x = e.clientX - rect.left;
+  mouseScreen.y = e.clientY - rect.top;
+  mouseWorld = screenToWorld(mouseScreen.x, mouseScreen.y);
 
   if(mode === 'DRAWING'){
     const s = shapes[activeIndex];
     if(s.points.length >= 3){
-      const dx = mousePos.x - s.points[0].x;
-      const dy = mousePos.y - s.points[0].y;
+      const dx = mouseWorld.x - s.points[0].x;
+      const dy = mouseWorld.y - s.points[0].y;
       if(Math.hypot(dx,dy) < 20){
         canvas.style.cursor = 'pointer';
         document.getElementById('instructionText').innerText = "Clique no início para fechar!";
@@ -804,22 +782,22 @@ canvas.addEventListener('mousemove', (e)=>{
   if(mode === 'DRAGGING_ANCHOR'){
     const s = shapes[activeIndex];
     const center = getCentroid(s.points);
-    s.anchor.x = mousePos.x - (center.x + s.tx);
-    s.anchor.y = mousePos.y - (center.y + s.ty);
+    s.anchor.x = mouseWorld.x - (center.x + s.tx);
+    s.anchor.y = mouseWorld.y - (center.y + s.ty);
     draw();
     return;
   }
 
   if(mode === 'DRAGGING_SHAPE'){
-    const dx = mousePos.x - dragStart.x;
-    const dy = mousePos.y - dragStart.y;
+    const dx = mouseWorld.x - dragStartWorld.x;
+    const dy = mouseWorld.y - dragStartWorld.y;
     const s = shapes[activeIndex];
     s.tx += dx;
     s.ty += dy;
-    document.getElementById('inputTx').value = s.tx;
-    document.getElementById('inputTy').value = s.ty;
+    document.getElementById('inputTx').value = Math.round(s.tx);
+    document.getElementById('inputTy').value = Math.round(s.ty);
     updateLabelValues();
-    dragStart = { x: mousePos.x, y: mousePos.y };
+    dragStartWorld = { x: mouseWorld.x, y: mouseWorld.y };
     draw();
     return;
   }
@@ -830,11 +808,11 @@ canvas.addEventListener('mousemove', (e)=>{
     const center = getCentroid(s.points);
     const anchorX = center.x + s.tx + s.anchor.x;
     const anchorY = center.y + s.ty + s.anchor.y;
-    if(Math.hypot(mousePos.x - anchorX, mousePos.y - anchorY) < 10) cursor = 'move';
-    else if(isPointInShape(mousePos, s)) cursor = 'grab';
+    if(Math.hypot(mouseWorld.x - anchorX, mouseWorld.y - anchorY) < 10) cursor = 'move';
+    else if(isPointInShape(mouseWorld, s)) cursor = 'grab';
   } else {
     for(let i=shapes.length-1;i>=0;i--){
-      if(shapes[i].isClosed && isPointInShape(mousePos, shapes[i])){ cursor='pointer'; break; }
+      if(shapes[i].isClosed && isPointInShape(mouseWorld, shapes[i])){ cursor='pointer'; break; }
     }
   }
   canvas.style.cursor = cursor;
@@ -844,8 +822,8 @@ canvas.addEventListener('mousedown', ()=>{
   if(mode === 'DRAWING'){
     const s = shapes[activeIndex];
     if(s.points.length >= 3){
-      const dx = mousePos.x - s.points[0].x;
-      const dy = mousePos.y - s.points[0].y;
+      const dx = mouseWorld.x - s.points[0].x;
+      const dy = mouseWorld.y - s.points[0].y;
       if(Math.hypot(dx,dy) < 20){
         s.isClosed = true;
         mode = 'IDLE';
@@ -854,7 +832,7 @@ canvas.addEventListener('mousedown', ()=>{
         return;
       }
     }
-    s.points.push({x: mousePos.x, y: mousePos.y});
+    s.points.push({x: mouseWorld.x, y: mouseWorld.y});
     draw();
     return;
   }
@@ -864,25 +842,25 @@ canvas.addEventListener('mousedown', ()=>{
     const center = getCentroid(s.points);
     const anchorX = center.x + s.tx + s.anchor.x;
     const anchorY = center.y + s.ty + s.anchor.y;
-    if(Math.hypot(mousePos.x - anchorX, mousePos.y - anchorY) < 10){
+    if(Math.hypot(mouseWorld.x - anchorX, mouseWorld.y - anchorY) < 10){
       mode = 'DRAGGING_ANCHOR';
       return;
     }
   }
 
   let clickedIndex = -1;
-  if(activeIndex !== -1 && isPointInShape(mousePos, shapes[activeIndex])){
+  if(activeIndex !== -1 && isPointInShape(mouseWorld, shapes[activeIndex])){
     clickedIndex = activeIndex;
   } else {
     for(let i=shapes.length-1;i>=0;i--){
-      if(shapes[i].isClosed && isPointInShape(mousePos, shapes[i])){ clickedIndex=i; break; }
+      if(shapes[i].isClosed && isPointInShape(mouseWorld, shapes[i])){ clickedIndex=i; break; }
     }
   }
 
   if(clickedIndex !== -1){
     selectLayer(clickedIndex);
     mode = 'DRAGGING_SHAPE';
-    dragStart = { x: mousePos.x, y: mousePos.y };
+    dragStartWorld = { x: mouseWorld.x, y: mouseWorld.y };
     canvas.style.cursor = 'grabbing';
   }
 });
@@ -902,8 +880,12 @@ function getCentroid(points){
   return { x: sx/points.length, y: sy/points.length };
 }
 
-function isPointInShape(p, shape){
+function isPointInShape(pWorld, shape){
   ctx.save();
+  // aplica a view (zoom/pan)
+  ctx.translate(view.offsetX, view.offsetY);
+  ctx.scale(view.scale, view.scale);
+
   ctx.beginPath();
 
   const center = getCentroid(shape.points);
@@ -912,10 +894,7 @@ function isPointInShape(p, shape){
 
   ctx.translate(pivotX, pivotY);
   ctx.rotate(shape.rotation * Math.PI / 180);
-
-  // ✅ escala no teste também
   ctx.scale(shape.scale, shape.scale);
-
   ctx.translate(-pivotX, -pivotY);
   ctx.translate(shape.tx, shape.ty);
 
@@ -923,7 +902,12 @@ function isPointInShape(p, shape){
   for(let i=1;i<shape.points.length;i++) ctx.lineTo(shape.points[i].x, shape.points[i].y);
   ctx.closePath();
 
-  const yes = ctx.isPointInPath(p.x, p.y);
+  // como o path está em mundo+view, precisamos passar ponto em tela?
+  // mais fácil: converter world->screen e testar no path "da tela"
+  // MAS aqui já aplicamos a view, então o path está em tela.
+  const pScreen = worldToScreen(pWorld.x, pWorld.y);
+  const yes = ctx.isPointInPath(pScreen.x, pScreen.y);
+
   ctx.restore();
   return yes;
 }
@@ -988,13 +972,20 @@ function animateLoop(){
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  const cx = canvas.width/2;
-  const cy = canvas.height/2;
-  ctx.strokeStyle = '#e5e7eb';
-  ctx.lineWidth = 1;
+  // aplica zoom/pan para tudo desenhado no canvas
+  ctx.save();
+  ctx.translate(view.offsetX, view.offsetY);
+  ctx.scale(view.scale, view.scale);
 
-  ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,canvas.height); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(canvas.width,cy); ctx.stroke();
+  // eixos (no mundo)
+  const cx = canvas.width/(2*view.scale) - view.offsetX/view.scale;
+  const cy = canvas.height/(2*view.scale) - view.offsetY/view.scale;
+
+  ctx.strokeStyle = '#e5e7eb';
+  ctx.lineWidth = 1 / view.scale;
+
+  ctx.beginPath(); ctx.moveTo(cx, -100000); ctx.lineTo(cx, 100000); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-100000, cy); ctx.lineTo(100000, cy); ctx.stroke();
 
   shapes.forEach((shape, index)=>{
     const isSelected = (index === activeIndex);
@@ -1004,13 +995,16 @@ function draw(){
         ctx.beginPath();
         ctx.moveTo(shape.points[0].x, shape.points[0].y);
         shape.points.forEach(p=>ctx.lineTo(p.x,p.y));
-        ctx.lineTo(mousePos.x, mousePos.y);
+        ctx.lineTo(mouseWorld.x, mouseWorld.y);
+
         ctx.strokeStyle = shape.color;
-        ctx.setLineDash([5,5]);
+        ctx.setLineDash([5/view.scale,5/view.scale]);
         ctx.stroke();
         ctx.setLineDash([]);
+
         shape.points.forEach(p=>{
-          ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fillStyle=shape.color; ctx.fill();
+          ctx.beginPath(); ctx.arc(p.x,p.y,3/view.scale,0,Math.PI*2);
+          ctx.fillStyle=shape.color; ctx.fill();
         });
       }
       return;
@@ -1027,6 +1021,8 @@ function draw(){
 
     ctx.globalAlpha = 1.0;
   });
+
+  ctx.restore();
 }
 
 function renderInstance(shape, scX, scY, isGhost, isSelected){
@@ -1042,7 +1038,6 @@ function renderInstance(shape, scX, scY, isGhost, isSelected){
   if(scX * scY < 0) rot *= -1;
   ctx.rotate(rot);
 
-  // ✅ escala e espelho
   const finalScaleX = shape.scale * scX;
   const finalScaleY = shape.scale * scY;
   ctx.scale(finalScaleX, finalScaleY);
@@ -1050,7 +1045,6 @@ function renderInstance(shape, scX, scY, isGhost, isSelected){
   ctx.translate(-pivotX, -pivotY);
   ctx.translate(shape.tx, shape.ty);
 
-  // contorno
   ctx.beginPath();
   ctx.moveTo(shape.points[0].x, shape.points[0].y);
   for(let i=1;i<shape.points.length;i++) ctx.lineTo(shape.points[i].x, shape.points[i].y);
@@ -1059,150 +1053,33 @@ function renderInstance(shape, scX, scY, isGhost, isSelected){
   if(isGhost){
     ctx.fillStyle = "rgba(219, 39, 119, 0.10)";
     ctx.strokeStyle = "rgba(219, 39, 119, 0.65)";
-    ctx.setLineDash([4,4]);
+    ctx.setLineDash([4/view.scale,4/view.scale]);
   } else {
     ctx.fillStyle = shape.color + "33";
     ctx.strokeStyle = shape.color;
     ctx.setLineDash([]);
   }
 
-  ctx.lineWidth = isSelected ? (isGhost ? 2 : 3) : 1;
+  ctx.lineWidth = (isSelected ? (isGhost ? 2 : 3) : 1) / view.scale;
   ctx.fill();
   ctx.stroke();
-
-  // ✅ Detalhes “3D” didáticos (após contorno)
-  if(!isGhost){
-    draw3DDetails(shape, center, pivotX, pivotY);
-  }
 
   ctx.restore();
 
   if(isSelected && !isGhost){
+    // ponto do centro (âncora)
+    ctx.save();
+    const aX = pivotX;
+    const aY = pivotY;
     ctx.beginPath();
-    ctx.arc(pivotX, pivotY, 5, 0, Math.PI*2);
+    ctx.arc(aX, aY, 5/view.scale, 0, Math.PI*2);
     ctx.fillStyle = 'rgba(245,158,11,1)';
     ctx.fill();
     ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 / view.scale;
     ctx.stroke();
+    ctx.restore();
   }
-}
-
-// detalhes “3D” (sem WebGL, só didático)
-function draw3DDetails(shape, center, pivotX, pivotY){
-  if(!shape.is3D) return;
-
-  ctx.save();
-  // estamos no mesmo espaço transformado
-  ctx.setLineDash([]);
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = "rgba(0,0,0,0.20)";
-
-  const kind = shape.kind;
-
-  if(kind === 'sphere'){
-    // meridianos/latitudes
-    const r = approxRadiusFromPoints(shape.points, center);
-    ctx.beginPath();
-    ctx.ellipse(center.x, center.y, r*0.65, r, 0, 0, Math.PI*2);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.ellipse(center.x, center.y, r, r*0.65, 0, 0, Math.PI*2);
-    ctx.stroke();
-  }
-
-  if(kind === 'cylinder'){
-    // topo e base como elipses
-    const box = boundingBox(shape.points);
-    const w = box.w;
-    const h = box.h;
-    const rx = w/2;
-    const ry = Math.max(10, w/6);
-
-    // topo
-    ctx.beginPath();
-    ctx.ellipse(center.x, box.y, rx, ry, 0, 0, Math.PI*2);
-    ctx.stroke();
-
-    // base (meia elipse "visível")
-    ctx.beginPath();
-    ctx.ellipse(center.x, box.y + h, rx, ry, 0, 0, Math.PI);
-    ctx.stroke();
-  }
-
-  if(kind === 'cone'){
-    // base como elipse + linha até o topo
-    const box = boundingBox(shape.points);
-    const w = box.w;
-    const rx = w/2;
-    const ry = Math.max(10, w/7);
-
-    ctx.beginPath();
-    ctx.ellipse(center.x, box.y + box.h, rx, ry, 0, 0, Math.PI);
-    ctx.stroke();
-  }
-
-  if(kind === 'cube'){
-    // desenha um “cubo” isométrico usando o quadrado base
-    const box = boundingBox(shape.points);
-    const off = Math.min(box.w, box.h) * 0.35;
-    const x1 = box.x - box.w/2;
-    const y1 = box.y - box.h/2;
-
-    // como estamos no espaço do shape, melhor usar box em coords reais
-    const x = box.x - box.w/2;
-    const y = box.y - box.h/2;
-    const w = box.w;
-    const h = box.h;
-
-    // frente (já existe contorno), agora fazemos o “topo” e “lado”
-    // pontos do quadrado frontal
-    const A = {x: x,     y: y};
-    const B = {x: x+w,   y: y};
-    const C = {x: x+w,   y: y+h};
-    const D = {x: x,     y: y+h};
-
-    // deslocamento isométrico
-    const dx = off;
-    const dy = -off;
-
-    const A2 = {x: A.x + dx, y: A.y + dy};
-    const B2 = {x: B.x + dx, y: B.y + dy};
-    const C2 = {x: C.x + dx, y: C.y + dy};
-    const D2 = {x: D.x + dx, y: D.y + dy};
-
-    // linhas “3D”
-    ctx.beginPath();
-    ctx.moveTo(A.x, A.y); ctx.lineTo(A2.x, A2.y);
-    ctx.moveTo(B.x, B.y); ctx.lineTo(B2.x, B2.y);
-    ctx.moveTo(C.x, C.y); ctx.lineTo(C2.x, C2.y);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(A2.x, A2.y); ctx.lineTo(B2.x, B2.y);
-    ctx.lineTo(C2.x, C2.y);
-    ctx.stroke();
-  }
-
-  ctx.restore();
-}
-
-function boundingBox(points){
-  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
-  points.forEach(p=>{
-    if(p.x<minX) minX=p.x;
-    if(p.y<minY) minY=p.y;
-    if(p.x>maxX) maxX=p.x;
-    if(p.y>maxY) maxY=p.y;
-  });
-  return { x:minX, y:minY, w:(maxX-minX), h:(maxY-minY) };
-}
-
-function approxRadiusFromPoints(points, center){
-  let sum = 0;
-  for(const p of points) sum += Math.hypot(p.x-center.x, p.y-center.y);
-  return sum / Math.max(1, points.length);
 }
 </script>
 </body>
