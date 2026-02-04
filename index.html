@@ -1,828 +1,1209 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoLab - Versão Estável</title>
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --secondary: #db2777; /* Rosa para simetria */
-            --accent: #f59e0b;
-            --bg-color: #f3f4f6;
-            --panel-bg: #ffffff;
-            --text: #1f2937;
-            --border: #e5e7eb;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoLab - Versão Estável</title>
+  <style>
+    :root{
+      --primary:#4f46e5;
+      --secondary:#db2777;
+      --accent:#f59e0b;
+      --bg-color:#f3f4f6;
+      --panel-bg:#ffffff;
+      --text:#1f2937;
+      --border:#e5e7eb;
+    }
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text);
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            overflow: hidden;
-        }
+    body{
+      font-family:'Segoe UI', Roboto, Helvetica, sans-serif;
+      background-color:var(--bg-color);
+      color:var(--text);
+      margin:0;
+      height:100vh;
+      display:flex;
+      overflow:hidden;
+    }
 
-        /* --- ESQUERDA: CONTROLES --- */
-        .sidebar-left {
-            width: 300px;
-            background: var(--panel-bg);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            z-index: 20;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
-        }
+    /* --- ESQUERDA: CONTROLES --- */
+    .sidebar-left{
+      width:300px;
+      background:var(--panel-bg);
+      border-right:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+      z-index:20;
+      box-shadow:4px 0 15px rgba(0,0,0,0.05);
+    }
 
-        .scroll-area { flex: 1; overflow-y: auto; padding: 15px; }
-        .header-box { padding: 15px; border-bottom: 1px solid var(--border); background: #f9fafb; }
+    .scroll-area{ flex:1; overflow-y:auto; padding:15px; }
+    .header-box{ padding:15px; border-bottom:1px solid var(--border); background:#f9fafb; }
 
-        h1 { font-size: 1.4rem; color: var(--primary); margin: 0; font-weight: 800; }
-        h2 { font-size: 0.8rem; color: #6b7280; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 5px; margin: 15px 0 10px 0; font-weight: 700;}
+    h1{ font-size:1.4rem; color:var(--primary); margin:0; font-weight:800; }
+    h2{
+      font-size:0.8rem; color:#6b7280; text-transform:uppercase;
+      border-bottom:2px solid #eee; padding-bottom:5px;
+      margin:15px 0 10px 0; font-weight:700;
+    }
 
-        .control-group { background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 10px; }
+    .control-group{
+      background:#f8fafc;
+      padding:10px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      margin-bottom:10px;
+    }
 
-        button { width: 100%; padding: 8px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; margin-bottom: 5px; transition: 0.2s; font-size: 0.85rem; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #4338ca; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-success { background: #10b981; color: white; }
+    /* ✅ animação em TODOS os botões */
+    button{
+      width:100%;
+      padding:8px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      margin-bottom:6px;
+      font-size:0.85rem;
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .2s ease, border-color .2s ease;
+      will-change: transform;
+    }
+    button:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+      filter: brightness(1.02);
+    }
+    button:active{
+      transform: translateY(0px) scale(0.98);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+    }
 
-        .btn-anim { background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-anim.active { background: #1d4ed8; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); }
+    .btn-primary{ background:var(--primary); color:white; }
+    .btn-primary:hover{ background:#4338ca; }
 
-        .btn-toggle { background: white; border: 1px solid #ccc; color: #555; }
-        .btn-toggle.active { background: var(--secondary); color: white; border-color: var(--secondary); }
+    .btn-danger{ background:#ef4444; color:white; }
+    .btn-success{ background:#10b981; color:white; }
 
-        input[type=range] { width: 100%; accent-color: var(--primary); margin: 5px 0; }
-        label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #4b5563; }
+    .btn-anim{
+      background:#3b82f6; color:white;
+      display:flex; align-items:center; justify-content:center; gap:6px;
+    }
+    .btn-anim.active{
+      background:#1d4ed8;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+    }
 
-        /* --- DIREITA: MENU FLUTUANTE DE FIGURAS --- */
-        .floating-layers {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 200px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 12px;
-            padding: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            z-index: 30;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
+    .btn-toggle{
+      background:white;
+      border:1px solid #ccc;
+      color:#555;
+    }
+    .btn-toggle.active{
+      background:var(--secondary);
+      color:white;
+      border-color:var(--secondary);
+    }
 
-        .layer-item {
-            padding: 8px 10px; margin-bottom: 4px; background: rgba(255,255,255,0.5);
-            border: 1px solid transparent; border-radius: 6px;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.2s; font-size: 0.85rem;
-        }
-        .layer-item:hover { background: #f3f4f6; }
-        .layer-item.active {
-            background: white;
-            border-color: var(--primary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-weight: bold;
-            color: var(--primary);
-        }
-        .layer-status { width: 8px; height: 8px; border-radius: 50%; background: #ddd; }
-        .layer-item.active .layer-status { background: var(--primary); }
+    input[type=range]{ width:100%; accent-color:var(--primary); margin:6px 0; }
+    label{ display:flex; justify-content:space-between; font-size:0.8rem; color:#4b5563; }
 
-        /* Speed Control Mini */
-        .speed-control {
-            display:flex; justify-content:space-between; margin-top:5px; background:rgba(0,0,0,0.05); padding:4px; border-radius:4px;
-        }
-        .speed-btn { width:20px; height:20px; padding:0; margin:0; line-height:1; display:flex; align-items:center; justify-content:center; background: #ccc; color:white;}
-        .speed-txt { font-size:0.7rem; font-weight:bold; color:#555; align-self:center; }
+    /* --- DIREITA: MENU FLUTUANTE DE FIGURAS (camadas) --- */
+    .floating-layers{
+      position:absolute;
+      top:15px;
+      right:15px;
+      width:200px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(0,0,0,0.1);
+      border-radius:12px;
+      padding:10px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.1);
+      z-index:30;
+      max-height:80vh;
+      overflow-y:auto;
+    }
 
-        /* --- CANVAS --- */
-        .main-content {
-            flex: 1; position: relative;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
-            background-size: 40px 40px;
-            overflow: hidden;
-            cursor: default;
-        }
-        #canvas { display: block; width: 100%; height: 100%; }
+    .layer-item{
+      padding:8px 10px;
+      margin-bottom:4px;
+      background: rgba(255,255,255,0.5);
+      border:1px solid transparent;
+      border-radius:10px;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      transition: all .2s;
+      font-size:0.85rem;
+    }
+    .layer-item:hover{ background:#f3f4f6; }
+    .layer-item.active{
+      background:white;
+      border-color:var(--primary);
+      box-shadow:0 2px 5px rgba(0,0,0,0.05);
+      font-weight:800;
+      color:var(--primary);
+    }
+    .layer-status{ width:8px; height:8px; border-radius:50%; background:#ddd; }
+    .layer-item.active .layer-status{ background:var(--primary); }
 
-        .instruction {
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(255,255,255,0.95); padding: 8px 20px; border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-weight: bold; color: var(--primary); pointer-events: none;
-            border: 1px solid var(--primary); font-size: 0.9rem;
-            z-index: 10;
-        }
+    .speed-control{
+      display:flex;
+      justify-content:space-between;
+      margin-top:6px;
+      background: rgba(0,0,0,0.05);
+      padding:4px;
+      border-radius:8px;
+    }
+    .speed-btn{
+      width:24px; height:24px;
+      padding:0;
+      margin:0;
+      line-height:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#c7c7c7;
+      color:white;
+      border-radius:8px;
+    }
+    .speed-txt{
+      font-size:0.72rem;
+      font-weight:800;
+      color:#555;
+      align-self:center;
+    }
 
-        .footer { font-size: 0.7rem; color: #9ca3af; text-align: center; padding: 10px; border-top: 1px solid var(--border); }
+    /* --- CANVAS --- */
+    .main-content{
+      flex:1;
+      position:relative;
+      background-image:
+        linear-gradient(#e5e7eb 1px, transparent 1px),
+        linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+      background-size:40px 40px;
+      overflow:hidden;
+      cursor:default;
+    }
+    #canvas{ display:block; width:100%; height:100%; }
 
-        /* --- NOVO: BARRA INFERIOR DE FORMAS --- */
-        .bottom-toolbar {
-            position: absolute;
-            left: 50%;
-            bottom: 14px;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
-            z-index: 25;
-            user-select: none;
-        }
+    .instruction{
+      position:absolute;
+      top:20px;
+      left:50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.95);
+      padding:8px 20px;
+      border-radius:30px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+      font-weight:800;
+      color:var(--primary);
+      pointer-events:none;
+      border:1px solid var(--primary);
+      font-size:0.9rem;
+      z-index:10;
+    }
 
-        .shape-btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 14px;
-            border: 1px solid rgba(0,0,0,0.12);
-            background: rgba(255,255,255,0.75);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-            margin: 0; /* sobrescreve margin-bottom do button */
-            padding: 0;
-        }
+    .footer{
+      font-size:0.7rem;
+      color:#9ca3af;
+      text-align:center;
+      padding:10px;
+      border-top:1px solid var(--border);
+    }
 
-        .shape-btn:hover {
-            transform: translateY(-1px);
-            border-color: rgba(79,70,229,0.45);
-            background: rgba(255,255,255,0.95);
-        }
+    /* --- BARRA INFERIOR: botão + menu que abre pra cima --- */
+    .bottom-toolbar{
+      position:absolute;
+      left:50%;
+      bottom:14px;
+      transform: translateX(-50%);
+      z-index:25;
+      user-select:none;
+    }
 
-        .shape-btn:active {
-            transform: translateY(0px) scale(0.98);
-        }
+    .geo-main-btn{
+      width:auto;
+      padding:12px 16px;
+      border-radius:16px;
+      background: rgba(255,255,255,0.92);
+      border:1px solid rgba(0,0,0,0.12);
+      backdrop-filter: blur(10px);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.14);
+      margin:0;
+    }
+    .geo-main-btn .dot{
+      width:10px; height:10px; border-radius:999px; background: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+    }
+    .geo-main-btn .chev{
+      margin-left:6px;
+      opacity:.8;
+      transition: transform .18s ease;
+    }
+    .bottom-toolbar.open .geo-main-btn .chev{ transform: rotate(180deg); }
 
-        .shape-btn svg {
-            width: 26px;
-            height: 26px;
-        }
+    .geo-menu{
+      position:absolute;
+      left:50%;
+      transform: translateX(-50%);
+      bottom:60px;
+      width:260px;
+      background: rgba(255,255,255,0.92);
+      border:1px solid rgba(0,0,0,0.12);
+      border-radius:18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+      backdrop-filter: blur(12px);
+      padding:10px;
+      display:none;
+      flex-direction:column;
+      gap:6px;
+      max-height: 58vh;
+      overflow:auto;
+    }
+    .bottom-toolbar.open .geo-menu{ display:flex; }
 
-        .shape-hint {
-            position: absolute;
-            left: 50%;
-            bottom: 80px;
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            color: #6b7280;
-            background: rgba(255,255,255,0.85);
-            border: 1px solid rgba(0,0,0,0.08);
-            padding: 6px 10px;
-            border-radius: 999px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-            z-index: 25;
-            pointer-events: none;
-        }
-    </style>
+    .geo-item{
+      width:100%;
+      background: rgba(255,255,255,0.75);
+      border:1px solid rgba(0,0,0,0.08);
+      color:#111827;
+      border-radius:14px;
+      padding:10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin:0;
+    }
+    .geo-item .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+    }
+    .geo-icon{
+      width:28px; height:28px;
+      border-radius:10px;
+      background: rgba(79,70,229,0.10);
+      border:1px solid rgba(79,70,229,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:0.95rem;
+    }
+    .geo-item small{ opacity:.7; font-weight:800; }
+
+    .shape-hint{
+      position:absolute;
+      left:50%;
+      bottom:76px;
+      transform: translateX(-50%);
+      font-size:0.75rem;
+      color:#6b7280;
+      background: rgba(255,255,255,0.85);
+      border:1px solid rgba(0,0,0,0.08);
+      padding:6px 10px;
+      border-radius:999px;
+      box-shadow:0 4px 18px rgba(0,0,0,0.08);
+      z-index:25;
+      pointer-events:none;
+    }
+  </style>
 </head>
+
 <body>
-
-    <aside class="sidebar-left">
-        <div class="header-box">
-            <h1>📐 GeoLab</h1>
-            <p style="font-size: 0.75rem; margin:0; color:#666">Laboratório de Matemática</p>
-        </div>
-
-        <div class="scroll-area" id="controlsPanel" style="display:none">
-
-            <div class="control-group" style="border-left: 3px solid var(--accent);">
-                <h2 style="margin-top:0; color:var(--accent); display:flex; justify-content:space-between;">
-                    Centro da Figura
-                </h2>
-                <p style="font-size:0.7rem; color:#666; margin-bottom:5px;">Arraste o ponto laranja para mudar o eixo.</p>
-                <button class="btn-toggle" onclick="resetAnchor()" style="font-size:0.75rem">Resetar Centro</button>
-            </div>
-
-            <div class="control-group">
-                <h2>Translação</h2>
-                <label>X: <span id="valTx">0</span></label>
-                <input type="range" id="inputTx" min="-350" max="350" oninput="updateShapeData()">
-                <button class="btn-anim" id="animXBtn" onclick="toggleAnim('x')">▶ Animar X</button>
-
-                <label>Y: <span id="valTy">0</span></label>
-                <input type="range" id="inputTy" min="-350" max="350" oninput="updateShapeData()">
-                <button class="btn-anim" id="animYBtn" onclick="toggleAnim('y')">▶ Animar Y</button>
-
-                <div class="speed-control">
-                    <button class="speed-btn" onclick="changeSpeed('trans', -1)">-</button>
-                    <span class="speed-txt">Velocidade: <span id="speedTransDisplay">1x</span></span>
-                    <button class="speed-btn" onclick="changeSpeed('trans', 1)">+</button>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <h2>Rotação</h2>
-                <label>Ângulo: <span id="valRot">0°</span></label>
-                <input type="range" id="inputRot" min="0" max="360" oninput="updateShapeData()">
-                <button class="btn-anim" id="animRotBtn" onclick="toggleAnim('rot')">▶ Animar Rotação</button>
-
-                <div class="speed-control">
-                    <button class="speed-btn" onclick="changeSpeed('rot', -1)">-</button>
-                    <span class="speed-txt">Velocidade: <span id="speedRotDisplay">1x</span></span>
-                    <button class="speed-btn" onclick="changeSpeed('rot', 1)">+</button>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <h2>Simetria (Espelho)</h2>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
-                    <button id="btnRefX" class="btn-toggle" onclick="toggleReflect('x')">Espelho X</button>
-                    <button id="btnRefY" class="btn-toggle" onclick="toggleReflect('y')">Espelho Y</button>
-                </div>
-            </div>
-
-            <button class="btn-danger" onclick="deleteCurrentLayer()" style="margin-top:10px;">🗑️ Excluir Figura</button>
-        </div>
-
-        <div class="scroll-area" id="emptyStateMsg" style="text-align:center; color:#999; display:flex; flex-direction:column; justify-content:center;">
-            <p>Nenhuma figura selecionada.</p>
-        </div>
-
-        <div class="footer">
-            Desenvolvido por Gilberto Fernandes - Matemática
-        </div>
-    </aside>
-
-    <main class="main-content" id="mainArea">
-        <div class="instruction" id="instructionText">Clique em "+ Nova Figura" para começar</div>
-        <canvas id="canvas"></canvas>
-
-        <!-- NOVO: hint discreto -->
-        <div class="shape-hint" id="shapeHint">Formas rápidas: clique para inserir no centro</div>
-
-        <!-- NOVO: barra inferior de formas -->
-        <div class="bottom-toolbar" aria-label="Barra de formas">
-            <button class="shape-btn" title="Triângulo" aria-label="Inserir triângulo" onclick="addPresetShape('triangle')">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4 L21 20 H3 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                </svg>
-            </button>
-            <button class="shape-btn" title="Círculo" aria-label="Inserir círculo" onclick="addPresetShape('circle')">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/>
-                </svg>
-            </button>
-            <button class="shape-btn" title="Quadrado" aria-label="Inserir quadrado" onclick="addPresetShape('square')">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <rect x="6" y="6" width="12" height="12" stroke="currentColor" stroke-width="2"/>
-                </svg>
-            </button>
-        </div>
-    </main>
-
-    <div class="floating-layers">
-        <button class="btn-success" onclick="createNewLayer()" style="margin-bottom:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); width: 100%; padding: 10px;">+ Nova Figura</button>
-        <div id="layersList"></div>
+  <aside class="sidebar-left">
+    <div class="header-box">
+      <h1>📐 GeoLab</h1>
+      <p style="font-size:0.75rem; margin:0; color:#666">Laboratório de Matemática</p>
     </div>
 
+    <div class="scroll-area" id="controlsPanel" style="display:none">
+      <div class="control-group" style="border-left: 3px solid var(--accent);">
+        <h2 style="margin-top:0; color:var(--accent); display:flex; justify-content:space-between;">
+          Centro da Figura
+        </h2>
+        <p style="font-size:0.7rem; color:#666; margin-bottom:6px;">Arraste o ponto laranja para mudar o eixo.</p>
+        <button class="btn-toggle" onclick="resetAnchor()" style="font-size:0.75rem">Resetar Centro</button>
+      </div>
+
+      <div class="control-group">
+        <h2>Translação</h2>
+        <label>X: <span id="valTx">0</span></label>
+        <input type="range" id="inputTx" min="-350" max="350" oninput="updateShapeData()">
+        <button class="btn-anim" id="animXBtn" onclick="toggleAnim('x')">▶ Animar X</button>
+
+        <label>Y: <span id="valTy">0</span></label>
+        <input type="range" id="inputTy" min="-350" max="350" oninput="updateShapeData()">
+        <button class="btn-anim" id="animYBtn" onclick="toggleAnim('y')">▶ Animar Y</button>
+
+        <div class="speed-control">
+          <button class="speed-btn" onclick="changeSpeed('trans', -1)">-</button>
+          <span class="speed-txt">Velocidade: <span id="speedTransDisplay">1x</span></span>
+          <button class="speed-btn" onclick="changeSpeed('trans', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <h2>Rotação</h2>
+        <label>Ângulo: <span id="valRot">0°</span></label>
+        <input type="range" id="inputRot" min="0" max="360" oninput="updateShapeData()">
+        <button class="btn-anim" id="animRotBtn" onclick="toggleAnim('rot')">▶ Animar Rotação</button>
+
+        <div class="speed-control">
+          <button class="speed-btn" onclick="changeSpeed('rot', -1)">-</button>
+          <span class="speed-txt">Velocidade: <span id="speedRotDisplay">1x</span></span>
+          <button class="speed-btn" onclick="changeSpeed('rot', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- ✅ NOVO: TAMANHO -->
+      <div class="control-group">
+        <h2>Tamanho</h2>
+        <label>Escala: <span id="valScale">100%</span></label>
+        <input type="range" id="inputScale" min="30" max="260" value="100" oninput="updateShapeData()">
+        <button class="btn-toggle" onclick="resetScale()">Resetar Tamanho</button>
+      </div>
+
+      <div class="control-group">
+        <h2>Simetria (Espelho)</h2>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+          <button id="btnRefX" class="btn-toggle" onclick="toggleReflect('x')">Espelho X</button>
+          <button id="btnRefY" class="btn-toggle" onclick="toggleReflect('y')">Espelho Y</button>
+        </div>
+      </div>
+
+      <button class="btn-danger" onclick="deleteCurrentLayer()" style="margin-top:10px;">🗑️ Excluir Figura</button>
+    </div>
+
+    <div class="scroll-area" id="emptyStateMsg" style="text-align:center; color:#999; display:flex; flex-direction:column; justify-content:center;">
+      <p>Nenhuma figura selecionada.</p>
+    </div>
+
+    <div class="footer">
+      Desenvolvido por Gilberto Fernandes - Matemática
+    </div>
+  </aside>
+
+  <main class="main-content" id="mainArea">
+    <div class="instruction" id="instructionText">Clique em "+ Nova Figura" para começar</div>
+    <canvas id="canvas"></canvas>
+
+    <div class="shape-hint" id="shapeHint">Clique em “Figuras Geométricas” para inserir no centro</div>
+
+    <!-- ✅ Barra inferior com 1 botão -->
+    <div class="bottom-toolbar" id="bottomToolbar">
+      <button class="geo-main-btn" id="geoMainBtn" type="button" aria-label="Abrir figuras geométricas">
+        <span class="dot"></span>
+        <span style="font-weight:900;">Figuras Geométricas</span>
+        <span class="chev">▾</span>
+      </button>
+
+      <div class="geo-menu" id="geoMenu" role="menu" aria-label="Menu de figuras">
+        <button class="geo-item" type="button" onclick="addPresetShape('circle')">
+          <span class="left"><span class="geo-icon">◯</span> Círculo</span><small>2D</small>
+        </button>
+        <button class="geo-item" type="button" onclick="addPresetShape('square')">
+          <span class="left"><span class="geo-icon">▢</span> Quadrado</span><small>2D</small>
+        </button>
+        <button class="geo-item" type="button" onclick="addPresetShape('rect')">
+          <span class="left"><span class="geo-icon">▭</span> Retângulo</span><small>2D</small>
+        </button>
+        <button class="geo-item" type="button" onclick="addPresetShape('triangle')">
+          <span class="left"><span class="geo-icon">△</span> Triângulo</span><small>2D</small>
+        </button>
+
+        <button class="geo-item" type="button" onclick="addPresetShape('sphere')">
+          <span class="left"><span class="geo-icon">⬤</span> Esfera</span><small>3D</small>
+        </button>
+        <button class="geo-item" type="button" onclick="addPresetShape('cylinder')">
+          <span class="left"><span class="geo-icon">⌭</span> Cilindro</span><small>3D</small>
+        </button>
+        <button class="geo-item" type="button" onclick="addPresetShape('cube')">
+          <span class="left"><span class="geo-icon">⬚</span> Cubo</span><small>3D</small>
+        </button>
+        <button class="geo-item" type="button" onclick="addPresetShape('cone')">
+          <span class="left"><span class="geo-icon">⟁</span> Cone</span><small>3D</small>
+        </button>
+
+        <button class="geo-item" type="button" onclick="addPresetShape('hex')">
+          <span class="left"><span class="geo-icon">⬡</span> Hexágono</span><small>2D</small>
+        </button>
+        <button class="geo-item" type="button" onclick="addPresetShape('pent')">
+          <span class="left"><span class="geo-icon">⬠</span> Pentágono</span><small>2D</small>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <div class="floating-layers">
+    <button class="btn-success" onclick="createNewLayer()" style="margin-bottom:10px; width:100%; padding:10px;">
+      + Nova Figura
+    </button>
+    <div id="layersList"></div>
+  </div>
+
 <script>
-    /* =========================================================
-       BLOQUEIOS BÁSICOS (não é 100% infalível, mas dificulta)
-    ========================================================== */
-    (function hardenPage(){
-        // bloqueia botão direito
-        document.addEventListener('contextmenu', (e) => e.preventDefault(), { capture: true });
+/* =========================================================
+   BLOQUEIOS BÁSICOS (dificulta, não é 100% infalível)
+========================================================= */
+(function hardenPage(){
+  document.addEventListener('contextmenu', (e)=>e.preventDefault(), {capture:true});
+  document.addEventListener('dragstart', (e)=>e.preventDefault(), {capture:true});
+  document.addEventListener('selectstart', (e)=>{
+    const tag = e.target?.tagName?.toLowerCase?.() || '';
+    if(tag === 'input' || tag === 'textarea') return;
+    e.preventDefault();
+  }, {capture:true});
 
-        // bloqueia arrastar/selecionar texto (mantém melhor UX no canvas)
-        document.addEventListener('dragstart', (e) => e.preventDefault(), { capture: true });
-        document.addEventListener('selectstart', (e) => {
-            // deixa selecionar inputs caso no futuro existam
-            const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
-            if (tag === 'input' || tag === 'textarea') return;
-            e.preventDefault();
-        }, { capture: true });
+  document.addEventListener('keydown', (e)=>{
+    const key = (e.key || '').toLowerCase();
 
-        // bloqueios de teclas comuns
-        document.addEventListener('keydown', (e) => {
-            const key = (e.key || '').toLowerCase();
+    if(e.key === 'F12'){ e.preventDefault(); e.stopPropagation(); return false; }
 
-            // F12
-            if (e.key === 'F12') { e.preventDefault(); e.stopPropagation(); return false; }
-
-            // Ctrl+Shift+I / J / C (DevTools) e Ctrl+U (View Source) e Ctrl+S (Save)
-            if (e.ctrlKey && e.shiftKey && (key === 'i' || key === 'j' || key === 'c')) {
-                e.preventDefault(); e.stopPropagation(); return false;
-            }
-            if (e.ctrlKey && (key === 'u' || key === 's')) {
-                e.preventDefault(); e.stopPropagation(); return false;
-            }
-
-            // Cmd equivalentes (Mac)
-            if (e.metaKey && (key === 'u' || key === 's')) {
-                e.preventDefault(); e.stopPropagation(); return false;
-            }
-        }, { capture: true });
-
-        // tentativa simples de detectar DevTools por resize (heurística)
-        // (não garante, mas desestimula)
-        let lastW = window.innerWidth, lastH = window.innerHeight;
-        setInterval(() => {
-            const dw = Math.abs(window.innerWidth - lastW);
-            const dh = Math.abs(window.innerHeight - lastH);
-            lastW = window.innerWidth; lastH = window.innerHeight;
-
-            // mudanças grandes e frequentes podem indicar painel aberto
-            if (dw > 160 || dh > 160) {
-                // não faz nada agressivo (evita travar), só “apaga” texto de dica
-                const hint = document.getElementById('shapeHint');
-                if (hint) hint.style.opacity = '0.25';
-            }
-        }, 900);
-    })();
-
-    /* =========================================================
-       APP ORIGINAL
-    ========================================================== */
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const mainArea = document.getElementById('mainArea');
-
-    let shapes = [];
-    let activeIndex = -1;
-    let mode = 'IDLE';
-    let mousePos = { x: 0, y: 0 };
-    let dragStart = { x: 0, y: 0 };
-
-    // Cores sólidas para as figuras
-    const colors = ['#4f46e5', '#059669', '#d97706', '#7c3aed', '#db2777'];
-
-    function resizeCanvas() {
-        canvas.width = mainArea.clientWidth;
-        canvas.height = mainArea.clientHeight;
-        draw();
+    if(e.ctrlKey && e.shiftKey && (key==='i' || key==='j' || key==='c')){
+      e.preventDefault(); e.stopPropagation(); return false;
     }
-    window.addEventListener('resize', resizeCanvas);
-    setTimeout(resizeCanvas, 100);
-
-    // --- GERENCIAMENTO ---
-    function createNewLayer() {
-        const newShape = {
-            id: Date.now(),
-            name: `Figura ${shapes.length + 1}`,
-            points: [],
-            color: colors[shapes.length % colors.length],
-            isClosed: false,
-            // Transformações
-            tx: 0, ty: 0, rotation: 0,
-            reflectX: false, reflectY: false,
-            anchor: { x: 0, y: 0 },
-            anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
-            speed: { trans: 1.0, rot: 1.0 }
-        };
-
-        shapes.push(newShape);
-        selectLayer(shapes.length - 1);
-        mode = 'DRAWING';
-        updateUI();
-        document.getElementById('instructionText').style.display = 'block';
-        document.getElementById('instructionText').innerText = `Criando ${newShape.name}: Clique para desenhar`;
+    if(e.ctrlKey && (key==='u' || key==='s')){
+      e.preventDefault(); e.stopPropagation(); return false;
     }
-
-    function selectLayer(index) {
-        if (index < 0 || index >= shapes.length) {
-            activeIndex = -1;
-            mode = 'IDLE';
-        } else {
-            if (activeIndex !== -1 && !shapes[activeIndex].isClosed) {
-                alert("Feche a forma atual antes de trocar.");
-                return;
-            }
-            activeIndex = index;
-            mode = shapes[index].isClosed ? 'IDLE' : 'DRAWING';
-        }
-        updateUI();
-        draw();
+    if(e.metaKey && (key==='u' || key==='s')){
+      e.preventDefault(); e.stopPropagation(); return false;
     }
+  }, {capture:true});
+})();
 
-    function deleteCurrentLayer() {
-        if (activeIndex === -1) return;
-        shapes.splice(activeIndex, 1);
-        activeIndex = -1;
+/* =========================================================
+   APP
+========================================================= */
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const mainArea = document.getElementById('mainArea');
+
+let shapes = [];
+let activeIndex = -1;
+let mode = 'IDLE';
+let mousePos = { x: 0, y: 0 };
+let dragStart = { x: 0, y: 0 };
+
+const colors = ['#4f46e5', '#059669', '#d97706', '#7c3aed', '#db2777'];
+
+function resizeCanvas(){
+  canvas.width = mainArea.clientWidth;
+  canvas.height = mainArea.clientHeight;
+  draw();
+}
+window.addEventListener('resize', resizeCanvas);
+setTimeout(resizeCanvas, 100);
+
+/* ===================== MENU INFERIOR ===================== */
+const bottomToolbar = document.getElementById('bottomToolbar');
+const geoMainBtn = document.getElementById('geoMainBtn');
+const geoMenu = document.getElementById('geoMenu');
+
+function toggleGeoMenu(){
+  bottomToolbar.classList.toggle('open');
+}
+geoMainBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleGeoMenu();
+});
+document.addEventListener('click', ()=>{
+  bottomToolbar.classList.remove('open');
+});
+geoMenu.addEventListener('click', (e)=>e.stopPropagation());
+
+/* ===================== GERENCIAMENTO ===================== */
+function createNewLayer(){
+  const newShape = {
+    id: Date.now(),
+    name: `Figura ${shapes.length + 1}`,
+    points: [],
+    color: colors[shapes.length % colors.length],
+    isClosed: false,
+    tx: 0, ty: 0, rotation: 0,
+    scale: 1.0,                // ✅ NOVO
+    reflectX: false, reflectY: false,
+    anchor: { x: 0, y: 0 },
+    anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
+    speed: { trans: 1.0, rot: 1.0 }
+  };
+
+  shapes.push(newShape);
+  selectLayer(shapes.length - 1);
+  mode = 'DRAWING';
+  updateUI();
+  document.getElementById('instructionText').style.display = 'block';
+  document.getElementById('instructionText').innerText = `Criando ${newShape.name}: Clique para desenhar`;
+}
+
+function selectLayer(index){
+  if(index < 0 || index >= shapes.length){
+    activeIndex = -1;
+    mode = 'IDLE';
+  } else {
+    if(activeIndex !== -1 && !shapes[activeIndex].isClosed){
+      alert("Feche a forma atual antes de trocar.");
+      return;
+    }
+    activeIndex = index;
+    mode = shapes[index].isClosed ? 'IDLE' : 'DRAWING';
+  }
+  updateUI();
+  draw();
+}
+
+function deleteCurrentLayer(){
+  if(activeIndex === -1) return;
+  shapes.splice(activeIndex, 1);
+  activeIndex = -1;
+  mode = 'IDLE';
+  updateUI();
+  draw();
+}
+
+function updateUI(){
+  const layersList = document.getElementById('layersList');
+  layersList.innerHTML = '';
+
+  shapes.forEach((shape, idx)=>{
+    const div = document.createElement('div');
+    div.className = `layer-item ${idx === activeIndex ? 'active' : ''}`;
+    div.onclick = ()=>selectLayer(idx);
+    div.innerHTML = `<span class="layer-name">${shape.name}</span> <div class="layer-status"></div>`;
+    layersList.appendChild(div);
+  });
+
+  const controls = document.getElementById('controlsPanel');
+  const emptyMsg = document.getElementById('emptyStateMsg');
+
+  if(activeIndex !== -1 && shapes[activeIndex].isClosed){
+    controls.style.display = 'block';
+    emptyMsg.style.display = 'none';
+
+    const s = shapes[activeIndex];
+    document.getElementById('inputTx').value = s.tx;
+    document.getElementById('inputTy').value = s.ty;
+    document.getElementById('inputRot').value = s.rotation;
+
+    document.getElementById('inputScale').value = Math.round(s.scale * 100);
+
+    document.getElementById('btnRefX').classList.toggle('active', s.reflectX);
+    document.getElementById('btnRefY').classList.toggle('active', s.reflectY);
+
+    document.getElementById('animXBtn').classList.toggle('active', s.anim.x);
+    document.getElementById('animYBtn').classList.toggle('active', s.anim.y);
+    document.getElementById('animRotBtn').classList.toggle('active', s.anim.rot);
+
+    document.getElementById('instructionText').style.display = 'none';
+    updateLabelValues();
+  } else {
+    controls.style.display = 'none';
+    emptyMsg.style.display = 'flex';
+  }
+}
+
+function updateShapeData(){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+
+  s.tx = parseInt(document.getElementById('inputTx').value);
+  s.ty = parseInt(document.getElementById('inputTy').value);
+  s.rotation = parseInt(document.getElementById('inputRot').value);
+
+  const sc = parseInt(document.getElementById('inputScale').value);
+  s.scale = Math.max(0.30, Math.min(2.60, sc / 100));
+
+  updateLabelValues();
+  draw();
+}
+
+function updateLabelValues(){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  document.getElementById('valTx').innerText = s.tx;
+  document.getElementById('valTy').innerText = -s.ty;
+  document.getElementById('valRot').innerText = s.rotation + "°";
+  document.getElementById('valScale').innerText = Math.round(s.scale * 100) + "%";
+  document.getElementById('speedTransDisplay').innerText = s.speed.trans + "x";
+  document.getElementById('speedRotDisplay').innerText = s.speed.rot + "x";
+}
+
+function resetScale(){
+  if(activeIndex === -1) return;
+  shapes[activeIndex].scale = 1.0;
+  document.getElementById('inputScale').value = 100;
+  updateLabelValues();
+  draw();
+}
+
+/* ===================== FIGURAS PREDEFINIDAS ===================== */
+function addPresetShape(type){
+  // fecha menu ao escolher
+  bottomToolbar.classList.remove('open');
+
+  // se estiver desenhando, evita quebrar o fluxo
+  if(activeIndex !== -1 && shapes[activeIndex] && !shapes[activeIndex].isClosed){
+    alert("Feche a forma atual antes de inserir uma figura pronta.");
+    return;
+  }
+
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2;
+
+  const size = 110;
+  const pts = buildPresetPoints(type, cx, cy, size);
+
+  // “formas” 3D aqui são desenhos 2D (projeção) -> guardamos tipo pra render especial
+  const is3D = ['sphere','cylinder','cube','cone'].includes(type);
+
+  const newShape = {
+    id: Date.now(),
+    name: `Figura ${shapes.length + 1}`,
+    points: pts,
+    kind: type,               // ✅ pra render “3D” didático
+    is3D,
+    color: colors[shapes.length % colors.length],
+    isClosed: true,
+    tx: 0, ty: 0, rotation: 0,
+    scale: 1.0,
+    reflectX: false, reflectY: false,
+    anchor: { x: 0, y: 0 },
+    anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
+    speed: { trans: 1.0, rot: 1.0 }
+  };
+
+  shapes.push(newShape);
+  selectLayer(shapes.length - 1);
+  mode = 'IDLE';
+  updateUI();
+  draw();
+}
+
+function buildPresetPoints(type, cx, cy, size){
+  // 2D padrões
+  if(type === 'square'){
+    const h = size/2;
+    return [
+      {x: cx-h, y: cy-h},
+      {x: cx+h, y: cy-h},
+      {x: cx+h, y: cy+h},
+      {x: cx-h, y: cy+h}
+    ];
+  }
+
+  if(type === 'rect'){
+    const w = size * 1.3;
+    const h = size * 0.75;
+    return [
+      {x: cx-w/2, y: cy-h/2},
+      {x: cx+w/2, y: cy-h/2},
+      {x: cx+w/2, y: cy+h/2},
+      {x: cx-w/2, y: cy+h/2}
+    ];
+  }
+
+  if(type === 'triangle'){
+    const h = size * 0.95;
+    return [
+      {x: cx, y: cy - h/2},
+      {x: cx + size/2, y: cy + h/2},
+      {x: cx - size/2, y: cy + h/2}
+    ];
+  }
+
+  if(type === 'circle'){
+    return regularPolygonPoints(cx, cy, size/2, 64, -Math.PI/2);
+  }
+
+  if(type === 'pent'){
+    return regularPolygonPoints(cx, cy, size/2, 5, -Math.PI/2);
+  }
+
+  if(type === 'hex'){
+    return regularPolygonPoints(cx, cy, size/2, 6, -Math.PI/2);
+  }
+
+  // 3D “didático”: criamos um contorno base (um retângulo/círculo etc.)
+  // e depois desenhamos detalhes no render (linhas internas) usando kind.
+
+  if(type === 'sphere'){
+    return regularPolygonPoints(cx, cy, size/2, 64, -Math.PI/2); // base circular
+  }
+
+  if(type === 'cylinder'){
+    // contorno aproximado: retângulo (corpo)
+    const w = size * 0.95;
+    const h = size * 1.15;
+    return [
+      {x: cx-w/2, y: cy-h/2},
+      {x: cx+w/2, y: cy-h/2},
+      {x: cx+w/2, y: cy+h/2},
+      {x: cx-w/2, y: cy+h/2}
+    ];
+  }
+
+  if(type === 'cone'){
+    const h = size * 1.2;
+    return [
+      {x: cx, y: cy - h/2},
+      {x: cx + size/2, y: cy + h/2},
+      {x: cx - size/2, y: cy + h/2}
+    ];
+  }
+
+  if(type === 'cube'){
+    // contorno base: quadrado (frente)
+    const h = size/2;
+    return [
+      {x: cx-h, y: cy-h},
+      {x: cx+h, y: cy-h},
+      {x: cx+h, y: cy+h},
+      {x: cx-h, y: cy+h}
+    ];
+  }
+
+  // fallback
+  return regularPolygonPoints(cx, cy, size/2, 6, -Math.PI/2);
+}
+
+function regularPolygonPoints(cx, cy, r, n, offset){
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const a = offset + (i/n) * Math.PI * 2;
+    pts.push({x: cx + Math.cos(a)*r, y: cy + Math.sin(a)*r});
+  }
+  return pts;
+}
+
+/* ===================== INTERAÇÃO ===================== */
+canvas.addEventListener('mousemove', (e)=>{
+  const rect = canvas.getBoundingClientRect();
+  mousePos.x = e.clientX - rect.left;
+  mousePos.y = e.clientY - rect.top;
+
+  if(mode === 'DRAWING'){
+    const s = shapes[activeIndex];
+    if(s.points.length >= 3){
+      const dx = mousePos.x - s.points[0].x;
+      const dy = mousePos.y - s.points[0].y;
+      if(Math.hypot(dx,dy) < 20){
+        canvas.style.cursor = 'pointer';
+        document.getElementById('instructionText').innerText = "Clique no início para fechar!";
+      } else {
+        canvas.style.cursor = 'crosshair';
+      }
+    }
+    draw();
+    return;
+  }
+
+  if(mode === 'DRAGGING_ANCHOR'){
+    const s = shapes[activeIndex];
+    const center = getCentroid(s.points);
+    s.anchor.x = mousePos.x - (center.x + s.tx);
+    s.anchor.y = mousePos.y - (center.y + s.ty);
+    draw();
+    return;
+  }
+
+  if(mode === 'DRAGGING_SHAPE'){
+    const dx = mousePos.x - dragStart.x;
+    const dy = mousePos.y - dragStart.y;
+    const s = shapes[activeIndex];
+    s.tx += dx;
+    s.ty += dy;
+    document.getElementById('inputTx').value = s.tx;
+    document.getElementById('inputTy').value = s.ty;
+    updateLabelValues();
+    dragStart = { x: mousePos.x, y: mousePos.y };
+    draw();
+    return;
+  }
+
+  let cursor = 'default';
+  if(activeIndex !== -1){
+    const s = shapes[activeIndex];
+    const center = getCentroid(s.points);
+    const anchorX = center.x + s.tx + s.anchor.x;
+    const anchorY = center.y + s.ty + s.anchor.y;
+    if(Math.hypot(mousePos.x - anchorX, mousePos.y - anchorY) < 10) cursor = 'move';
+    else if(isPointInShape(mousePos, s)) cursor = 'grab';
+  } else {
+    for(let i=shapes.length-1;i>=0;i--){
+      if(shapes[i].isClosed && isPointInShape(mousePos, shapes[i])){ cursor='pointer'; break; }
+    }
+  }
+  canvas.style.cursor = cursor;
+});
+
+canvas.addEventListener('mousedown', ()=>{
+  if(mode === 'DRAWING'){
+    const s = shapes[activeIndex];
+    if(s.points.length >= 3){
+      const dx = mousePos.x - s.points[0].x;
+      const dy = mousePos.y - s.points[0].y;
+      if(Math.hypot(dx,dy) < 20){
+        s.isClosed = true;
         mode = 'IDLE';
         updateUI();
         draw();
+        return;
+      }
     }
+    s.points.push({x: mousePos.x, y: mousePos.y});
+    draw();
+    return;
+  }
 
-    function updateUI() {
-        const layersList = document.getElementById('layersList');
-        layersList.innerHTML = '';
-
-        shapes.forEach((shape, idx) => {
-            const div = document.createElement('div');
-            div.className = `layer-item ${idx === activeIndex ? 'active' : ''}`;
-            div.onclick = () => selectLayer(idx);
-            div.innerHTML = `<span class="layer-name">${shape.name}</span> <div class="layer-status"></div>`;
-            layersList.appendChild(div);
-        });
-
-        const controls = document.getElementById('controlsPanel');
-        const emptyMsg = document.getElementById('emptyStateMsg');
-
-        if (activeIndex !== -1 && shapes[activeIndex].isClosed) {
-            controls.style.display = 'block';
-            emptyMsg.style.display = 'none';
-
-            const s = shapes[activeIndex];
-            document.getElementById('inputTx').value = s.tx;
-            document.getElementById('inputTy').value = s.ty;
-            document.getElementById('inputRot').value = s.rotation;
-
-            document.getElementById('btnRefX').classList.toggle('active', s.reflectX);
-            document.getElementById('btnRefY').classList.toggle('active', s.reflectY);
-
-            document.getElementById('animXBtn').classList.toggle('active', s.anim.x);
-            document.getElementById('animYBtn').classList.toggle('active', s.anim.y);
-            document.getElementById('animRotBtn').classList.toggle('active', s.anim.rot);
-
-            document.getElementById('instructionText').style.display = 'none';
-            updateLabelValues();
-        } else {
-            controls.style.display = 'none';
-            emptyMsg.style.display = 'flex';
-        }
+  if(activeIndex !== -1){
+    const s = shapes[activeIndex];
+    const center = getCentroid(s.points);
+    const anchorX = center.x + s.tx + s.anchor.x;
+    const anchorY = center.y + s.ty + s.anchor.y;
+    if(Math.hypot(mousePos.x - anchorX, mousePos.y - anchorY) < 10){
+      mode = 'DRAGGING_ANCHOR';
+      return;
     }
+  }
 
-    function updateShapeData() {
-        if (activeIndex === -1) return;
-        const s = shapes[activeIndex];
-        s.tx = parseInt(document.getElementById('inputTx').value);
-        s.ty = parseInt(document.getElementById('inputTy').value);
-        s.rotation = parseInt(document.getElementById('inputRot').value);
-        updateLabelValues();
-        draw();
+  let clickedIndex = -1;
+  if(activeIndex !== -1 && isPointInShape(mousePos, shapes[activeIndex])){
+    clickedIndex = activeIndex;
+  } else {
+    for(let i=shapes.length-1;i>=0;i--){
+      if(shapes[i].isClosed && isPointInShape(mousePos, shapes[i])){ clickedIndex=i; break; }
     }
+  }
 
-    function updateLabelValues() {
-        if (activeIndex === -1) return;
-        const s = shapes[activeIndex];
-        document.getElementById('valTx').innerText = s.tx;
-        document.getElementById('valTy').innerText = -s.ty;
-        document.getElementById('valRot').innerText = s.rotation + "°";
-        document.getElementById('speedTransDisplay').innerText = s.speed.trans + "x";
-        document.getElementById('speedRotDisplay').innerText = s.speed.rot + "x";
+  if(clickedIndex !== -1){
+    selectLayer(clickedIndex);
+    mode = 'DRAGGING_SHAPE';
+    dragStart = { x: mousePos.x, y: mousePos.y };
+    canvas.style.cursor = 'grabbing';
+  }
+});
+
+canvas.addEventListener('mouseup', ()=>{
+  if(mode === 'DRAGGING_SHAPE' || mode === 'DRAGGING_ANCHOR'){
+    mode = 'IDLE';
+    canvas.style.cursor = 'default';
+  }
+});
+
+/* ===================== LÓGICA E RENDER ===================== */
+function getCentroid(points){
+  if(!points || points.length === 0) return {x:0,y:0};
+  let sx=0, sy=0;
+  points.forEach(p=>{ sx+=p.x; sy+=p.y; });
+  return { x: sx/points.length, y: sy/points.length };
+}
+
+function isPointInShape(p, shape){
+  ctx.save();
+  ctx.beginPath();
+
+  const center = getCentroid(shape.points);
+  const pivotX = center.x + shape.tx + shape.anchor.x;
+  const pivotY = center.y + shape.ty + shape.anchor.y;
+
+  ctx.translate(pivotX, pivotY);
+  ctx.rotate(shape.rotation * Math.PI / 180);
+
+  // ✅ escala no teste também
+  ctx.scale(shape.scale, shape.scale);
+
+  ctx.translate(-pivotX, -pivotY);
+  ctx.translate(shape.tx, shape.ty);
+
+  ctx.moveTo(shape.points[0].x, shape.points[0].y);
+  for(let i=1;i<shape.points.length;i++) ctx.lineTo(shape.points[i].x, shape.points[i].y);
+  ctx.closePath();
+
+  const yes = ctx.isPointInPath(p.x, p.y);
+  ctx.restore();
+  return yes;
+}
+
+function toggleReflect(axis){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  if(axis === 'x') s.reflectX = !s.reflectX;
+  if(axis === 'y') s.reflectY = !s.reflectY;
+  updateUI();
+  draw();
+}
+
+function resetAnchor(){
+  if(activeIndex === -1) return;
+  shapes[activeIndex].anchor = {x:0,y:0};
+  draw();
+}
+
+function toggleAnim(type){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  s.anim[type] = !s.anim[type];
+  updateUI();
+  requestAnimationFrame(animateLoop);
+}
+
+function changeSpeed(type, dir){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  if(dir > 0 && s.speed[type] < 4) s.speed[type] *= 2;
+  else if(dir < 0 && s.speed[type] > 0.25) s.speed[type] /= 2;
+  updateUI();
+}
+
+function animateLoop(){
+  let activeAnim = false;
+  shapes.forEach(s=>{
+    if(!s.isClosed) return;
+    if(s.anim.x || s.anim.y || s.anim.rot){
+      activeAnim = true;
+      if(s.anim.rot) s.rotation = (s.rotation + (1*s.speed.rot)) % 360;
+
+      if(s.anim.x){
+        s.tx += (2*s.speed.trans) * s.anim.dirX;
+        if(s.tx > 350 || s.tx < -350) s.anim.dirX *= -1;
+      }
+      if(s.anim.y){
+        s.ty += (2*s.speed.trans) * s.anim.dirY;
+        if(s.ty > 350 || s.ty < -350) s.anim.dirY *= -1;
+      }
     }
+  });
 
-    // --- NOVO: FIGURAS PERFEITAS (preset) ---
-    function addPresetShape(type) {
-        // se estiver desenhando e ainda não fechou, não deixa inserir pra não quebrar fluxo
-        if (activeIndex !== -1 && shapes[activeIndex] && !shapes[activeIndex].isClosed) {
-            alert("Feche a forma atual antes de inserir uma figura pronta.");
-            return;
-        }
+  if(activeAnim){
+    draw();
+    if(activeIndex !== -1) updateLabelValues();
+    requestAnimationFrame(animateLoop);
+  }
+}
 
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        const size = 90; // tamanho base das figuras
-        let pts = [];
+  const cx = canvas.width/2;
+  const cy = canvas.height/2;
+  ctx.strokeStyle = '#e5e7eb';
+  ctx.lineWidth = 1;
 
-        if (type === 'square') {
-            const half = size / 2;
-            pts = [
-                { x: cx - half, y: cy - half },
-                { x: cx + half, y: cy - half },
-                { x: cx + half, y: cy + half },
-                { x: cx - half, y: cy + half },
-            ];
-        }
+  ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,canvas.height); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(canvas.width,cy); ctx.stroke();
 
-        if (type === 'triangle') {
-            const h = size * 0.9;
-            pts = [
-                { x: cx,         y: cy - h/2 },
-                { x: cx + size/2, y: cy + h/2 },
-                { x: cx - size/2, y: cy + h/2 },
-            ];
-        }
+  shapes.forEach((shape, index)=>{
+    const isSelected = (index === activeIndex);
 
-        if (type === 'circle') {
-            const r = size / 2;
-            const steps = 48; // mais pontos = círculo mais liso
-            for (let i = 0; i < steps; i++) {
-                const a = (i / steps) * Math.PI * 2;
-                pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r });
-            }
-        }
-
-        const newShape = {
-            id: Date.now(),
-            name: `Figura ${shapes.length + 1}`,
-            points: pts,
-            color: colors[shapes.length % colors.length],
-            isClosed: true,
-            tx: 0, ty: 0, rotation: 0,
-            reflectX: false, reflectY: false,
-            anchor: { x: 0, y: 0 },
-            anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
-            speed: { trans: 1.0, rot: 1.0 }
-        };
-
-        shapes.push(newShape);
-        selectLayer(shapes.length - 1);
-        mode = 'IDLE';
-        updateUI();
-        draw();
-    }
-
-    // --- INTERAÇÃO ---
-    canvas.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mousePos.x = e.clientX - rect.left;
-        mousePos.y = e.clientY - rect.top;
-
-        if (mode === 'DRAWING') {
-            const s = shapes[activeIndex];
-            if (s.points.length >= 3) {
-                const dx = mousePos.x - s.points[0].x;
-                const dy = mousePos.y - s.points[0].y;
-                if (Math.hypot(dx, dy) < 20) {
-                    canvas.style.cursor = 'pointer';
-                    document.getElementById('instructionText').innerText = "Clique no início para fechar!";
-                } else {
-                    canvas.style.cursor = 'crosshair';
-                }
-            }
-            draw();
-            return;
-        }
-
-        if (mode === 'DRAGGING_ANCHOR') {
-            const s = shapes[activeIndex];
-            const center = getCentroid(s.points);
-            s.anchor.x = mousePos.x - (center.x + s.tx);
-            s.anchor.y = mousePos.y - (center.y + s.ty);
-            draw();
-            return;
-        }
-
-        if (mode === 'DRAGGING_SHAPE') {
-            const dx = mousePos.x - dragStart.x;
-            const dy = mousePos.y - dragStart.y;
-            const s = shapes[activeIndex];
-            s.tx += dx;
-            s.ty += dy;
-            document.getElementById('inputTx').value = s.tx;
-            document.getElementById('inputTy').value = s.ty;
-            updateLabelValues();
-            dragStart = { x: mousePos.x, y: mousePos.y };
-            draw();
-            return;
-        }
-
-        // Hover Check
-        let cursor = 'default';
-        if (activeIndex !== -1) {
-            const s = shapes[activeIndex];
-            const center = getCentroid(s.points);
-            const anchorX = center.x + s.tx + s.anchor.x;
-            const anchorY = center.y + s.ty + s.anchor.y;
-            if (Math.hypot(mousePos.x - anchorX, mousePos.y - anchorY) < 10) cursor = 'move';
-            else if (isPointInShape(mousePos, s)) cursor = 'grab';
-        } else {
-            for (let i = shapes.length - 1; i >= 0; i--) {
-                if (shapes[i].isClosed && isPointInShape(mousePos, shapes[i])) {
-                    cursor = 'pointer'; break;
-                }
-            }
-        }
-        canvas.style.cursor = cursor;
-    });
-
-    canvas.addEventListener('mousedown', (e) => {
-        if (mode === 'DRAWING') {
-            const s = shapes[activeIndex];
-            if (s.points.length >= 3) {
-                const dx = mousePos.x - s.points[0].x;
-                const dy = mousePos.y - s.points[0].y;
-                if (Math.hypot(dx, dy) < 20) {
-                    s.isClosed = true;
-                    mode = 'IDLE';
-                    updateUI();
-                    draw();
-                    return;
-                }
-            }
-            s.points.push({x: mousePos.x, y: mousePos.y});
-            draw();
-            return;
-        }
-
-        // Check Anchor click
-        if (activeIndex !== -1) {
-            const s = shapes[activeIndex];
-            const center = getCentroid(s.points);
-            const anchorX = center.x + s.tx + s.anchor.x;
-            const anchorY = center.y + s.ty + s.anchor.y;
-            if (Math.hypot(mousePos.x - anchorX, mousePos.y - anchorY) < 10) {
-                mode = 'DRAGGING_ANCHOR';
-                return;
-            }
-        }
-
-        // Check Shape click
-        let clickedIndex = -1;
-        if (activeIndex !== -1 && isPointInShape(mousePos, shapes[activeIndex])) {
-            clickedIndex = activeIndex;
-        } else {
-            for (let i = shapes.length - 1; i >= 0; i--) {
-                if (shapes[i].isClosed && isPointInShape(mousePos, shapes[i])) {
-                    clickedIndex = i;
-                    break;
-                }
-            }
-        }
-
-        if (clickedIndex !== -1) {
-            selectLayer(clickedIndex);
-            mode = 'DRAGGING_SHAPE';
-            dragStart = { x: mousePos.x, y: mousePos.y };
-            canvas.style.cursor = 'grabbing';
-        }
-    });
-
-    canvas.addEventListener('mouseup', () => {
-        if (mode === 'DRAGGING_SHAPE' || mode === 'DRAGGING_ANCHOR') {
-            mode = 'IDLE';
-            canvas.style.cursor = 'default';
-        }
-    });
-
-    // --- LÓGICA E RENDER ---
-    function getCentroid(points) {
-        if (!points || points.length === 0) return {x:0, y:0};
-        let sx = 0, sy = 0;
-        points.forEach(p => { sx += p.x; sy += p.y; });
-        return { x: sx / points.length, y: sy / points.length };
-    }
-
-    function isPointInShape(p, shape) {
-        ctx.save();
-        ctx.beginPath();
-        const center = getCentroid(shape.points);
-        const pivotX = center.x + shape.tx + shape.anchor.x;
-        const pivotY = center.y + shape.ty + shape.anchor.y;
-
-        ctx.translate(pivotX, pivotY);
-        ctx.rotate(shape.rotation * Math.PI / 180);
-        ctx.translate(-pivotX, -pivotY);
-        ctx.translate(shape.tx, shape.ty);
-
-        ctx.moveTo(shape.points[0].x, shape.points[0].y);
-        for(let i=1; i<shape.points.length; i++) ctx.lineTo(shape.points[i].x, shape.points[i].y);
-        ctx.closePath();
-        const yes = ctx.isPointInPath(p.x, p.y);
-        ctx.restore();
-        return yes;
-    }
-
-    function toggleReflect(axis) {
-        if (activeIndex === -1) return;
-        const s = shapes[activeIndex];
-        if (axis === 'x') s.reflectX = !s.reflectX;
-        if (axis === 'y') s.reflectY = !s.reflectY;
-        updateUI();
-        draw();
-    }
-
-    function resetAnchor() {
-        if(activeIndex === -1) return;
-        shapes[activeIndex].anchor = {x:0, y:0};
-        draw();
-    }
-
-    function toggleAnim(type) {
-        if (activeIndex === -1) return;
-        const s = shapes[activeIndex];
-        s.anim[type] = !s.anim[type];
-        updateUI();
-        requestAnimationFrame(animateLoop);
-    }
-
-    function changeSpeed(type, dir) {
-        if (activeIndex === -1) return;
-        const s = shapes[activeIndex];
-        if (dir > 0 && s.speed[type] < 4) s.speed[type] *= 2;
-        else if (dir < 0 && s.speed[type] > 0.25) s.speed[type] /= 2;
-        updateUI();
-    }
-
-    function animateLoop() {
-        let activeAnim = false;
-        shapes.forEach(s => {
-            if(!s.isClosed) return;
-            if(s.anim.x || s.anim.y || s.anim.rot) {
-                activeAnim = true;
-                if(s.anim.rot) s.rotation = (s.rotation + (1*s.speed.rot)) % 360;
-                if(s.anim.x) {
-                    s.tx += (2*s.speed.trans) * s.anim.dirX;
-                    if(s.tx > 350 || s.tx < -350) s.anim.dirX *= -1;
-                }
-                if(s.anim.y) {
-                    s.ty += (2*s.speed.trans) * s.anim.dirY;
-                    if(s.ty > 350 || s.ty < -350) s.anim.dirY *= -1;
-                }
-            }
-        });
-
-        if (activeAnim) {
-            draw();
-            if(activeIndex !== -1) updateLabelValues();
-            requestAnimationFrame(animateLoop);
-        }
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
-        ctx.strokeStyle = '#e5e7eb'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy); ctx.stroke();
-
-        shapes.forEach((shape, index) => {
-            const isSelected = (index === activeIndex);
-
-            if (index === activeIndex && mode === 'DRAWING') {
-                if (shape.points.length > 0) {
-                    ctx.beginPath();
-                    ctx.moveTo(shape.points[0].x, shape.points[0].y);
-                    shape.points.forEach(p => ctx.lineTo(p.x, p.y));
-                    ctx.lineTo(mousePos.x, mousePos.y);
-                    ctx.strokeStyle = shape.color; ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
-                    shape.points.forEach(p => {ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill();});
-                }
-                return;
-            }
-
-            if (!shape.isClosed) return;
-
-            ctx.globalAlpha = isSelected ? 1.0 : 0.4;
-
-            renderInstance(shape, 1, 1, false, isSelected);
-            if (shape.reflectX) renderInstance(shape, -1, 1, true, isSelected);
-            if (shape.reflectY) renderInstance(shape, 1, -1, true, isSelected);
-            if (shape.reflectX && shape.reflectY) renderInstance(shape, -1, -1, true, isSelected);
-
-            ctx.globalAlpha = 1.0;
-        });
-    }
-
-    function renderInstance(shape, scX, scY, isGhost, isSelected) {
-        const center = getCentroid(shape.points);
-        ctx.save();
-
-        const pivotX = center.x + shape.tx + shape.anchor.x;
-        const pivotY = center.y + shape.ty + shape.anchor.y;
-
-        ctx.translate(pivotX, pivotY);
-        let rot = shape.rotation * Math.PI / 180;
-        if (scX * scY < 0) rot *= -1;
-        ctx.rotate(rot);
-        ctx.scale(scX, scY);
-        ctx.translate(-pivotX, -pivotY);
-        ctx.translate(shape.tx, shape.ty);
-
+    if(index === activeIndex && mode === 'DRAWING'){
+      if(shape.points.length > 0){
         ctx.beginPath();
         ctx.moveTo(shape.points[0].x, shape.points[0].y);
-        for(let i=1; i<shape.points.length; i++) ctx.lineTo(shape.points[i].x, shape.points[i].y);
-        ctx.closePath();
-
-        if (isGhost) {
-            ctx.fillStyle = "rgba(219, 39, 119, 0.1)";
-            ctx.strokeStyle = "rgba(219, 39, 119, 0.6)";
-            ctx.setLineDash([4, 4]);
-        } else {
-            ctx.fillStyle = shape.color + "33";
-            ctx.strokeStyle = shape.color;
-            ctx.setLineDash([]);
-        }
-
-        ctx.lineWidth = isSelected ? (isGhost ? 2 : 3) : 1;
-        ctx.fill();
+        shape.points.forEach(p=>ctx.lineTo(p.x,p.y));
+        ctx.lineTo(mousePos.x, mousePos.y);
+        ctx.strokeStyle = shape.color;
+        ctx.setLineDash([5,5]);
         ctx.stroke();
-        ctx.restore();
-
-        if (isSelected && !isGhost) {
-            ctx.beginPath();
-            ctx.arc(pivotX, pivotY, 5, 0, Math.PI*2);
-            ctx.fillStyle = 'var(--accent)';
-            ctx.fill();
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        }
+        ctx.setLineDash([]);
+        shape.points.forEach(p=>{
+          ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fillStyle=shape.color; ctx.fill();
+        });
+      }
+      return;
     }
+
+    if(!shape.isClosed) return;
+
+    ctx.globalAlpha = isSelected ? 1.0 : 0.4;
+
+    renderInstance(shape, 1, 1, false, isSelected);
+    if(shape.reflectX) renderInstance(shape, -1, 1, true, isSelected);
+    if(shape.reflectY) renderInstance(shape, 1, -1, true, isSelected);
+    if(shape.reflectX && shape.reflectY) renderInstance(shape, -1, -1, true, isSelected);
+
+    ctx.globalAlpha = 1.0;
+  });
+}
+
+function renderInstance(shape, scX, scY, isGhost, isSelected){
+  const center = getCentroid(shape.points);
+  ctx.save();
+
+  const pivotX = center.x + shape.tx + shape.anchor.x;
+  const pivotY = center.y + shape.ty + shape.anchor.y;
+
+  ctx.translate(pivotX, pivotY);
+
+  let rot = shape.rotation * Math.PI / 180;
+  if(scX * scY < 0) rot *= -1;
+  ctx.rotate(rot);
+
+  // ✅ escala e espelho
+  const finalScaleX = shape.scale * scX;
+  const finalScaleY = shape.scale * scY;
+  ctx.scale(finalScaleX, finalScaleY);
+
+  ctx.translate(-pivotX, -pivotY);
+  ctx.translate(shape.tx, shape.ty);
+
+  // contorno
+  ctx.beginPath();
+  ctx.moveTo(shape.points[0].x, shape.points[0].y);
+  for(let i=1;i<shape.points.length;i++) ctx.lineTo(shape.points[i].x, shape.points[i].y);
+  ctx.closePath();
+
+  if(isGhost){
+    ctx.fillStyle = "rgba(219, 39, 119, 0.10)";
+    ctx.strokeStyle = "rgba(219, 39, 119, 0.65)";
+    ctx.setLineDash([4,4]);
+  } else {
+    ctx.fillStyle = shape.color + "33";
+    ctx.strokeStyle = shape.color;
+    ctx.setLineDash([]);
+  }
+
+  ctx.lineWidth = isSelected ? (isGhost ? 2 : 3) : 1;
+  ctx.fill();
+  ctx.stroke();
+
+  // ✅ Detalhes “3D” didáticos (após contorno)
+  if(!isGhost){
+    draw3DDetails(shape, center, pivotX, pivotY);
+  }
+
+  ctx.restore();
+
+  if(isSelected && !isGhost){
+    ctx.beginPath();
+    ctx.arc(pivotX, pivotY, 5, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(245,158,11,1)';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+}
+
+// detalhes “3D” (sem WebGL, só didático)
+function draw3DDetails(shape, center, pivotX, pivotY){
+  if(!shape.is3D) return;
+
+  ctx.save();
+  // estamos no mesmo espaço transformado
+  ctx.setLineDash([]);
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = "rgba(0,0,0,0.20)";
+
+  const kind = shape.kind;
+
+  if(kind === 'sphere'){
+    // meridianos/latitudes
+    const r = approxRadiusFromPoints(shape.points, center);
+    ctx.beginPath();
+    ctx.ellipse(center.x, center.y, r*0.65, r, 0, 0, Math.PI*2);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.ellipse(center.x, center.y, r, r*0.65, 0, 0, Math.PI*2);
+    ctx.stroke();
+  }
+
+  if(kind === 'cylinder'){
+    // topo e base como elipses
+    const box = boundingBox(shape.points);
+    const w = box.w;
+    const h = box.h;
+    const rx = w/2;
+    const ry = Math.max(10, w/6);
+
+    // topo
+    ctx.beginPath();
+    ctx.ellipse(center.x, box.y, rx, ry, 0, 0, Math.PI*2);
+    ctx.stroke();
+
+    // base (meia elipse "visível")
+    ctx.beginPath();
+    ctx.ellipse(center.x, box.y + h, rx, ry, 0, 0, Math.PI);
+    ctx.stroke();
+  }
+
+  if(kind === 'cone'){
+    // base como elipse + linha até o topo
+    const box = boundingBox(shape.points);
+    const w = box.w;
+    const rx = w/2;
+    const ry = Math.max(10, w/7);
+
+    ctx.beginPath();
+    ctx.ellipse(center.x, box.y + box.h, rx, ry, 0, 0, Math.PI);
+    ctx.stroke();
+  }
+
+  if(kind === 'cube'){
+    // desenha um “cubo” isométrico usando o quadrado base
+    const box = boundingBox(shape.points);
+    const off = Math.min(box.w, box.h) * 0.35;
+    const x1 = box.x - box.w/2;
+    const y1 = box.y - box.h/2;
+
+    // como estamos no espaço do shape, melhor usar box em coords reais
+    const x = box.x - box.w/2;
+    const y = box.y - box.h/2;
+    const w = box.w;
+    const h = box.h;
+
+    // frente (já existe contorno), agora fazemos o “topo” e “lado”
+    // pontos do quadrado frontal
+    const A = {x: x,     y: y};
+    const B = {x: x+w,   y: y};
+    const C = {x: x+w,   y: y+h};
+    const D = {x: x,     y: y+h};
+
+    // deslocamento isométrico
+    const dx = off;
+    const dy = -off;
+
+    const A2 = {x: A.x + dx, y: A.y + dy};
+    const B2 = {x: B.x + dx, y: B.y + dy};
+    const C2 = {x: C.x + dx, y: C.y + dy};
+    const D2 = {x: D.x + dx, y: D.y + dy};
+
+    // linhas “3D”
+    ctx.beginPath();
+    ctx.moveTo(A.x, A.y); ctx.lineTo(A2.x, A2.y);
+    ctx.moveTo(B.x, B.y); ctx.lineTo(B2.x, B2.y);
+    ctx.moveTo(C.x, C.y); ctx.lineTo(C2.x, C2.y);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(A2.x, A2.y); ctx.lineTo(B2.x, B2.y);
+    ctx.lineTo(C2.x, C2.y);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function boundingBox(points){
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+  points.forEach(p=>{
+    if(p.x<minX) minX=p.x;
+    if(p.y<minY) minY=p.y;
+    if(p.x>maxX) maxX=p.x;
+    if(p.y>maxY) maxY=p.y;
+  });
+  return { x:minX, y:minY, w:(maxX-minX), h:(maxY-minY) };
+}
+
+function approxRadiusFromPoints(points, center){
+  let sum = 0;
+  for(const p of points) sum += Math.hypot(p.x-center.x, p.y-center.y);
+  return sum / Math.max(1, points.length);
+}
 </script>
 </body>
 </html>
