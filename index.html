@@ -4,21 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GeoLab Pro - Laboratório de Geometria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --secondary: #ec4899;
-      --accent: #f59e0b;
-      --success: #10b981;
-      --danger: #ef4444;
-      --bg-dark: #0f172a;
-      --bg-panel: rgba(30, 41, 59, 0.7);
-      --text-primary: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --border: rgba(255, 255, 255, 0.1);
-      --glass: rgba(255, 255, 255, 0.05);
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --green: #58CC02;
+      --green-dark: #46A302;
+      --green-shadow: #3D8A00;
+      --blue: #1CB0F6;
+      --blue-dark: #0F8EC4;
+      --blue-shadow: #0A6FA0;
+      --red: #FF4B4B;
+      --red-dark: #EA2B2B;
+      --red-shadow: #C41E1E;
+      --orange: #FF9600;
+      --orange-dark: #D07B00;
+      --purple: #CE82FF;
+      --purple-dark: #9C3FA6;
+      --yellow: #FFC800;
+      --white: #FFFFFF;
+      --off-white: #F7F7F7;
+      --light-gray: #E5E5E5;
+      --medium-gray: #AFAFAF;
+      --dark-gray: #777777;
+      --text: #3C3C3C;
+      --sidebar-bg: #FFFFFF;
+      --border-radius: 16px;
+      --border-radius-lg: 24px;
+      --shadow: 0 4px 0;
+      --font: 'Nunito', sans-serif;
     }
 
     * {
@@ -28,358 +41,383 @@
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
-      background-attachment: fixed;
-      color: var(--text-primary);
+      font-family: var(--font);
+      background: var(--off-white);
+      color: var(--text);
       height: 100vh;
       display: flex;
       overflow: hidden;
-      position: relative;
     }
 
-    /* Efeito de fundo animado */
-    /* Sidebar Esquerda - Glassmorphism */
+    /* ===== SIDEBAR ===== */
     .sidebar-left {
-      width: 320px;
-      background: var(--bg-panel);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-right: 1px solid var(--border);
+      width: 300px;
+      background: var(--white);
+      border-right: 2px solid var(--light-gray);
       display: flex;
       flex-direction: column;
       z-index: 20;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease;
+      flex-shrink: 0;
     }
 
     .header-box {
-      padding: 24px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.1) 100%);
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
+      padding: 20px 20px 16px;
+      border-bottom: 2px solid var(--light-gray);
+      background: var(--white);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     h1 {
-      font-size: 1.6rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 0;
-      font-weight: 800;
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--text);
       letter-spacing: -0.5px;
     }
 
-    .subtitle {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-top: 4px;
-      font-weight: 500;
+    h1 span {
+      color: var(--green);
     }
+
+    .subtitle {
+      font-size: 0.72rem;
+      color: var(--medium-gray);
+      margin-top: 2px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #studentBadge {
+      display: none;
+      background: linear-gradient(135deg, #E8F9D9, #D5F5AF);
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      gap: 6px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    #badgeNome { font-weight: 900; color: var(--green-shadow); }
 
     .scroll-area {
       flex: 1;
       overflow-y: auto;
       padding: 20px;
       scrollbar-width: thin;
-      scrollbar-color: var(--primary) transparent;
+      scrollbar-color: var(--light-gray) transparent;
+      display: flex;
+      flex-direction: column;
     }
 
-    .scroll-area::-webkit-scrollbar {
-      width: 6px;
-    }
+    .scroll-area::-webkit-scrollbar { width: 4px; }
+    .scroll-area::-webkit-scrollbar-thumb { background: var(--light-gray); border-radius: 2px; }
 
-    .scroll-area::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 3px;
-    }
-
+    /* ===== SECTION HEADERS ===== */
     h2 {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
+      font-size: 0.68rem;
+      color: var(--medium-gray);
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      padding-bottom: 8px;
-      margin: 20px 0 12px 0;
-      font-weight: 700;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    h2::before {
-      content: '';
-      width: 4px;
-      height: 16px;
-      background: var(--primary);
-      border-radius: 2px;
+      padding-bottom: 10px;
+      margin: 16px 0 10px 0;
+      font-weight: 800;
+      border-bottom: 2px solid var(--light-gray);
     }
 
     .control-group {
-      background: var(--glass);
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
+      background: var(--off-white);
+      padding: 18px;
+      border-radius: var(--border-radius);
+      border: 2px solid var(--light-gray);
       margin-bottom: 16px;
-      transition: all 0.3s ease;
     }
 
     .control-group:hover {
-      border-color: rgba(99, 102, 241, 0.3);
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+      border-color: var(--green);
     }
 
-    /* Botões modernos com efeito de brilho */
+    .control-group > * + * {
+      margin-top: 4px;
+    }
+
+    /* ===== BUTTONS ===== */
     button {
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      font-weight: 600;
-      margin-bottom: 8px;
-      font-size: 0.85rem;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: var(--font);
+      font-weight: 800;
+      margin-bottom: 0;
+      font-size: 0.82rem;
+      transition: all 0.1s;
       position: relative;
-      overflow: hidden;
-      background: var(--glass);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-    }
-
-    button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    button:hover::before {
-      left: 100%;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      border-color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     button:active {
-      transform: translateY(0) scale(0.98);
+      transform: translateY(2px);
+    }
+
+    /* Chips must never move on click */
+    .popup-chip:active {
+      transform: none !important;
+    }
+
+    /* Default ghost button */
+    button:not([class*="btn-"]) {
+      background: var(--white);
+      color: var(--dark-gray);
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 4px 0 var(--light-gray);
+    }
+
+    button:not([class*="btn-"]):hover {
+      background: #E8F9D9;
+      border-color: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 4px 0 var(--green-shadow);
+    }
+
+    button:not([class*="btn-"]):active {
+      box-shadow: 0 0px 0 var(--light-gray);
+      transform: translateY(4px);
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      background: var(--green);
+      color: white;
+      box-shadow: 0 4px 0 var(--green-shadow);
       border: none;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
     }
-
-    .btn-primary:hover {
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
-    }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-primary:active { box-shadow: 0 0px 0 var(--green-shadow); transform: translateY(4px); }
 
     .btn-danger {
-      background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+      background: var(--red);
+      color: white;
+      box-shadow: 0 4px 0 var(--red-shadow);
       border: none;
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
     }
+    .btn-danger:hover { background: var(--red-dark); }
+    .btn-danger:active { box-shadow: 0 0px 0 var(--red-shadow); transform: translateY(4px); }
 
     .btn-success {
-      background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+      background: var(--green);
+      color: white;
+      box-shadow: 0 4px 0 var(--green-shadow);
       border: none;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      font-size: 0.9rem;
     }
+    .btn-success:hover { background: var(--green-dark); }
+    .btn-success:active { box-shadow: 0 0px 0 var(--green-shadow); transform: translateY(4px); }
 
     .btn-anim {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 4px 0 var(--blue-shadow);
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      border: none;
+      gap: 6px;
     }
-
+    .btn-anim:hover { background: var(--blue-dark); }
+    .btn-anim:active { box-shadow: 0 0px 0 var(--blue-shadow); transform: translateY(4px); }
     .btn-anim.active {
-      background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+      background: var(--blue-dark);
+      box-shadow: 0 0px 0 var(--blue-shadow);
+      transform: translateY(4px);
     }
 
     .btn-toggle {
-      background: var(--glass);
-      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--dark-gray);
+      border: 2px solid var(--light-gray);
+      box-shadow: 0 4px 0 var(--light-gray);
     }
-
+    .btn-toggle:hover {
+      background: #E8F9D9;
+      border-color: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 4px 0 var(--green-shadow);
+    }
+    .btn-toggle:active { box-shadow: 0 0px 0 var(--light-gray); transform: translateY(4px); }
     .btn-toggle.active {
-      background: linear-gradient(135deg, var(--secondary) 0%, #db2777 100%);
-      border-color: transparent;
-      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+      background: var(--purple);
+      color: white;
+      border-color: var(--purple-dark);
+      box-shadow: 0 4px 0 var(--purple-dark);
     }
 
-    .btn-tool {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      font-size: 0.8rem;
-    }
-
-    .btn-tool .icon {
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.1);
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
+    /* Range inputs */
     input[type=range] {
       width: 100%;
-      margin: 12px 0;
+      margin: 12px 0 16px;
       -webkit-appearance: none;
       background: transparent;
     }
 
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
-      border: 2px solid white;
-      margin-top: -7px;
-    }
-
     input[type=range]::-webkit-slider-runnable-track {
       width: 100%;
-      height: 4px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 2px;
+      height: 6px;
+      background: var(--light-gray);
+      border-radius: 3px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--green);
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--green-shadow);
+      border: 3px solid white;
+      margin-top: -8px;
     }
 
     label {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      margin-bottom: 4px;
+      font-size: 0.78rem;
+      color: var(--dark-gray);
+      font-weight: 800;
+      margin-bottom: 2px;
     }
 
     .value-display {
-      color: var(--primary);
-      font-weight: 700;
-      font-family: 'Courier New', monospace;
+      color: var(--green);
+      font-weight: 900;
+      font-family: var(--font);
+      background: #E8F9D9;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
     }
 
-    /* Menu Flutuante de Camadas */
+    /* Speed control */
+    .speed-control {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      background: var(--white);
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 2px solid var(--light-gray);
+    }
+
+    .speed-btn {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      background: var(--green);
+      color: white;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 0 var(--green-shadow);
+      border: none;
+    }
+    .speed-btn:hover { background: var(--green-dark); }
+    .speed-btn:active { box-shadow: 0 0 0 var(--green-shadow); transform: translateY(3px); }
+
+    .speed-txt {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--dark-gray);
+    }
+
+    /* ===== LAYERS PANEL ===== */
     .floating-layers {
       position: absolute;
       top: 20px;
       right: 20px;
-      width: 220px;
-      background: var(--bg-panel);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: var(--shadow);
+      width: 200px;
+      background: var(--white);
+      border: 2px solid var(--light-gray);
+      border-radius: var(--border-radius-lg);
+      padding: 14px;
       z-index: 30;
       max-height: 80vh;
       overflow-y: auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .layers-title {
+      font-size: 0.68rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--medium-gray);
+      margin-bottom: 10px;
     }
 
     .layer-item {
-      padding: 12px;
-      margin-bottom: 8px;
-      background: var(--glass);
-      border: 1px solid transparent;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      background: var(--off-white);
+      border: 2px solid var(--light-gray);
       border-radius: 12px;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all 0.3s ease;
-      font-size: 0.85rem;
-      font-weight: 500;
+      transition: all 0.15s;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--dark-gray);
     }
 
     .layer-item:hover {
-      background: rgba(99, 102, 241, 0.1);
-      transform: translateX(-4px);
+      border-color: var(--green);
+      color: var(--green-dark);
     }
 
     .layer-item.active {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.1) 100%);
-      border-color: var(--primary);
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+      background: #E8F9D9;
+      border-color: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 3px 0 var(--green-shadow);
     }
 
     .layer-status {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transition: all 0.3s;
+      background: var(--light-gray);
+      border: 2px solid var(--medium-gray);
     }
 
     .layer-item.active .layer-status {
-      background: var(--primary);
-      box-shadow: 0 0 10px var(--primary);
+      background: var(--green);
+      border-color: var(--green-shadow);
     }
 
-    .speed-control {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-      background: rgba(0,0,0,0.2);
-      padding: 8px;
-      border-radius: 10px;
-    }
-
-    .speed-btn {
-      width: 28px;
-      height: 28px;
-      padding: 0;
-      margin: 0;
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .speed-btn:hover {
-      background: var(--primary);
-    }
-
-    .speed-txt {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    /* Canvas Principal */
+    /* ===== MAIN CANVAS ===== */
     .main-content {
       flex: 1;
       position: relative;
+      background: var(--white);
       background-image:
-        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+        linear-gradient(var(--light-gray) 1px, transparent 1px),
+        linear-gradient(90deg, var(--light-gray) 1px, transparent 1px);
       background-size: 40px 40px;
       overflow: hidden;
     }
@@ -391,47 +429,31 @@
       cursor: crosshair;
     }
 
+    /* ===== INSTRUCTION PILL ===== */
     .instruction {
       position: absolute;
-      top: 24px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--bg-panel);
-      backdrop-filter: blur(20px);
-      padding: 12px 24px;
+      background: var(--blue);
+      color: white;
+      padding: 10px 22px;
       border-radius: 50px;
-      box-shadow: var(--shadow);
-      font-weight: 600;
-      color: var(--text-primary);
+      box-shadow: 0 4px 0 var(--blue-shadow);
+      font-weight: 800;
+      font-size: 0.85rem;
       pointer-events: none;
-      border: 1px solid var(--border);
-      font-size: 0.9rem;
       z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      white-space: nowrap;
       animation: float 3s ease-in-out infinite;
     }
 
     @keyframes float {
       0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-5px); }
+      50% { transform: translateX(-50%) translateY(-4px); }
     }
 
-    .instruction::before {
-      content: '';
-    }
-
-    .footer {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
-      text-align: center;
-      padding: 16px;
-      border-top: 1px solid var(--border);
-      background: rgba(0,0,0,0.2);
-    }
-
-    /* Barra Inferior de Ferramentas */
+    /* ===== BOTTOM TOOLBAR ===== */
     .bottom-toolbar {
       position: absolute;
       left: 50%;
@@ -443,440 +465,433 @@
 
     .geo-main-btn {
       width: auto;
-      padding: 16px 24px;
+      padding: 14px 24px;
       border-radius: 50px;
-      background: var(--bg-panel);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
+      background: var(--green);
+      color: white;
+      border: none;
+      box-shadow: 0 5px 0 var(--green-shadow);
       display: flex;
       align-items: center;
-      gap: 12px;
-      box-shadow: var(--shadow);
-      font-weight: 700;
+      gap: 10px;
+      font-weight: 900;
       font-size: 0.95rem;
-      color: var(--text-primary);
+      font-family: var(--font);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.1s;
+      margin-bottom: 0;
+    }
+
+    .geo-main-btn:hover { background: var(--green-dark); }
+    .geo-main-btn:active {
+      box-shadow: 0 0 0 var(--green-shadow);
+      transform: translateY(5px);
     }
 
     .geo-main-btn .dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      box-shadow: 0 0 15px var(--primary);
+      background: white;
+      opacity: 0.7;
       animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.8; }
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
     }
 
     .geo-main-btn .chev {
-      margin-left: 8px;
-      transition: transform 0.3s ease;
+      margin-left: 4px;
+      transition: transform 0.3s;
       font-size: 0.8rem;
+      opacity: 0.8;
     }
 
-    .bottom-toolbar.open .geo-main-btn .chev {
-      transform: rotate(180deg);
-    }
+    .bottom-toolbar.open .geo-main-btn .chev { transform: rotate(180deg); }
 
     .geo-menu {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 80px;
-      width: 280px;
-      background: var(--bg-panel);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      padding: 16px;
+      bottom: 70px;
+      width: 260px;
+      background: var(--white);
+      border: 2px solid var(--light-gray);
+      border-radius: var(--border-radius-lg);
+      box-shadow: 0 8px 0 var(--light-gray), 0 16px 40px rgba(0,0,0,0.15);
+      padding: 12px;
       display: none;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       max-height: 60vh;
       overflow-y: auto;
-      animation: slideUp 0.3s ease;
+      animation: slideUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+      from { opacity: 0; transform: translateX(-50%) translateY(15px) scale(0.95); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
     }
 
-    .bottom-toolbar.open .geo-menu {
-      display: flex;
-    }
+    .bottom-toolbar.open .geo-menu { display: flex; }
 
     .geo-item {
       width: 100%;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      border-radius: 16px;
-      padding: 14px;
+      background: var(--off-white);
+      border: 2px solid var(--light-gray);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 13px 16px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       margin: 0;
-      font-weight: 600;
-      transition: all 0.3s ease;
+      font-weight: 800;
+      font-family: var(--font);
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.1s;
+      box-shadow: 0 3px 0 var(--light-gray);
+      text-transform: none;
+      letter-spacing: 0;
     }
 
     .geo-item:hover {
-      background: rgba(99, 102, 241, 0.1);
-      border-color: var(--primary);
-      transform: translateX(5px);
+      background: #E8F9D9;
+      border-color: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 3px 0 var(--green-shadow);
+    }
+
+    .geo-item:active {
+      box-shadow: 0 0 0 var(--light-gray);
+      transform: translateY(3px);
     }
 
     .geo-item .left {
       display: flex;
       align-items: center;
-      gap: 12px;
     }
 
-    .geo-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.1) 100%);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-
-    .geo-item small {
-      opacity: 0.6;
-      font-weight: 700;
-      font-size: 0.7rem;
-      background: rgba(255,255,255,0.1);
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
-
-    /* Grid de ferramentas rápidas */
+    /* ===== QUICK TOOLS GRID ===== */
     .quick-tools {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-top: 12px;
+      margin-top: 8px;
     }
 
-    .tool-category {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-secondary);
-      margin: 16px 0 8px 0;
-      font-weight: 700;
+    .quick-tools button {
+      margin-bottom: 0;
     }
 
-    /* Empty state melhorado */
+    /* ===== EMPTY STATE ===== */
     #emptyStateMsg {
       text-align: center;
-      color: var(--text-secondary);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100%;
-      padding: 40px;
+      padding: 32px 20px;
     }
 
     .empty-icon {
-      font-size: 4rem;
-      margin-bottom: 16px;
-      opacity: 0.5;
+      font-size: 3.5rem;
+      margin-bottom: 12px;
       animation: bounce 2s infinite;
     }
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
 
-    /* Tooltip */
+    #emptyStateMsg p {
+      font-weight: 800;
+      color: var(--medium-gray);
+      font-size: 0.85rem;
+    }
+
+    #emptyStateMsg p:last-child {
+      font-size: 0.75rem;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    /* ===== TOOLTIP ===== */
     .tooltip {
       position: absolute;
-      background: rgba(0,0,0,0.8);
+      background: var(--text);
       color: white;
       padding: 6px 12px;
       border-radius: 8px;
       font-size: 0.75rem;
+      font-weight: 700;
+      font-family: var(--font);
       pointer-events: none;
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.2s;
       z-index: 100;
     }
 
-    /* Responsividade */
-    @media (max-width: 768px) {
-      .sidebar-left {
-        position: absolute;
-        transform: translateX(-100%);
-        height: 100%;
-      }
-      .sidebar-left.open {
-        transform: translateX(0);
-      }
-      .floating-layers {
-        width: 180px;
-        right: 10px;
-        top: 10px;
-      }
+    /* ===== FOOTER ===== */
+    .footer {
+      font-size: 0.68rem;
+      color: var(--medium-gray);
+      text-align: center;
+      padding: 12px;
+      border-top: 2px solid var(--light-gray);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    /* ===== POPUP DE IDENTIFICAÇÃO ===== */
+    /* ===== POPUP OVERLAY ===== */
     #popupOverlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
       z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: fadeInOverlay 0.5s ease;
+      animation: fadeInOverlay 0.4s ease;
     }
 
     @keyframes fadeInOverlay {
       from { opacity: 0; }
-      to   { opacity: 1; }
+      to { opacity: 1; }
     }
 
     #popupBox {
-      width: 480px;
+      width: 460px;
       max-width: 95vw;
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(49, 46, 129, 0.6) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.35);
+      background: var(--white);
+      border: 3px solid var(--light-gray);
       border-radius: 28px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(99,102,241,0.12);
+      box-shadow: 0 8px 0 var(--light-gray), 0 24px 60px rgba(0,0,0,0.12);
       padding: 40px 36px 32px;
       position: relative;
-      overflow: hidden;
-      animation: popupIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: popupIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     @keyframes popupIn {
       from { opacity: 0; transform: scale(0.85) translateY(30px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    #popupBox::before {
-      content: '';
-      position: absolute;
-      top: -60%;
-      left: -60%;
-      width: 220%;
-      height: 220%;
-      background: radial-gradient(circle at 40% 40%, rgba(99,102,241,0.1) 0%, transparent 55%),
-                  radial-gradient(circle at 75% 75%, rgba(236,72,153,0.07) 0%, transparent 45%);
-      pointer-events: none;
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .popup-header {
       text-align: center;
-      margin-bottom: 32px;
-      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .popup-mascot {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 8px;
+      animation: bounce 2s infinite;
     }
 
     .popup-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -1px;
+    }
+
+    .popup-title span { color: var(--green); }
+
+    .popup-tagline {
+      font-size: 0.85rem;
+      color: var(--medium-gray);
+      font-weight: 700;
+      margin-top: 4px;
     }
 
     .popup-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent);
-      margin: 0 0 28px;
+      height: 2px;
+      background: var(--light-gray);
+      border-radius: 1px;
+      margin: 0 0 24px;
     }
 
     .popup-field {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .popup-field label {
       display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-secondary);
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--medium-gray);
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .popup-input {
       width: 100%;
-      padding: 14px 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      padding: 14px 16px;
+      background: var(--off-white);
+      border: 2px solid var(--light-gray);
       border-radius: 14px;
-      color: var(--text-primary);
+      color: var(--text);
       font-size: 0.95rem;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      font-weight: 600;
+      font-family: var(--font);
+      font-weight: 700;
       outline: none;
-      transition: all 0.3s ease;
+      transition: all 0.2s;
     }
 
     .popup-input::placeholder {
-      color: rgba(255,255,255,0.25);
-      font-weight: 400;
+      color: var(--medium-gray);
+      font-weight: 600;
     }
 
     .popup-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.2), 0 4px 20px rgba(99,102,241,0.15);
-      background: rgba(99,102,241,0.07);
+      border-color: var(--blue);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2);
     }
 
     .popup-select-group {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: nowrap;
     }
 
     .popup-chip {
       flex: 1;
-      padding: 11px 8px;
+      padding: 12px 8px;
       border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-secondary);
+      background: var(--off-white);
+      border: 2px solid var(--light-gray);
+      color: var(--dark-gray);
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 800;
+      font-family: var(--font);
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: border-color 0.1s, background 0.1s, color 0.1s, box-shadow 0.1s;
       text-align: center;
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 3px 0 var(--light-gray);
       margin-bottom: 0;
+      text-transform: none;
+      letter-spacing: 0;
+      transform: none !important;
+      user-select: none;
     }
-
-    .popup-chip::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-      transition: left 0.4s;
-    }
-
-    .popup-chip:hover::before { left: 100%; }
 
     .popup-chip:hover {
-      border-color: rgba(99,102,241,0.4);
-      color: var(--text-primary);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      border-color: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 3px 0 var(--green-shadow);
+    }
+
+    .popup-chip:active {
+      background: #E8F9D9;
+      border-color: var(--green);
     }
 
     .popup-chip.selected {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-color: transparent;
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(99,102,241,0.45);
-      transform: translateY(-2px);
+      background: var(--green);
+      border-color: var(--green-dark);
+      color: white;
+      box-shadow: 0 4px 0 var(--green-shadow);
     }
 
     .popup-chip.selected::after {
       content: ' ✓';
-      font-size: 0.8em;
+      font-size: 0.9em;
+    }
+
+    .popup-error {
+      margin-top: 12px;
+      padding: 10px 16px;
+      background: #FFE5E5;
+      border: 2px solid var(--red);
+      border-radius: 10px;
+      color: var(--red-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+      display: none;
+      text-align: center;
     }
 
     .popup-actions {
       display: flex;
-      gap: 12px;
-      margin-top: 28px;
+      gap: 10px;
+      margin-top: 24px;
     }
 
     .btn-popup-enter {
       flex: 1;
       width: 100%;
-      padding: 15px;
+      padding: 16px;
       border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      background: var(--green);
       border: none;
-      color: #fff;
+      color: white;
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 900;
+      font-family: var(--font);
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      transition: all 0.1s;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      box-shadow: 0 4px 20px rgba(99,102,241,0.5);
+      gap: 8px;
+      box-shadow: 0 5px 0 var(--green-shadow);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       margin-bottom: 0;
     }
 
-    .btn-popup-enter:hover {
-      box-shadow: 0 8px 30px rgba(99,102,241,0.7);
-      transform: translateY(-3px);
-    }
-
+    .btn-popup-enter:hover { background: var(--green-dark); }
     .btn-popup-enter:active {
-      transform: translateY(0) scale(0.98);
+      box-shadow: 0 0 0 var(--green-shadow);
+      transform: translateY(5px);
     }
 
     .btn-popup-teacher {
       flex: 1;
       width: 100%;
-      padding: 15px;
+      padding: 16px;
       border-radius: 14px;
-      background: var(--glass);
-      border: 1px solid rgba(236,72,153,0.35);
-      color: var(--secondary);
-      font-size: 0.85rem;
-      font-weight: 700;
+      background: var(--white);
+      border: 2px solid var(--light-gray);
+      color: var(--medium-gray);
+      font-size: 0.82rem;
+      font-weight: 800;
+      font-family: var(--font);
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      transition: all 0.1s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      box-shadow: 0 4px 0 var(--light-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       margin-bottom: 0;
     }
 
     .btn-popup-teacher:hover {
-      background: linear-gradient(135deg, rgba(236,72,153,0.15) 0%, rgba(236,72,153,0.05) 100%);
-      border-color: var(--secondary);
-      box-shadow: 0 6px 20px rgba(236,72,153,0.25);
-      transform: translateY(-2px);
+      border-color: var(--orange);
+      color: var(--orange-dark);
+      box-shadow: 0 4px 0 var(--orange-dark);
     }
 
-    .popup-error {
-      margin-top: 14px;
-      padding: 10px 16px;
-      background: rgba(239,68,68,0.12);
-      border: 1px solid rgba(239,68,68,0.3);
-      border-radius: 10px;
-      color: #fca5a5;
-      font-size: 0.82rem;
-      font-weight: 600;
-      display: none;
-      text-align: center;
+    .btn-popup-teacher:active {
+      box-shadow: 0 0 0 var(--light-gray);
+      transform: translateY(4px);
     }
 
-    /* Modal Área do Professor */
+    /* ===== PROFESSOR MODAL ===== */
     #professorModal {
       position: fixed;
       inset: 0;
@@ -884,7 +899,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      background: rgba(15,23,42,0.85);
+      background: rgba(255,255,255,0.85);
       backdrop-filter: blur(8px);
     }
 
@@ -894,80 +909,76 @@
     }
 
     .prof-box {
-      width: 380px;
+      width: 360px;
       max-width: 92vw;
-      background: linear-gradient(135deg, rgba(30,41,59,0.98) 0%, rgba(49,46,129,0.6) 100%);
-      border: 1px solid rgba(236,72,153,0.35);
+      background: var(--white);
+      border: 3px solid var(--orange);
       border-radius: 24px;
       padding: 36px 32px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
-      animation: popupIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 8px 0 var(--orange-dark), 0 24px 60px rgba(0,0,0,0.1);
+      animation: popupIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
     }
 
     .prof-box h3 {
       font-size: 1.3rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
+      font-weight: 900;
+      color: var(--orange-dark);
+      margin-bottom: 4px;
       text-align: center;
     }
 
     .prof-box p {
       text-align: center;
       font-size: 0.82rem;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
+      color: var(--medium-gray);
+      margin-bottom: 20px;
+      font-weight: 700;
     }
 
     .prof-close {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 14px;
+      right: 14px;
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-secondary);
-      font-size: 1.1rem;
+      background: var(--off-white);
+      border: 2px solid var(--light-gray);
+      color: var(--medium-gray);
+      font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       padding: 0;
       margin: 0;
-      width: 32px;
-      transition: all 0.2s;
+      box-shadow: 0 3px 0 var(--light-gray);
+      transition: all 0.1s;
     }
 
     .prof-close:hover {
-      background: rgba(239,68,68,0.2);
-      border-color: var(--danger);
-      color: #fca5a5;
+      background: #FFE5E5;
+      border-color: var(--red);
+      color: var(--red);
+      box-shadow: 0 3px 0 var(--red-shadow);
     }
 
-    /* Badge de aluno identificado */
-    #studentBadge {
-      display: none;
-      background: rgba(99,102,241,0.12);
-      border: 1px solid rgba(99,102,241,0.25);
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      gap: 6px;
-      align-items: center;
-      margin: 12px 24px 0;
+    .prof-close:active {
+      box-shadow: 0 0 0 var(--light-gray);
+      transform: translateY(3px);
     }
 
-    #studentBadge span {
-      color: var(--primary);
-      font-weight: 700;
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .sidebar-left {
+        position: absolute;
+        transform: translateX(-100%);
+        height: 100%;
+        z-index: 50;
+      }
+      .sidebar-left.open { transform: translateX(0); }
+      .floating-layers { width: 170px; right: 10px; top: 10px; }
     }
   </style>
 </head>
@@ -978,44 +989,42 @@
   <div id="popupOverlay">
     <div id="popupBox">
       <div class="popup-header">
-        <div class="popup-title">GeoLab Pro</div>
+        <div class="popup-title">Geo<span>Lab</span> Pro</div>
+        <div class="popup-tagline">Laboratório de Geometria Interativo</div>
       </div>
       <div class="popup-divider"></div>
 
-      <!-- Nome do Aluno -->
       <div class="popup-field">
-        <label>QUAL SEU NOME?</label>
+        <label>Qual é o seu nome?</label>
         <input type="text" id="inputNome" class="popup-input" placeholder="Digite seu nome completo..." autocomplete="off" />
       </div>
 
-      <!-- Ano -->
       <div class="popup-field">
-        <label>QUAL SEU ANO?</label>
+        <label>Qual é o seu ano?</label>
         <div class="popup-select-group" id="grupoAno">
-          <button class="popup-chip" onclick="selectChip('ano', '6°', this)">6º Ano</button>
-          <button class="popup-chip" onclick="selectChip('ano', '7°', this)">7º Ano</button>
-          <button class="popup-chip" onclick="selectChip('ano', '8°', this)">8º Ano</button>
-          <button class="popup-chip" onclick="selectChip('ano', '9°', this)">9º Ano</button>
+          <button type="button" class="popup-chip" data-tipo="ano" data-valor="6°">6º Ano</button>
+          <button type="button" class="popup-chip" data-tipo="ano" data-valor="7°">7º Ano</button>
+          <button type="button" class="popup-chip" data-tipo="ano" data-valor="8°">8º Ano</button>
+          <button type="button" class="popup-chip" data-tipo="ano" data-valor="9°">9º Ano</button>
         </div>
       </div>
 
-      <!-- Turma -->
       <div class="popup-field">
-        <label>QUAL SUA TURMA?</label>
+        <label>Qual é a sua turma?</label>
         <div class="popup-select-group" id="grupoTurma">
-          <button class="popup-chip" onclick="selectChip('turma', 'A', this)">A</button>
-          <button class="popup-chip" onclick="selectChip('turma', 'B', this)">B</button>
-          <button class="popup-chip" onclick="selectChip('turma', 'C', this)">C</button>
+          <button type="button" class="popup-chip" data-tipo="turma" data-valor="A">A</button>
+          <button type="button" class="popup-chip" data-tipo="turma" data-valor="B">B</button>
+          <button type="button" class="popup-chip" data-tipo="turma" data-valor="C">C</button>
         </div>
       </div>
 
       <div class="popup-error" id="popupError">Preencha todos os campos para continuar.</div>
 
       <div class="popup-actions">
-        <button class="btn-popup-enter" onclick="entrarGeolab()">ENTRAR</button>
+        <button type="button" class="btn-popup-enter" id="btnEntrar">COMEÇAR</button>
       </div>
-      <div class="popup-actions" style="margin-top:10px">
-        <button class="btn-popup-teacher" onclick="abrirAreaProfessor()">ÁREA DO PROFESSOR</button>
+      <div class="popup-actions" style="margin-top:8px">
+        <button type="button" class="btn-popup-teacher" id="btnProfessor">ÁREA DO PROFESSOR</button>
       </div>
     </div>
   </div>
@@ -1027,7 +1036,7 @@
       <h3>Área do Professor</h3>
       <p>Digite a senha para acessar o painel docente</p>
       <div class="popup-field">
-        <label>SENHA</label>
+        <label>Senha</label>
         <input type="password" id="inputSenhaProfessor" class="popup-input" placeholder="••••••••" />
       </div>
       <div class="popup-error" id="professorError">Senha incorreta. Tente novamente.</div>
@@ -1037,90 +1046,98 @@
     </div>
   </div>
 
-  <!-- Badge do Aluno - dentro da sidebar -->
-
+  <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar-left">
     <div class="header-box">
-      <h1>GeoLab Pro</h1>
+      <div class="logo-row">
+        <div>
+          <h1>Geo<span>Lab</span> Pro</h1>
+          <div class="subtitle">Laboratório de Geometria</div>
+        </div>
+      </div>
       <div id="studentBadge">
         <span id="badgeNome"></span> &bull; <span id="badgeInfo"></span>
       </div>
     </div>
 
-    <div class="scroll-area" id="controlsPanel" style="display:none">
+    <div class="scroll-area" id="controlsPanel">
 
-      <div class="control-group" style="border-left: 3px solid var(--accent);">
-        <h2 style="margin-top:0; color:var(--accent);">Centro da Figura</h2>
-        <p style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:12px;">
-          Arraste o ponto laranja para mover o eixo de rotação.
-        </p>
-        <button class="btn-toggle" onclick="resetAnchor()" style="font-size:0.8rem">
-          Resetar Centro
-        </button>
+      <!-- Empty state shown when no figure is selected -->
+      <div id="emptyStateMsg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; padding:40px 20px; text-align:center; min-height:300px;">
+        <div style="font-size:3rem; opacity:0.1; margin-bottom:20px; line-height:1; font-weight:900;">◻</div>
+        <p style="font-weight:800; color:var(--medium-gray); font-size:0.9rem;">Nenhuma figura selecionada</p>
+        <p style="font-size:0.78rem; margin-top:8px; font-weight:600; color:#C8C8C8;">Crie uma figura para ver as opções</p>
       </div>
 
-      <div class="control-group">
-        <h2>Translação</h2>
-        <label>X: <span id="valTx" class="value-display">0</span></label>
-        <input type="range" id="inputTx" min="-500" max="500" value="0" oninput="updateShapeData()">
-        <button class="btn-anim" id="animXBtn" onclick="toggleAnim('x')">
-          Animar X
-        </button>
+      <!-- Controls shown when a figure is selected and closed -->
+      <div id="figureControls" style="display:none;">
 
-        <label style="margin-top:12px;">Y: <span id="valTy" class="value-display">0</span></label>
-        <input type="range" id="inputTy" min="-500" max="500" value="0" oninput="updateShapeData()">
-        <button class="btn-anim" id="animYBtn" onclick="toggleAnim('y')">
-          Animar Y
-        </button>
-
-        <div class="speed-control">
-          <button class="speed-btn" onclick="changeSpeed('trans', -1)">−</button>
-          <span class="speed-txt">Velocidade: <span id="speedTransDisplay" class="value-display">1x</span></span>
-          <button class="speed-btn" onclick="changeSpeed('trans', 1)">+</button>
+        <div class="control-group" style="border: 2px solid var(--orange); background: #FFF8E5;">
+          <h2 style="color: var(--orange-dark);">Centro da Figura</h2>
+          <p style="font-size:0.75rem; color:var(--dark-gray); margin-bottom:14px; font-weight:700;">
+            Arraste o ponto laranja para mover o eixo de rotação.
+          </p>
+          <button class="btn-toggle" onclick="resetAnchor()">
+            Resetar Centro
+          </button>
         </div>
-      </div>
 
-      <div class="control-group">
-        <h2>Rotação</h2>
-        <label>Ângulo: <span id="valRot" class="value-display">0°</span></label>
-        <input type="range" id="inputRot" min="0" max="360" value="0" oninput="updateShapeData()">
-        <button class="btn-anim" id="animRotBtn" onclick="toggleAnim('rot')">
-          Animar Rotação
+        <div class="control-group">
+          <h2>Translação</h2>
+          <label>Eixo X <span id="valTx" class="value-display">0</span></label>
+          <input type="range" id="inputTx" min="-500" max="500" value="0" oninput="updateShapeData()">
+          <button class="btn-anim" id="animXBtn" onclick="toggleAnim('x')">
+            Animar X
+          </button>
+
+          <label style="margin-top:20px;">Eixo Y <span id="valTy" class="value-display">0</span></label>
+          <input type="range" id="inputTy" min="-500" max="500" value="0" oninput="updateShapeData()">
+          <button class="btn-anim" id="animYBtn" onclick="toggleAnim('y')">
+            Animar Y
+          </button>
+
+          <div class="speed-control">
+            <button class="speed-btn" onclick="changeSpeed('trans', -1)">−</button>
+            <span class="speed-txt">Velocidade: <span id="speedTransDisplay" class="value-display">1x</span></span>
+            <button class="speed-btn" onclick="changeSpeed('trans', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <h2>Rotação</h2>
+          <label>Ângulo <span id="valRot" class="value-display">0°</span></label>
+          <input type="range" id="inputRot" min="0" max="360" value="0" oninput="updateShapeData()">
+          <button class="btn-anim" id="animRotBtn" onclick="toggleAnim('rot')">
+            Animar Rotação
+          </button>
+
+          <div class="speed-control">
+            <button class="speed-btn" onclick="changeSpeed('rot', -1)">−</button>
+            <span class="speed-txt">Velocidade: <span id="speedRotDisplay" class="value-display">1x</span></span>
+            <button class="speed-btn" onclick="changeSpeed('rot', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <h2>Escala</h2>
+          <label>Tamanho <span id="valScale" class="value-display">100%</span></label>
+          <input type="range" id="inputScale" min="10" max="300" value="100" oninput="updateShapeData()">
+          <button class="btn-toggle" onclick="resetScale()">Resetar Tamanho</button>
+        </div>
+
+        <div class="control-group">
+          <h2>Simetria (Espelho)</h2>
+          <div class="quick-tools">
+            <button id="btnRefX" class="btn-toggle" onclick="toggleReflect('x')">Espelho X</button>
+            <button id="btnRefY" class="btn-toggle" onclick="toggleReflect('y')">Espelho Y</button>
+          </div>
+        </div>
+
+        <button class="btn-danger" onclick="deleteCurrentLayer()" style="margin-top:8px;">
+          Excluir Figura
         </button>
 
-        <div class="speed-control">
-          <button class="speed-btn" onclick="changeSpeed('rot', -1)">−</button>
-          <span class="speed-txt">Velocidade: <span id="speedRotDisplay" class="value-display">1x</span></span>
-          <button class="speed-btn" onclick="changeSpeed('rot', 1)">+</button>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <h2>Escala</h2>
-        <label>Escala: <span id="valScale" class="value-display">100%</span></label>
-        <input type="range" id="inputScale" min="10" max="300" value="100" oninput="updateShapeData()">
-        <button class="btn-toggle" onclick="resetScale()">Resetar Tamanho</button>
-      </div>
-
-      <div class="control-group">
-        <h2>Simetria (Espelho)</h2>
-        <div class="quick-tools">
-          <button id="btnRefX" class="btn-toggle" onclick="toggleReflect('x')">Espelho X</button>
-          <button id="btnRefY" class="btn-toggle" onclick="toggleReflect('y')">Espelho Y</button>
-        </div>
-      </div>
-
-      <button class="btn-danger" onclick="deleteCurrentLayer()" style="margin-top:16px;">
-        Excluir Figura
-      </button>
-    </div>
-
-    <div class="scroll-area" id="emptyStateMsg">
-      <div class="empty-icon" style="display:none"></div>
-      <p>Nenhuma figura selecionada.</p>
-      <p style="font-size:0.75rem; margin-top:8px; opacity:0.6;">
-        Clique em "+ Nova Figura" para começar
-      </p>
+      </div><!-- end figureControls -->
     </div>
 
     <div class="footer">
@@ -1128,9 +1145,10 @@
     </div>
   </aside>
 
+  <!-- ===== CANVAS PRINCIPAL ===== -->
   <main class="main-content" id="mainArea">
     <div class="instruction" id="instructionText">
-      Clique em "+ Nova Figura" para começar
+      Clique em "Figuras Geométricas" para começar
     </div>
     <canvas id="canvas"></canvas>
     <div class="tooltip" id="tooltip"></div>
@@ -1138,36 +1156,37 @@
     <!-- Barra inferior de ferramentas -->
     <div class="bottom-toolbar" id="bottomToolbar">
       <button class="geo-main-btn" id="geoMainBtn" type="button">
-        <span class="dot"></span>
         <span>Figuras Geométricas</span>
         <span class="chev">▼</span>
       </button>
 
       <div class="geo-menu" id="geoMenu">
         <button class="geo-item" onclick="addPresetShape('circle')">
-          <span class="left">Círculo</span><small>2D</small>
+          <span class="left">Círculo</span>
         </button>
         <button class="geo-item" onclick="addPresetShape('triangle')">
-          <span class="left">Triângulo</span><small>2D</small>
+          <span class="left">Triângulo</span>
         </button>
         <button class="geo-item" onclick="addPresetShape('square')">
-          <span class="left">Quadrado</span><small>2D</small>
+          <span class="left">Quadrado</span>
         </button>
         <button class="geo-item" onclick="addPresetShape('rect')">
-          <span class="left">Retângulo</span><small>2D</small>
+          <span class="left">Retângulo</span>
         </button>
         <button class="geo-item" onclick="addPresetShape('pent')">
-          <span class="left">Pentágono</span><small>2D</small>
+          <span class="left">Pentágono</span>
         </button>
         <button class="geo-item" onclick="addPresetShape('hex')">
-          <span class="left">Hexágono</span><small>2D</small>
+          <span class="left">Hexágono</span>
         </button>
       </div>
     </div>
   </main>
 
+  <!-- ===== FLOATING LAYERS ===== -->
   <div class="floating-layers">
-    <button class="btn-success" onclick="createNewLayer()" style="margin-bottom:12px; width:100%; padding:14px; font-size:0.9rem;">
+    <div class="layers-title">Figuras</div>
+    <button class="btn-success" onclick="createNewLayer()" style="margin-bottom:10px; width:100%; padding:12px; font-size:0.82rem;">
       + Nova Figura
     </button>
     <div id="layersList"></div>
@@ -1212,7 +1231,7 @@ let view = {
   maxScale: 5.0
 };
 
-const colors = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6', '#06b6d4', '#f97316'];
+const colors = ['#58CC02', '#1CB0F6', '#FF9600', '#FF4B4B', '#CE82FF', '#FF6B9D', '#00CD9C'];
 
 // Tipos de forma
 const SHAPE_TYPES = {
@@ -1301,10 +1320,9 @@ function createNewLayer(){
     anchor: { x: 0, y: 0 },
     anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
     speed: { trans: 1.0, rot: 1.0 },
-    // Propriedades específicas
-    pointRadius: 5, // Para pontos
-    lineLength: 1000, // Para retas infinitas (tamanho visual)
-    showExtension: true // Mostrar extensão da reta
+    pointRadius: 5,
+    lineLength: 1000,
+    showExtension: true
   };
 
   shapes.push(newShape);
@@ -1362,7 +1380,7 @@ function updateUI(){
     layersList.appendChild(div);
   });
 
-  const controls = document.getElementById('controlsPanel');
+  const controls = document.getElementById('figureControls');
   const emptyMsg = document.getElementById('emptyStateMsg');
 
   if(activeIndex !== -1 && shapes[activeIndex].isClosed){
@@ -1401,41 +1419,34 @@ function getShapeIcon(type){
   return icons[type] || '⬡';
 }
 
-function showInstruction(text){
-  const el = document.getElementById('instructionText');
-  el.style.display = 'flex';
-  el.innerText = text;
-}
-
-function hideInstruction(){
-  document.getElementById('instructionText').style.display = 'none';
-}
-
-/* ===================== ATUALIZAÇÃO DE DADOS ===================== */
-function updateShapeData(){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-
-  s.tx = parseInt(document.getElementById('inputTx').value);
-  s.ty = -parseInt(document.getElementById('inputTy').value); // Y invertido para convenção matemática
-  s.rotation = parseInt(document.getElementById('inputRot').value);
-
-  const sc = parseInt(document.getElementById('inputScale').value);
-  s.scale = Math.max(0.10, Math.min(3.00, sc / 100));
-
-  updateLabelValues();
-  draw();
-}
-
 function updateLabelValues(){
   if(activeIndex === -1) return;
   const s = shapes[activeIndex];
-  document.getElementById('valTx').innerText = s.tx;
-  document.getElementById('valTy').innerText = -s.ty; // Mostra positivo para cima
-  document.getElementById('valRot').innerText = s.rotation + "°";
-  document.getElementById('valScale').innerText = Math.round(s.scale * 100) + "%";
-  document.getElementById('speedTransDisplay').innerText = s.speed.trans + "x";
-  document.getElementById('speedRotDisplay').innerText = s.speed.rot + "x";
+  const txEl = document.getElementById('valTx');
+  const tyEl = document.getElementById('valTy');
+  const rotEl = document.getElementById('valRot');
+  const scaleEl = document.getElementById('valScale');
+  const speedTransEl = document.getElementById('speedTransDisplay');
+  const speedRotEl = document.getElementById('speedRotDisplay');
+  
+  if(txEl) txEl.textContent = Math.round(s.tx);
+  if(tyEl) tyEl.textContent = Math.round(s.ty);
+  if(rotEl) rotEl.textContent = Math.round(s.rotation) + '°';
+  if(scaleEl) scaleEl.textContent = Math.round(s.scale * 100) + '%';
+  if(speedTransEl) speedTransEl.textContent = s.speed.trans + 'x';
+  if(speedRotEl) speedRotEl.textContent = s.speed.rot + 'x';
+}
+
+/* ===================== CONTROLES DE FORMA ===================== */
+function updateShapeData(){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  s.tx = parseFloat(document.getElementById('inputTx').value);
+  s.ty = parseFloat(document.getElementById('inputTy').value);
+  s.rotation = parseFloat(document.getElementById('inputRot').value);
+  s.scale = parseFloat(document.getElementById('inputScale').value) / 100;
+  updateLabelValues();
+  draw();
 }
 
 function resetScale(){
@@ -1446,639 +1457,604 @@ function resetScale(){
   draw();
 }
 
-/* ===================== FERRAMENTAS DE DESENHO ===================== */
-function setTool(tool){
-  currentTool = tool;
-  if(activeIndex !== -1){
-    const s = shapes[activeIndex];
-    s.type = tool;
-    s.isClosed = false;
-    
-    if(tool === SHAPE_TYPES.POINT){
-      s.isClosed = true;
-      s.points = [{x: 0, y: 0}];
-      mode = 'IDLE';
-      updateUI();
-    } else if(tool === SHAPE_TYPES.SEGMENT || tool === SHAPE_TYPES.LINE){
-      s.points = [];
-      mode = 'DRAWING';
-      showInstruction(`Modo ${tool === 'segment' ? 'Segmento' : 'Reta'}: Clique no ponto inicial e final.`);
-    }
-    draw();
-  }
-}
-
-/* ===================== FIGURAS PREDEFINIDAS ===================== */
-function addPresetShape(type){
-  bottomToolbar.classList.remove('open');
-
-  if(activeIndex !== -1 && !shapes[activeIndex].isClosed){
-    alert("Feche a forma atual antes de inserir uma nova figura.");
-    return;
-  }
-
-  const worldCenter = screenToWorld(canvas.width/2, canvas.height/2);
-  const cx = worldCenter.x;
-  const cy = worldCenter.y;
-  const size = 120;
-
-  let newShape = {
-    id: Date.now(),
-    name: `Figura ${shapes.length + 1}`,
-    type: type,
-    color: colors[shapes.length % colors.length],
-    isClosed: true,
-    tx: 0, ty: 0, rotation: 0,
-    scale: 1.0,
-    reflectX: false, reflectY: false,
-    anchor: { x: 0, y: 0 },
-    anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
-    speed: { trans: 1.0, rot: 1.0 },
-    pointRadius: 6,
-    lineLength: 1000,
-    showExtension: true
-  };
-
-  switch(type){
-    case SHAPE_TYPES.POINT:
-      newShape.points = [{x: cx, y: cy}];
-      newShape.isClosed = true;
-      break;
-      
-    case SHAPE_TYPES.SEGMENT:
-      newShape.points = [
-        {x: cx - size/2, y: cy},
-        {x: cx + size/2, y: cy}
-      ];
-      newShape.isClosed = true;
-      break;
-      
-    case SHAPE_TYPES.LINE:
-      newShape.points = [
-        {x: cx - size, y: cy},
-        {x: cx + size, y: cy}
-      ];
-      newShape.isClosed = true;
-      newShape.showExtension = true;
-      break;
-      
-    case 'square':
-      newShape.type = SHAPE_TYPES.POLYGON;
-      newShape.points = [
-        {x: cx-size/2, y: cy-size/2},
-        {x: cx+size/2, y: cy-size/2},
-        {x: cx+size/2, y: cy+size/2},
-        {x: cx-size/2, y: cy+size/2}
-      ];
-      break;
-      
-    case 'rect':
-      newShape.type = SHAPE_TYPES.POLYGON;
-      const w = size * 1.4, h = size * 0.8;
-      newShape.points = [
-        {x: cx-w/2, y: cy-h/2},
-        {x: cx+w/2, y: cy-h/2},
-        {x: cx+w/2, y: cy+h/2},
-        {x: cx-w/2, y: cy+h/2}
-      ];
-      break;
-      
-    case 'triangle':
-      newShape.type = SHAPE_TYPES.POLYGON;
-      newShape.points = [
-        {x: cx, y: cy - size/2},
-        {x: cx + size/2, y: cy + size/2},
-        {x: cx - size/2, y: cy + size/2}
-      ];
-      break;
-      
-    case 'circle':
-      newShape.type = SHAPE_TYPES.CIRCLE;
-      newShape.points = [{x: cx, y: cy}];
-      newShape.radius = size/2;
-      break;
-      
-    case 'pent':
-      newShape.type = SHAPE_TYPES.POLYGON;
-      newShape.points = regularPolygonPoints(cx, cy, size/2, 5, -Math.PI/2);
-      break;
-      
-    case 'hex':
-      newShape.type = SHAPE_TYPES.POLYGON;
-      newShape.points = regularPolygonPoints(cx, cy, size/2, 6, -Math.PI/2);
-      break;
-  }
-
-  shapes.push(newShape);
-  selectLayer(shapes.length - 1);
-  mode = 'IDLE';
-  updateUI();
+function resetAnchor(){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  const pts = s.points;
+  if(pts.length === 0) return;
+  const cx = pts.reduce((a,p)=>a+p.x,0)/pts.length;
+  const cy = pts.reduce((a,p)=>a+p.y,0)/pts.length;
+  s.anchor = { x: cx, y: cy };
   draw();
 }
 
-function regularPolygonPoints(cx, cy, r, n, offset){
-  const pts = [];
-  for(let i=0; i<n; i++){
-    const a = offset + (i/n) * Math.PI * 2;
-    pts.push({x: cx + Math.cos(a)*r, y: cy + Math.sin(a)*r});
-  }
-  return pts;
+function toggleReflect(axis){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  if(axis === 'x') s.reflectX = !s.reflectX;
+  if(axis === 'y') s.reflectY = !s.reflectY;
+  document.getElementById('btnRefX').classList.toggle('active', s.reflectX);
+  document.getElementById('btnRefY').classList.toggle('active', s.reflectY);
+  draw();
 }
 
-/* ===================== INTERAÇÃO DO MOUSE ===================== */
-canvas.addEventListener('mousemove', (e)=>{
-  const rect = canvas.getBoundingClientRect();
-  mouseScreen.x = e.clientX - rect.left;
-  mouseScreen.y = e.clientY - rect.top;
-  mouseWorld = screenToWorld(mouseScreen.x, mouseScreen.y);
+/* ===================== ANIMAÇÕES ===================== */
+let animFrame = null;
+let lastTime = 0;
+
+function toggleAnim(type){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  s.anim[type] = !s.anim[type];
   
-  // Tooltip
-  updateTooltip(e.clientX, e.clientY);
+  const hasAny = shapes.some(sh => sh.anim.x || sh.anim.y || sh.anim.rot);
+  if(hasAny && !animFrame){
+    lastTime = performance.now();
+    animFrame = requestAnimationFrame(animLoop);
+  } else if(!hasAny && animFrame){
+    cancelAnimationFrame(animFrame);
+    animFrame = null;
+  }
+  updateUI();
+}
+
+function animLoop(now){
+  const dt = (now - lastTime) / 1000;
+  lastTime = now;
+  
+  shapes.forEach(s => {
+    const spd = s.speed.trans * 50;
+    const rotSpd = s.speed.rot * 60;
+    
+    if(s.anim.x){
+      s.tx += spd * s.anim.dirX * dt;
+      if(s.tx > 300){ s.anim.dirX = -1; }
+      else if(s.tx < -300){ s.anim.dirX = 1; }
+      const el = document.getElementById('inputTx');
+      if(el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = s.tx;
+    }
+    if(s.anim.y){
+      s.ty += spd * s.anim.dirY * dt;
+      if(s.ty > 300){ s.anim.dirY = -1; }
+      else if(s.ty < -300){ s.anim.dirY = 1; }
+      const el = document.getElementById('inputTy');
+      if(el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = s.ty;
+    }
+    if(s.anim.rot){
+      s.rotation = (s.rotation + rotSpd * dt) % 360;
+      const el = document.getElementById('inputRot');
+      if(el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = s.rotation;
+    }
+  });
+  
+  updateLabelValues();
+  draw();
+  animFrame = requestAnimationFrame(animLoop);
+}
+
+function changeSpeed(type, delta){
+  if(activeIndex === -1) return;
+  const s = shapes[activeIndex];
+  const speeds = [0.25, 0.5, 1, 2, 3, 5];
+  let idx = speeds.indexOf(s.speed[type]);
+  idx = Math.max(0, Math.min(speeds.length - 1, idx + delta));
+  s.speed[type] = speeds[idx];
+  updateLabelValues();
+}
+
+/* ===================== PRESET SHAPES ===================== */
+function addPresetShape(type){
+  const cx = 0, cy = 0;
+  createNewLayer();
+  const s = shapes[shapes.length - 1];
+  
+  switch(type){
+    case 'circle':
+      s.type = SHAPE_TYPES.CIRCLE;
+      s.points = [{ x: cx, y: cy }];
+      s.radius = 80;
+      s.isClosed = true;
+      break;
+    case 'triangle': {
+      const r = 80;
+      s.points = [
+        { x: cx, y: cy - r },
+        { x: cx + r * Math.cos(Math.PI/6), y: cy + r * Math.sin(Math.PI/6) },
+        { x: cx - r * Math.cos(Math.PI/6), y: cy + r * Math.sin(Math.PI/6) }
+      ];
+      s.isClosed = true;
+      break;
+    }
+    case 'square': {
+      const h = 70;
+      s.points = [
+        { x: cx - h, y: cy - h },
+        { x: cx + h, y: cy - h },
+        { x: cx + h, y: cy + h },
+        { x: cx - h, y: cy + h }
+      ];
+      s.isClosed = true;
+      break;
+    }
+    case 'rect': {
+      s.points = [
+        { x: cx - 100, y: cy - 60 },
+        { x: cx + 100, y: cy - 60 },
+        { x: cx + 100, y: cy + 60 },
+        { x: cx - 100, y: cy + 60 }
+      ];
+      s.isClosed = true;
+      break;
+    }
+    case 'pent': {
+      const rp = 80;
+      for(let i = 0; i < 5; i++){
+        const angle = (i * 2 * Math.PI / 5) - Math.PI / 2;
+        s.points.push({ x: cx + rp * Math.cos(angle), y: cy + rp * Math.sin(angle) });
+      }
+      s.isClosed = true;
+      break;
+    }
+    case 'hex': {
+      const rh = 80;
+      for(let i = 0; i < 6; i++){
+        const angle = (i * 2 * Math.PI / 6);
+        s.points.push({ x: cx + rh * Math.cos(angle), y: cy + rh * Math.sin(angle) });
+      }
+      s.isClosed = true;
+      break;
+    }
+  }
+
+  s.anchor = {
+    x: s.points.reduce((a,p)=>a+p.x,0) / s.points.length,
+    y: s.points.reduce((a,p)=>a+p.y,0) / s.points.length
+  };
+
+  mode = 'IDLE';
+  updateUI();
+  draw();
+  bottomToolbar.classList.remove('open');
+}
+
+/* ===================== EVENTOS DO CANVAS ===================== */
+let isPanning = false;
+let panStart = { x: 0, y: 0 };
+let panStartOffset = { x: 0, y: 0 };
+let draggingVertexIndex = -1; // index of vertex being dragged
+
+canvas.addEventListener('mousedown', (e)=>{
+  const rect = canvas.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+  mouseScreen = { x: sx, y: sy };
+  mouseWorld = screenToWorld(sx, sy);
+
+  if(e.button === 1 || (e.button === 0 && e.altKey)){
+    isPanning = true;
+    panStart = { x: sx, y: sy };
+    panStartOffset = { x: view.offsetX, y: view.offsetY };
+    canvas.style.cursor = 'grabbing';
+    return;
+  }
+
+  if(mode === 'IDLE' && activeIndex !== -1){
+    const s = shapes[activeIndex];
+
+    // Check vertex handles first (only for closed polygons)
+    if(s.isClosed && (s.type === SHAPE_TYPES.POLYGON || s.type === SHAPE_TYPES.SEGMENT)){
+      const VERTEX_HIT = 14; // px
+      const transformed = getTransformedPoints(s);
+      for(let vi = 0; vi < transformed.length; vi++){
+        const sp = worldToScreen(transformed[vi].x, transformed[vi].y);
+        if(Math.hypot(sx - sp.x, sy - sp.y) < VERTEX_HIT){
+          draggingVertexIndex = vi;
+          mode = 'DRAGGING_VERTEX';
+          return;
+        }
+      }
+    }
+
+    const anchorScreen = worldToScreen(s.anchor.x + s.tx, s.anchor.y + s.ty);
+    const distAnchor = Math.hypot(sx - anchorScreen.x, sy - anchorScreen.y);
+    
+    if(distAnchor < 12){
+      mode = 'DRAGGING_ANCHOR';
+      return;
+    }
+
+    const transformed = getTransformedPoints(s);
+
+    // Check if click is inside the polygon (point-in-polygon test)
+    let hitShape = false;
+    if(s.type === SHAPE_TYPES.CIRCLE){
+      const cx = s.points[0].x + s.tx;
+      const cy = s.points[0].y + s.ty;
+      const r = s.radius * s.scale;
+      const mw = mouseWorld;
+      hitShape = Math.hypot(mw.x - cx, mw.y - cy) <= r;
+    } else if(transformed.length >= 3){
+      // Ray casting algorithm for polygon
+      const mw = mouseWorld;
+      let inside = false;
+      for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
+        const xi = transformed[i].x, yi = transformed[i].y;
+        const xj = transformed[j].x, yj = transformed[j].y;
+        const intersect = ((yi > mw.y) !== (yj > mw.y)) &&
+          (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi);
+        if(intersect) inside = !inside;
+      }
+      hitShape = inside;
+      // Also allow clicking near edges (within ~10px screen)
+      if(!hitShape){
+        for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
+          const ps = worldToScreen(transformed[i].x, transformed[i].y);
+          if(Math.hypot(sx - ps.x, sy - ps.y) < 10){ hitShape = true; break; }
+          j = i;
+        }
+      }
+    } else {
+      // Segment/line - click near the line
+      transformed.forEach(p => {
+        const ps = worldToScreen(p.x, p.y);
+        if(Math.hypot(sx - ps.x, sy - ps.y) < 16) hitShape = true;
+      });
+    }
+
+    if(hitShape){
+      mode = 'DRAGGING_SHAPE';
+      dragStartWorld = { ...mouseWorld };
+    }
+  }
 
   if(mode === 'DRAWING' && activeIndex !== -1){
     const s = shapes[activeIndex];
-    
     if(s.type === SHAPE_TYPES.POLYGON && s.points.length >= 3){
-      const dx = mouseWorld.x - s.points[0].x;
-      const dy = mouseWorld.y - s.points[0].y;
-      if(Math.hypot(dx,dy) < 15/view.scale){
-        canvas.style.cursor = 'pointer';
-        showInstruction("Clique no primeiro ponto para fechar o polígono!");
-      } else {
-        canvas.style.cursor = 'crosshair';
-      }
-    }
-    draw();
-    return;
-  }
-
-  if(mode === 'DRAGGING_ANCHOR'){
-    const s = shapes[activeIndex];
-    const center = getCentroid(s);
-    s.anchor.x = mouseWorld.x - (center.x + s.tx);
-    s.anchor.y = mouseWorld.y - (center.y + s.ty);
-    draw();
-    return;
-  }
-
-  if(mode === 'DRAGGING_SHAPE'){
-    const dx = mouseWorld.x - dragStartWorld.x;
-    const dy = mouseWorld.y - dragStartWorld.y;
-    const s = shapes[activeIndex];
-    s.tx += dx;
-    s.ty += dy;
-    document.getElementById('inputTx').value = Math.round(s.tx);
-    document.getElementById('inputTy').value = Math.round(-s.ty);
-    updateLabelValues();
-    dragStartWorld = { x: mouseWorld.x, y: mouseWorld.y };
-    draw();
-    return;
-  }
-
-  // Detecção de hover
-  let cursor = 'default';
-  if(activeIndex !== -1){
-    const s = shapes[activeIndex];
-    const center = getCentroid(s);
-    const anchorX = center.x + s.tx + s.anchor.x;
-    const anchorY = center.y + s.ty + s.anchor.y;
-    
-    if(Math.hypot(mouseWorld.x - anchorX, mouseWorld.y - anchorY) < 12/view.scale){
-      cursor = 'move';
-      showTooltip(mouseScreen.x, mouseScreen.y, "Arraste para mover o centro de rotação");
-    } else if(isPointInShape(mouseWorld, s)){
-      cursor = 'grab';
-      showTooltip(mouseScreen.x, mouseScreen.y, "Arraste para mover a figura");
-    }
-  } else {
-    for(let i=shapes.length-1; i>=0; i--){
-      if(shapes[i].isClosed && isPointInShape(mouseWorld, shapes[i])){
-        cursor = 'pointer';
-        break;
-      }
-    }
-  }
-  canvas.style.cursor = cursor;
-});
-
-canvas.addEventListener('mousedown', ()=>{
-  if(mode === 'DRAWING' && activeIndex !== -1){
-    const s = shapes[activeIndex];
-    
-    // Fechar polígono
-    if(s.type === SHAPE_TYPES.POLYGON && s.points.length >= 3){
-      const dx = mouseWorld.x - s.points[0].x;
-      const dy = mouseWorld.y - s.points[0].y;
-      if(Math.hypot(dx,dy) < 15/view.scale){
+      const first = worldToScreen(s.points[0].x, s.points[0].y);
+      const dist = Math.hypot(sx - first.x, sy - first.y);
+      if(dist < 15){
         s.isClosed = true;
         mode = 'IDLE';
+        s.anchor = {
+          x: s.points.reduce((a,p)=>a+p.x,0)/s.points.length,
+          y: s.points.reduce((a,p)=>a+p.y,0)/s.points.length
+        };
         updateUI();
         draw();
         return;
       }
     }
     
-    // Adicionar ponto
-    s.points.push({x: mouseWorld.x, y: mouseWorld.y});
-    
-    // Segmento e Linha só precisam de 2 pontos
-    if((s.type === SHAPE_TYPES.SEGMENT || s.type === SHAPE_TYPES.LINE) && s.points.length === 2){
+    const worldPt = screenToWorld(sx, sy);
+    if(s.type === SHAPE_TYPES.POINT){
+      s.points = [worldPt];
       s.isClosed = true;
       mode = 'IDLE';
+      s.anchor = { ...worldPt };
       updateUI();
+    } else if(s.type === SHAPE_TYPES.SEGMENT || s.type === SHAPE_TYPES.LINE){
+      s.points.push(worldPt);
+      if(s.points.length >= 2){
+        s.isClosed = true;
+        mode = 'IDLE';
+        s.anchor = {
+          x: (s.points[0].x + s.points[1].x) / 2,
+          y: (s.points[0].y + s.points[1].y) / 2
+        };
+        updateUI();
+      }
+    } else {
+      s.points.push(worldPt);
     }
-    
+    draw();
+  }
+});
+
+canvas.addEventListener('mousemove', (e)=>{
+  const rect = canvas.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+  mouseScreen = { x: sx, y: sy };
+  mouseWorld = screenToWorld(sx, sy);
+
+  // Update cursor based on what's hovered
+  if(mode === 'IDLE' && activeIndex !== -1){
+    const s = shapes[activeIndex];
+    const transformed = getTransformedPoints(s);
+
+    // Check vertex handles first
+    let overVertex = false;
+    if(s.isClosed && (s.type === SHAPE_TYPES.POLYGON || s.type === SHAPE_TYPES.SEGMENT)){
+      for(let vi = 0; vi < transformed.length; vi++){
+        const sp = worldToScreen(transformed[vi].x, transformed[vi].y);
+        if(Math.hypot(sx - sp.x, sy - sp.y) < 14){ overVertex = true; break; }
+      }
+    }
+
+    if(overVertex){
+      canvas.style.cursor = 'grab';
+    } else {
+      // Check if hovering inside shape body
+      let overShape = false;
+      const mw = mouseWorld;
+      if(s.type === SHAPE_TYPES.CIRCLE){
+        const cx = s.points[0].x + s.tx;
+        const cy = s.points[0].y + s.ty;
+        overShape = Math.hypot(mw.x - cx, mw.y - cy) <= s.radius * s.scale;
+      } else if(transformed.length >= 3){
+        let inside = false;
+        for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
+          const xi = transformed[i].x, yi = transformed[i].y;
+          const xj = transformed[j].x, yj = transformed[j].y;
+          if(((yi > mw.y) !== (yj > mw.y)) && (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi))
+            inside = !inside;
+        }
+        overShape = inside;
+      }
+      canvas.style.cursor = overShape ? 'move' : 'default';
+    }
+  } else if(mode === 'DRAWING'){
+    canvas.style.cursor = 'crosshair';
+  } else if(mode === 'DRAGGING_VERTEX'){
+    canvas.style.cursor = 'grabbing';
+  } else if(mode === 'DRAGGING_SHAPE'){
+    canvas.style.cursor = 'grabbing';
+  }
+
+  if(isPanning){
+    view.offsetX = panStartOffset.x + (sx - panStart.x);
+    view.offsetY = panStartOffset.y + (sy - panStart.y);
     draw();
     return;
   }
 
-  // Verificar clique na âncora
-  if(activeIndex !== -1){
+  if(mode === 'DRAGGING_VERTEX' && activeIndex !== -1 && draggingVertexIndex !== -1){
     const s = shapes[activeIndex];
-    const center = getCentroid(s);
-    const anchorX = center.x + s.tx + s.anchor.x;
-    const anchorY = center.y + s.ty + s.anchor.y;
-    
-    if(Math.hypot(mouseWorld.x - anchorX, mouseWorld.y - anchorY) < 12/view.scale){
-      mode = 'DRAGGING_ANCHOR';
-      return;
-    }
+
+    // Convert mouseWorld back to local (pre-transform) space by inverting all transforms
+    const ax = s.anchor.x;
+    const ay = s.anchor.y;
+    const angle = -(s.rotation * Math.PI / 180);
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const scaleX = s.scale * (s.reflectX ? -1 : 1);
+    const scaleY = s.scale * (s.reflectY ? -1 : 1);
+
+    // Step 1: remove translation and anchor offset
+    const wx = mouseWorld.x - s.tx - ax;
+    const wy = mouseWorld.y - s.ty - ay;
+
+    // Step 2: invert rotation
+    const rx = wx * cos - wy * sin;
+    const ry = wx * sin + wy * cos;
+
+    // Step 3: invert scale + reflection
+    const lx = rx / scaleX + ax;
+    const ly = ry / scaleY + ay;
+
+    s.points[draggingVertexIndex] = { x: lx, y: ly };
+    // Do NOT update anchor — keep it fixed so other vertices stay put
+    draw();
+    return;
   }
 
-  // Selecionar forma
-  let clickedIndex = -1;
-  if(activeIndex !== -1 && isPointInShape(mouseWorld, shapes[activeIndex])){
-    clickedIndex = activeIndex;
-  } else {
-    for(let i=shapes.length-1; i>=0; i--){
-      if(shapes[i].isClosed && isPointInShape(mouseWorld, shapes[i])){
-        clickedIndex = i;
-        break;
-      }
-    }
+  if(mode === 'DRAGGING_ANCHOR' && activeIndex !== -1){
+    const s = shapes[activeIndex];
+    s.anchor.x = mouseWorld.x - s.tx;
+    s.anchor.y = mouseWorld.y - s.ty;
+    draw();
+    return;
   }
 
-  if(clickedIndex !== -1){
-    selectLayer(clickedIndex);
-    mode = 'DRAGGING_SHAPE';
-    dragStartWorld = { x: mouseWorld.x, y: mouseWorld.y };
-    canvas.style.cursor = 'grabbing';
+  if(mode === 'DRAGGING_SHAPE' && activeIndex !== -1){
+    const s = shapes[activeIndex];
+    const dx = mouseWorld.x - dragStartWorld.x;
+    const dy = mouseWorld.y - dragStartWorld.y;
+    s.tx += dx;
+    s.ty += dy;
+    dragStartWorld = { ...mouseWorld };
+    if(!s.anim.x) document.getElementById('inputTx').value = s.tx;
+    if(!s.anim.y) document.getElementById('inputTy').value = s.ty;
+    updateLabelValues();
+    draw();
+    return;
   }
+
+  draw();
 });
 
-canvas.addEventListener('mouseup', ()=>{
-  if(mode === 'DRAGGING_SHAPE' || mode === 'DRAGGING_ANCHOR'){
+canvas.addEventListener('mouseup', (e)=>{
+  if(isPanning){
+    isPanning = false;
+    canvas.style.cursor = mode === 'DRAWING' ? 'crosshair' : 'default';
+  }
+  if(mode === 'DRAGGING_VERTEX'){
     mode = 'IDLE';
-    canvas.style.cursor = 'default';
+    draggingVertexIndex = -1;
+  }
+  if(mode === 'DRAGGING_ANCHOR' || mode === 'DRAGGING_SHAPE'){
+    mode = 'IDLE';
   }
 });
 
 canvas.addEventListener('mouseleave', ()=>{
-  tooltip.style.opacity = '0';
+  isPanning = false;
+  if(mode === 'DRAGGING_VERTEX'){
+    mode = 'IDLE';
+    draggingVertexIndex = -1;
+  }
+  if(mode === 'DRAGGING_ANCHOR' || mode === 'DRAGGING_SHAPE'){
+    mode = 'IDLE';
+  }
 });
 
-function showTooltip(x, y, text){
-  tooltip.innerText = text;
-  tooltip.style.left = (x + 15) + 'px';
-  tooltip.style.top = (y + 15) + 'px';
-  tooltip.style.opacity = '1';
+/* ===================== INSTRUÇÃO ===================== */
+function showInstruction(text){
+  const el = document.getElementById('instructionText');
+  el.textContent = text;
+  el.style.display = 'flex';
 }
 
-function updateTooltip(x, y){
-  if(mode !== 'IDLE') return;
-  // Lógica de tooltip já está no mousemove
-}
-
-/* ===================== LÓGICA E RENDERIZAÇÃO ===================== */
-function getCentroid(shape){
-  if(!shape.points || shape.points.length === 0) return {x:0, y:0};
-  
-  if(shape.type === SHAPE_TYPES.CIRCLE){
-    return {
-      x: shape.points[0].x + shape.tx,
-      y: shape.points[0].y + shape.ty
-    };
-  }
-  
-  let sx = 0, sy = 0;
-  shape.points.forEach(p => { sx += p.x; sy += p.y; });
-  return { x: sx/shape.points.length, y: sy/shape.points.length };
-}
-
-function isPointInShape(pWorld, shape){
-  if(!shape.isClosed) return false;
-  
-  // Para pontos, verificar distância
-  if(shape.type === SHAPE_TYPES.POINT){
-    const p = shape.points[0];
-    const dx = pWorld.x - (p.x + shape.tx);
-    const dy = pWorld.y - (p.y + shape.ty);
-    return Math.hypot(dx, dy) < (shape.pointRadius * shape.scale + 5)/view.scale;
-  }
-  
-  // Para segmentos e retas, verificar proximidade da linha
-  if(shape.type === SHAPE_TYPES.SEGMENT || shape.type === SHAPE_TYPES.LINE){
-    return isPointNearLine(pWorld, shape);
-  }
-  
-  // Para círculos
-  if(shape.type === SHAPE_TYPES.CIRCLE){
-    const center = shape.points[0];
-    const dx = pWorld.x - (center.x + shape.tx);
-    const dy = pWorld.y - (center.y + shape.ty);
-    const dist = Math.hypot(dx, dy);
-    return Math.abs(dist - shape.radius * shape.scale) < 10/view.scale;
-  }
-
-  // Para polígonos, usar ray casting
-  ctx.save();
-  ctx.translate(view.offsetX, view.offsetY);
-  ctx.scale(view.scale, view.scale);
-  
-  applyTransform(ctx, shape);
-  
-  ctx.beginPath();
-  ctx.moveTo(shape.points[0].x, shape.points[0].y);
-  for(let i=1; i<shape.points.length; i++) ctx.lineTo(shape.points[i].x, shape.points[i].y);
-  ctx.closePath();
-  
-  const pScreen = worldToScreen(pWorld.x, pWorld.y);
-  const yes = ctx.isPointInPath(pScreen.x, pScreen.y);
-  
-  ctx.restore();
-  return yes;
-}
-
-function isPointNearLine(pWorld, shape){
-  const p1 = shape.points[0];
-  const p2 = shape.points[1];
-  
-  // Transformar pontos
-  const center = getCentroid(shape);
-  const pivotX = center.x + shape.anchor.x;
-  const pivotY = center.y + shape.anchor.y;
-  
-  // Aplicar transformações aos pontos da linha
-  const tp1 = transformPoint(p1, shape, pivotX, pivotY);
-  const tp2 = transformPoint(p2, shape, pivotX, pivotY);
-  
-  // Distância ponto-linha
-  const A = pWorld.x - tp1.x;
-  const B = pWorld.y - tp1.y;
-  const C = tp2.x - tp1.x;
-  const D = tp2.y - tp1.y;
-  
-  const dot = A * C + B * D;
-  const lenSq = C * C + D * D;
-  let param = -1;
-  
-  if(lenSq !== 0) param = dot / lenSq;
-  
-  let xx, yy;
-  if(param < 0){
-    xx = tp1.x; yy = tp1.y;
-  } else if(param > 1 && shape.type === SHAPE_TYPES.SEGMENT){
-    xx = tp2.x; yy = tp2.y;
-  } else {
-    xx = tp1.x + param * C;
-    yy = tp1.y + param * D;
-  }
-  
-  const dx = pWorld.x - xx;
-  const dy = pWorld.y - yy;
-  return Math.hypot(dx, dy) < 10/view.scale;
-}
-
-function transformPoint(p, shape, pivotX, pivotY){
-  // Aplicar translação
-  let x = p.x + shape.tx;
-  let y = p.y + shape.ty;
-  
-  // Rotação
-  const cos = Math.cos(shape.rotation * Math.PI / 180);
-  const sin = Math.sin(shape.rotation * Math.PI / 180);
-  const rx = cos * (x - pivotX) - sin * (y - pivotY) + pivotX;
-  const ry = sin * (x - pivotX) + cos * (y - pivotY) + pivotY;
-  
-  // Escala
-  const sx = pivotX + (rx - pivotX) * shape.scale;
-  const sy = pivotY + (ry - pivotY) * shape.scale;
-  
-  return {x: sx, y: sy};
-}
-
-function applyTransform(ctx, shape){
-  const center = getCentroid(shape);
-  const pivotX = center.x + shape.tx + shape.anchor.x;
-  const pivotY = center.y + shape.ty + shape.anchor.y;
-  
-  ctx.translate(pivotX, pivotY);
-  ctx.rotate(shape.rotation * Math.PI / 180);
-  ctx.scale(shape.scale, shape.scale);
-  ctx.translate(-pivotX, -pivotY);
-  ctx.translate(shape.tx, shape.ty);
-}
-
-/* ===================== CONTROLES ===================== */
-function toggleReflect(axis){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  if(axis === 'x') s.reflectX = !s.reflectX;
-  if(axis === 'y') s.reflectY = !s.reflectY;
-  updateUI();
-  draw();
-}
-
-function resetAnchor(){
-  if(activeIndex === -1) return;
-  shapes[activeIndex].anchor = {x:0, y:0};
-  draw();
-}
-
-function toggleAnim(type){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  s.anim[type] = !s.anim[type];
-  updateUI();
-  requestAnimationFrame(animateLoop);
-}
-
-function changeSpeed(type, dir){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  if(dir > 0 && s.speed[type] < 4) s.speed[type] = Math.min(4, s.speed[type] * 2);
-  else if(dir < 0 && s.speed[type] > 0.25) s.speed[type] = Math.max(0.25, s.speed[type] / 2);
-  updateUI();
-}
-
-function animateLoop(){
-  let activeAnim = false;
-  shapes.forEach(s=>{
-    if(!s.isClosed) return;
-    if(s.anim.x || s.anim.y || s.anim.rot){
-      activeAnim = true;
-      if(s.anim.rot) s.rotation = (s.rotation + (1 * s.speed.rot)) % 360;
-      
-      if(s.anim.x){
-        s.tx += (2 * s.speed.trans) * s.anim.dirX;
-        if(s.tx > 400 || s.tx < -400) s.anim.dirX *= -1;
-      }
-      if(s.anim.y){
-        s.ty += (2 * s.speed.trans) * s.anim.dirY;
-        if(s.ty > 400 || s.ty < -400) s.anim.dirY *= -1;
-      }
-    }
-  });
-  
-  if(activeAnim){
-    draw();
-    if(activeIndex !== -1) updateLabelValues();
-    requestAnimationFrame(animateLoop);
-  }
+function hideInstruction(){
+  document.getElementById('instructionText').style.display = 'none';
 }
 
 /* ===================== DESENHO ===================== */
 function draw(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
   ctx.save();
   ctx.translate(view.offsetX, view.offsetY);
   ctx.scale(view.scale, view.scale);
-  
-  // Eixos coordenados
+
+  drawGrid();
   drawAxes();
-  
-  shapes.forEach((shape, index)=>{
-    const isSelected = (index === activeIndex);
-    
-    if(index === activeIndex && mode === 'DRAWING'){
-      drawPreview(shape);
-      return;
-    }
-    
-    if(!shape.isClosed) return;
-    
-    ctx.globalAlpha = isSelected ? 1.0 : 0.5;
-    
-    renderInstance(shape, 1, 1, false, isSelected);
-    if(shape.reflectX) renderInstance(shape, -1, 1, true, isSelected);
-    if(shape.reflectY) renderInstance(shape, 1, -1, true, isSelected);
-    if(shape.reflectX && shape.reflectY) renderInstance(shape, -1, -1, true, isSelected);
-    
-    ctx.globalAlpha = 1.0;
+
+  shapes.forEach((shape, idx) => {
+    const isSelected = idx === activeIndex;
+    const isGhost = false;
+    drawShape(shape, isGhost, isSelected);
   });
+
+  if(mode === 'DRAWING' && activeIndex !== -1){
+    const s = shapes[activeIndex];
+    if(s.points.length > 0 && s.type === SHAPE_TYPES.POLYGON){
+      ctx.save();
+      ctx.strokeStyle = s.color + '88';
+      ctx.lineWidth = 1.5 / view.scale;
+      ctx.setLineDash([4/view.scale, 4/view.scale]);
+      ctx.beginPath();
+      ctx.moveTo(s.points[s.points.length-1].x, s.points[s.points.length-1].y);
+      ctx.lineTo(mouseWorld.x, mouseWorld.y);
+      ctx.stroke();
+      ctx.restore();
+
+      if(s.points.length >= 3){
+        const first = s.points[0];
+        const distWorld = Math.hypot(mouseWorld.x - first.x, mouseWorld.y - first.y);
+        const threshold = 15 / view.scale;
+        if(distWorld < threshold){
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(first.x, first.y, threshold, 0, Math.PI*2);
+          ctx.fillStyle = s.color + '33';
+          ctx.fill();
+          ctx.strokeStyle = s.color;
+          ctx.lineWidth = 2 / view.scale;
+          ctx.setLineDash([]);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }
+  }
+
+  ctx.restore();
+}
+
+function drawGrid(){
+  const step = 40;
+  // These bounds are in world coords (we're already inside the ctx transform)
+  const left = -view.offsetX / view.scale;
+  const top = -view.offsetY / view.scale;
+  const right = (canvas.width - view.offsetX) / view.scale;
+  const bottom = (canvas.height - view.offsetY) / view.scale;
   
+  ctx.save();
+  ctx.strokeStyle = 'rgba(220,220,220,0.9)';
+  ctx.lineWidth = 0.5 / view.scale;
+  
+  // Start from exact multiples of step so grid lines always pass through world origin (0,0)
+  const startX = Math.ceil(left / step) * step;
+  const startY = Math.ceil(top / step) * step;
+
+  for(let x = startX; x <= right + step; x += step){
+    ctx.beginPath();
+    ctx.moveTo(x, top);
+    ctx.lineTo(x, bottom);
+    ctx.stroke();
+  }
+  for(let y = startY; y <= bottom + step; y += step){
+    ctx.beginPath();
+    ctx.moveTo(left, y);
+    ctx.lineTo(right, y);
+    ctx.stroke();
+  }
   ctx.restore();
 }
 
 function drawAxes(){
-  const range = 2000;
-  ctx.strokeStyle = 'rgba(99, 102, 241, 0.2)';
-  ctx.lineWidth = 1/view.scale;
-  
-  // Eixo X
+  const left = -view.offsetX / view.scale;
+  const top = -view.offsetY / view.scale;
+  const right = (canvas.width - view.offsetX) / view.scale;
+  const bottom = (canvas.height - view.offsetY) / view.scale;
+
+  ctx.save();
+  ctx.strokeStyle = 'rgba(175,175,175,0.6)';
+  ctx.lineWidth = 1 / view.scale;
+
   ctx.beginPath();
-  ctx.moveTo(-range, 0);
-  ctx.lineTo(range, 0);
+  ctx.moveTo(left, 0);
+  ctx.lineTo(right, 0);
   ctx.stroke();
-  
-  // Eixo Y
+
   ctx.beginPath();
-  ctx.moveTo(0, -range);
-  ctx.lineTo(0, range);
+  ctx.moveTo(0, top);
+  ctx.lineTo(0, bottom);
   ctx.stroke();
-  
-  // Marcações
-  ctx.fillStyle = 'rgba(99, 102, 241, 0.4)';
-  ctx.font = `${10/view.scale}px sans-serif`;
-  for(let i = -1000; i <= 1000; i += 100){
-    if(i === 0) continue;
-    // Marcações X
-    ctx.fillRect(i - 2/view.scale, -2/view.scale, 4/view.scale, 4/view.scale);
-    ctx.fillText(i, i + 5/view.scale, 15/view.scale);
-    // Marcações Y
-    ctx.fillRect(-2/view.scale, i - 2/view.scale, 4/view.scale, 4/view.scale);
-    ctx.fillText(-i, 8/view.scale, i - 5/view.scale); // Y invertido na tela
-  }
-  
-  // Origem
-  ctx.fillStyle = 'rgba(236, 72, 153, 0.6)';
-  ctx.beginPath();
-  ctx.arc(0, 0, 4/view.scale, 0, Math.PI*2);
-  ctx.fill();
+
+  ctx.restore();
 }
 
-function drawPreview(shape){
-  if(shape.points.length === 0) return;
-  
-  ctx.strokeStyle = shape.color;
-  ctx.lineWidth = 2/view.scale;
-  ctx.setLineDash([5/view.scale, 5/view.scale]);
-  
-  ctx.beginPath();
-  ctx.moveTo(shape.points[0].x, shape.points[0].y);
-  shape.points.forEach(p => ctx.lineTo(p.x, p.y));
-  
-  // Linha para o mouse
-  if(shape.type === SHAPE_TYPES.POLYGON || 
-     ((shape.type === SHAPE_TYPES.SEGMENT || shape.type === SHAPE_TYPES.LINE) && shape.points.length < 2)){
-    ctx.lineTo(mouseWorld.x, mouseWorld.y);
+function getTransformedPoints(shape){
+  if(shape.type === SHAPE_TYPES.CIRCLE){
+    const cx = shape.points[0].x + shape.tx;
+    const cy = shape.points[0].y + shape.ty;
+    return [{ x: cx, y: cy }];
   }
-  
-  ctx.stroke();
-  ctx.setLineDash([]);
-  
-  // Pontos
-  shape.points.forEach((p, i)=>{
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 4/view.scale, 0, Math.PI*2);
-    ctx.fillStyle = shape.color;
-    ctx.fill();
-    
-    // Destacar primeiro ponto
-    if(i === 0 && shape.type === SHAPE_TYPES.POLYGON && shape.points.length >= 3){
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 8/view.scale, 0, Math.PI*2);
-      ctx.strokeStyle = shape.color;
-      ctx.lineWidth = 2/view.scale;
-      ctx.stroke();
-    }
+
+  const angle = shape.rotation * Math.PI / 180;
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  const ax = shape.anchor.x;
+  const ay = shape.anchor.y;
+  const sx = shape.reflectX ? -1 : 1;
+  const sy = shape.reflectY ? -1 : 1;
+  const scale = shape.scale;
+
+  return shape.points.map(p => {
+    let dx = p.x - ax;
+    let dy = p.y - ay;
+    dx *= scale * sx;
+    dy *= scale * sy;
+    const rx = dx * cos - dy * sin;
+    const ry = dx * sin + dy * cos;
+    return {
+      x: ax + rx + shape.tx,
+      y: ay + ry + shape.ty
+    };
   });
 }
 
-function renderInstance(shape, scX, scY, isGhost, isSelected){
+function drawShape(shape, isGhost, isSelected){
   ctx.save();
-  
-  const center = getCentroid(shape);
-  const pivotX = center.x + shape.tx + shape.anchor.x;
-  const pivotY = center.y + shape.ty + shape.anchor.y;
-  
-  ctx.translate(pivotX, pivotY);
-  
-  let rot = shape.rotation * Math.PI / 180;
-  if(scX * scY < 0) rot *= -1;
-  ctx.rotate(rot);
-  
-  ctx.scale(shape.scale * scX, shape.scale * scY);
-  ctx.translate(-pivotX, -pivotY);
-  ctx.translate(shape.tx, shape.ty);
-  
-  // Estilo
-  if(isGhost){
-    ctx.strokeStyle = "rgba(236, 72, 153, 0.8)";
-    ctx.fillStyle = "rgba(236, 72, 153, 0.1)";
-    ctx.setLineDash([4/view.scale, 4/view.scale]);
-  } else {
-    ctx.strokeStyle = shape.color;
-    ctx.fillStyle = shape.color + "33";
-    ctx.setLineDash([]);
+
+  const alpha = isGhost ? 0.3 : 1;
+  ctx.globalAlpha = alpha;
+
+  ctx.fillStyle = shape.color + '30';
+  ctx.strokeStyle = shape.color;
+  ctx.lineWidth = (isSelected ? 2.5 : 1.8) / view.scale;
+  ctx.setLineDash([]);
+
+  if(isSelected){
+    ctx.shadowColor = shape.color;
+    ctx.shadowBlur = 8 / view.scale;
   }
-  
-  ctx.lineWidth = (isSelected ? (isGhost ? 2 : 3) : 1.5) / view.scale;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  
-  // Desenhar conforme o tipo
+
+  const pivotX = shape.anchor.x + shape.tx;
+  const pivotY = shape.anchor.y + shape.ty;
+
   switch(shape.type){
     case SHAPE_TYPES.POINT:
       drawPoint(shape, isGhost, isSelected);
@@ -2099,10 +2075,40 @@ function renderInstance(shape, scX, scY, isGhost, isSelected){
   
   ctx.restore();
   
-  // Desenhar âncora se selecionado
   if(isSelected && !isGhost && shape.type !== SHAPE_TYPES.POINT){
     drawAnchor(pivotX, pivotY);
   }
+
+  // Draw draggable vertex handles on selected, closed polygon
+  if(isSelected && !isGhost && shape.isClosed && 
+     (shape.type === SHAPE_TYPES.POLYGON || shape.type === SHAPE_TYPES.SEGMENT)){
+    drawVertexHandles(shape);
+  }
+}
+
+function drawVertexHandles(shape){
+  ctx.save();
+  const r = 6 / view.scale;
+  const transformed = getTransformedPoints(shape);
+  transformed.forEach((p, i) => {
+    const isBeingDragged = (mode === 'DRAGGING_VERTEX' && draggingVertexIndex === i);
+
+    // Outer ring
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r * (isBeingDragged ? 1.4 : 1), 0, Math.PI * 2);
+    ctx.fillStyle = isBeingDragged ? shape.color : '#FFFFFF';
+    ctx.fill();
+    ctx.strokeStyle = shape.color;
+    ctx.lineWidth = 2 / view.scale;
+    ctx.stroke();
+
+    // Inner dot
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r * 0.4, 0, Math.PI * 2);
+    ctx.fillStyle = shape.color;
+    ctx.fill();
+  });
+  ctx.restore();
 }
 
 function drawPoint(shape, isGhost, isSelected){
@@ -2114,7 +2120,6 @@ function drawPoint(shape, isGhost, isSelected){
   ctx.fill();
   ctx.stroke();
   
-  // Brilho
   if(isSelected && !isGhost){
     ctx.beginPath();
     ctx.arc(p.x, p.y, r * 1.5, 0, Math.PI*2);
@@ -2125,14 +2130,14 @@ function drawPoint(shape, isGhost, isSelected){
 
 function drawSegment(shape){
   if(shape.points.length < 2) return;
+  const pts = getTransformedPoints(shape);
   ctx.beginPath();
-  ctx.moveTo(shape.points[0].x, shape.points[0].y);
-  ctx.lineTo(shape.points[1].x, shape.points[1].y);
+  ctx.moveTo(pts[0].x, pts[0].y);
+  ctx.lineTo(pts[1].x, pts[1].y);
   ctx.stroke();
   
-  // Pontos extremos
   ctx.fillStyle = shape.color;
-  shape.points.forEach(p => {
+  pts.forEach(p => {
     ctx.beginPath();
     ctx.arc(p.x, p.y, 3/view.scale, 0, Math.PI*2);
     ctx.fill();
@@ -2141,10 +2146,10 @@ function drawSegment(shape){
 
 function drawLine(shape){
   if(shape.points.length < 2) return;
-  const p1 = shape.points[0];
-  const p2 = shape.points[1];
+  const pts = getTransformedPoints(shape);
+  const p1 = pts[0];
+  const p2 = pts[1];
   
-  // Calcular direção e estender
   const dx = p2.x - p1.x;
   const dy = p2.y - p1.y;
   const len = Math.hypot(dx, dy);
@@ -2158,71 +2163,70 @@ function drawLine(shape){
   ctx.lineTo(p2.x + unitX * ext, p2.y + unitY * ext);
   ctx.stroke();
   
-  // Pontos de definição
   ctx.fillStyle = shape.color;
-  shape.points.forEach(p => {
+  pts.forEach(p => {
     ctx.beginPath();
     ctx.arc(p.x, p.y, 3/view.scale, 0, Math.PI*2);
     ctx.fill();
   });
-  
-  // Indicadores de extensão
-  if(shape.showExtension){
-    ctx.setLineDash([2/view.scale, 4/view.scale]);
-    ctx.strokeStyle = shape.color + "66";
-    ctx.beginPath();
-    ctx.moveTo(p1.x - unitX * ext, p1.y - unitY * ext);
-    ctx.lineTo(p1.x, p1.y);
-    ctx.moveTo(p2.x, p2.y);
-    ctx.lineTo(p2.x + unitX * ext, p2.y + unitY * ext);
-    ctx.stroke();
-  }
 }
 
 function drawCircle(shape){
   const center = shape.points[0];
+  const cx = center.x + shape.tx;
+  const cy = center.y + shape.ty;
+  const r = shape.radius * shape.scale;
+  
   ctx.beginPath();
-  ctx.arc(center.x, center.y, shape.radius, 0, Math.PI*2);
+  ctx.arc(cx, cy, r, 0, Math.PI*2);
   ctx.fill();
   ctx.stroke();
   
-  // Centro
   ctx.beginPath();
-  ctx.arc(center.x, center.y, 3/view.scale, 0, Math.PI*2);
+  ctx.arc(cx, cy, 3/view.scale, 0, Math.PI*2);
   ctx.fillStyle = shape.color;
   ctx.fill();
 }
 
 function drawPolygon(shape){
   if(shape.points.length < 2) return;
+  const pts = getTransformedPoints(shape);
   ctx.beginPath();
-  ctx.moveTo(shape.points[0].x, shape.points[0].y);
-  for(let i=1; i<shape.points.length; i++){
-    ctx.lineTo(shape.points[i].x, shape.points[i].y);
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for(let i=1; i<pts.length; i++){
+    ctx.lineTo(pts[i].x, pts[i].y);
   }
-  ctx.closePath();
+  if(shape.isClosed) ctx.closePath();
   ctx.fill();
   ctx.stroke();
+
+  if(!shape.isClosed){
+    pts.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 4/view.scale, 0, Math.PI*2);
+      ctx.fillStyle = shape.color;
+      ctx.fill();
+    });
+  }
 }
 
 function drawAnchor(x, y){
   ctx.save();
   ctx.beginPath();
-  ctx.arc(x, y, 6/view.scale, 0, Math.PI*2);
-  ctx.fillStyle = 'var(--accent)';
+  ctx.arc(x, y, 7/view.scale, 0, Math.PI*2);
+  ctx.fillStyle = '#FF9600';
   ctx.fill();
   ctx.strokeStyle = '#fff';
   ctx.lineWidth = 2/view.scale;
   ctx.stroke();
   
-  // Cruz
   ctx.beginPath();
   ctx.moveTo(x - 10/view.scale, y);
   ctx.lineTo(x + 10/view.scale, y);
   ctx.moveTo(x, y - 10/view.scale);
   ctx.lineTo(x, y + 10/view.scale);
-  ctx.strokeStyle = 'var(--accent)';
-  ctx.lineWidth = 1/view.scale;
+  ctx.strokeStyle = '#FF9600';
+  ctx.lineWidth = 1.5/view.scale;
   ctx.stroke();
   ctx.restore();
 }
@@ -2252,7 +2256,6 @@ function entrarGeolab() {
   
   erro.style.display = 'none';
   
-  // Salvar identificação
   const identificacao = {
     nome,
     ano: popupState.ano,
@@ -2266,13 +2269,10 @@ function entrarGeolab() {
   const badge = document.getElementById('studentBadge');
   badge.style.display = 'flex';
   
-  // Fechar popup com animação
   const overlay = document.getElementById('popupOverlay');
   overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
   setTimeout(() => {
     overlay.style.display = 'none';
-    // Mostrar o painel de controles
-    document.getElementById('controlsPanel').style.display = '';
   }, 400);
 }
 
@@ -2289,35 +2289,30 @@ function fecharAreaProfessor() {
 
 function verificarSenhaProfessor() {
   const senha = document.getElementById('inputSenhaProfessor').value;
-  // Senha padrão - altere conforme necessário
   const SENHA_PROFESSOR = 'geolab2025';
   
   if (senha === SENHA_PROFESSOR) {
     fecharAreaProfessor();
-    // Fecha popup principal e libera acesso completo
     const overlay = document.getElementById('popupOverlay');
     overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
     setTimeout(() => {
       overlay.style.display = 'none';
-      document.getElementById('controlsPanel').style.display = '';
     }, 400);
     
     const badge = document.getElementById('studentBadge');
     badge.style.display = 'flex';
     document.getElementById('badgeNome').textContent = 'Professor';
     document.getElementById('badgeInfo').textContent = 'Acesso Total';
-    badge.style.borderColor = 'rgba(236,72,153,0.5)';
   } else {
     const erro = document.getElementById('professorError');
     erro.style.display = 'block';
-    document.getElementById('inputSenhaProfessor').style.borderColor = 'rgba(239,68,68,0.6)';
+    document.getElementById('inputSenhaProfessor').style.borderColor = 'var(--red)';
     setTimeout(() => {
       document.getElementById('inputSenhaProfessor').style.borderColor = '';
     }, 1500);
   }
 }
 
-// Adicionar animação de saída e shake via CSS
 const extraStyles = document.createElement('style');
 extraStyles.textContent = `
   @keyframes fadeOutOverlay {
@@ -2334,8 +2329,29 @@ extraStyles.textContent = `
 `;
 document.head.appendChild(extraStyles);
 
-// Verificar se já há sessão ativa
 window.addEventListener('DOMContentLoaded', () => {
+  // Wire all chips via pointerdown — works regardless of CSS transforms or hardenPage
+  document.querySelectorAll('.popup-chip').forEach(chip => {
+    chip.addEventListener('pointerdown', (e) => {
+      e.stopPropagation();
+      const tipo = chip.dataset.tipo;
+      const valor = chip.dataset.valor;
+      selectChip(tipo, valor, chip);
+    });
+  });
+
+  // Wire enter buttons
+  document.getElementById('btnEntrar').addEventListener('click', entrarGeolab);
+  document.getElementById('btnProfessor').addEventListener('click', abrirAreaProfessor);
+
+  document.getElementById('inputNome').addEventListener('keydown', e => {
+    if (e.key === 'Enter') entrarGeolab();
+  });
+  document.getElementById('inputSenhaProfessor').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verificarSenhaProfessor();
+  });
+
+  // Restore session
   const saved = sessionStorage.getItem('geolab_aluno');
   if (saved) {
     try {
@@ -2343,26 +2359,17 @@ window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('inputNome').value = id.nome;
       popupState.ano = id.ano;
       popupState.turma = id.turma;
-      // Auto-marcar chips salvos
       ['ano','turma'].forEach(tipo => {
         const val = id[tipo];
         const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
         if (grupo) {
           grupo.querySelectorAll('.popup-chip').forEach(c => {
-            if (c.textContent.replace(' ✓','').includes(val)) c.classList.add('selected');
+            if (c.dataset.valor === val) c.classList.add('selected');
           });
         }
       });
     } catch(e) {}
   }
-  
-  // Enter no campo de nome aciona entrar
-  document.getElementById('inputNome').addEventListener('keydown', e => {
-    if (e.key === 'Enter') entrarGeolab();
-  });
-  document.getElementById('inputSenhaProfessor').addEventListener('keydown', e => {
-    if (e.key === 'Enter') verificarSenhaProfessor();
-  });
 });
 </script>
 </body>
