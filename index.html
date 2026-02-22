@@ -39,27 +39,6 @@
     }
 
     /* Efeito de fundo animado */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
-                  radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 40%);
-      animation: gradientMove 20s ease infinite;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    @keyframes gradientMove {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33% { transform: translate(2%, 2%) rotate(120deg); }
-      66% { transform: translate(-1%, 1%) rotate(240deg); }
-    }
-
     /* Sidebar Esquerda - Glassmorphism */
     .sidebar-left {
       width: 320px;
@@ -80,22 +59,6 @@
       border-bottom: 1px solid var(--border);
       position: relative;
       overflow: hidden;
-    }
-
-    .header-box::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-      animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
     }
 
     h1 {
@@ -456,7 +419,7 @@
     }
 
     .instruction::before {
-      content: '💡';
+      content: '';
     }
 
     .footer {
@@ -672,33 +635,419 @@
         top: 10px;
       }
     }
+
+    /* ===== POPUP DE IDENTIFICAÇÃO ===== */
+    #popupOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInOverlay 0.5s ease;
+    }
+
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    #popupBox {
+      width: 480px;
+      max-width: 95vw;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(49, 46, 129, 0.6) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 28px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(99,102,241,0.12);
+      padding: 40px 36px 32px;
+      position: relative;
+      overflow: hidden;
+      animation: popupIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popupIn {
+      from { opacity: 0; transform: scale(0.85) translateY(30px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    #popupBox::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -60%;
+      width: 220%;
+      height: 220%;
+      background: radial-gradient(circle at 40% 40%, rgba(99,102,241,0.1) 0%, transparent 55%),
+                  radial-gradient(circle at 75% 75%, rgba(236,72,153,0.07) 0%, transparent 45%);
+      pointer-events: none;
+    }
+
+    .popup-header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .popup-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .popup-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent);
+      margin: 0 0 28px;
+    }
+
+    .popup-field {
+      margin-bottom: 20px;
+    }
+
+    .popup-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .popup-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-weight: 600;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .popup-input::placeholder {
+      color: rgba(255,255,255,0.25);
+      font-weight: 400;
+    }
+
+    .popup-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.2), 0 4px 20px rgba(99,102,241,0.15);
+      background: rgba(99,102,241,0.07);
+    }
+
+    .popup-select-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+
+    .popup-chip {
+      flex: 1;
+      padding: 11px 8px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+
+    .popup-chip::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.4s;
+    }
+
+    .popup-chip:hover::before { left: 100%; }
+
+    .popup-chip:hover {
+      border-color: rgba(99,102,241,0.4);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    .popup-chip.selected {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(99,102,241,0.45);
+      transform: translateY(-2px);
+    }
+
+    .popup-chip.selected::after {
+      content: ' ✓';
+      font-size: 0.8em;
+    }
+
+    .popup-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn-popup-enter {
+      flex: 1;
+      width: 100%;
+      padding: 15px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.5);
+      margin-bottom: 0;
+    }
+
+    .btn-popup-enter:hover {
+      box-shadow: 0 8px 30px rgba(99,102,241,0.7);
+      transform: translateY(-3px);
+    }
+
+    .btn-popup-enter:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-popup-teacher {
+      flex: 1;
+      width: 100%;
+      padding: 15px;
+      border-radius: 14px;
+      background: var(--glass);
+      border: 1px solid rgba(236,72,153,0.35);
+      color: var(--secondary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+
+    .btn-popup-teacher:hover {
+      background: linear-gradient(135deg, rgba(236,72,153,0.15) 0%, rgba(236,72,153,0.05) 100%);
+      border-color: var(--secondary);
+      box-shadow: 0 6px 20px rgba(236,72,153,0.25);
+      transform: translateY(-2px);
+    }
+
+    .popup-error {
+      margin-top: 14px;
+      padding: 10px 16px;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 10px;
+      color: #fca5a5;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+    }
+
+    /* Modal Área do Professor */
+    #professorModal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15,23,42,0.85);
+      backdrop-filter: blur(8px);
+    }
+
+    #professorModal.visible {
+      display: flex;
+      animation: fadeInOverlay 0.3s ease;
+    }
+
+    .prof-box {
+      width: 380px;
+      max-width: 92vw;
+      background: linear-gradient(135deg, rgba(30,41,59,0.98) 0%, rgba(49,46,129,0.6) 100%);
+      border: 1px solid rgba(236,72,153,0.35);
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      animation: popupIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative;
+    }
+
+    .prof-box h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .prof-box p {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .prof-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      width: 32px;
+      transition: all 0.2s;
+    }
+
+    .prof-close:hover {
+      background: rgba(239,68,68,0.2);
+      border-color: var(--danger);
+      color: #fca5a5;
+    }
+
+    /* Badge de aluno identificado */
+    #studentBadge {
+      display: none;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      gap: 6px;
+      align-items: center;
+      margin: 12px 24px 0;
+    }
+
+    #studentBadge span {
+      color: var(--primary);
+      font-weight: 700;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- ===== POPUP DE IDENTIFICAÇÃO ===== -->
+  <div id="popupOverlay">
+    <div id="popupBox">
+      <div class="popup-header">
+        <div class="popup-title">GeoLab Pro</div>
+      </div>
+      <div class="popup-divider"></div>
+
+      <!-- Nome do Aluno -->
+      <div class="popup-field">
+        <label>QUAL SEU NOME?</label>
+        <input type="text" id="inputNome" class="popup-input" placeholder="Digite seu nome completo..." autocomplete="off" />
+      </div>
+
+      <!-- Ano -->
+      <div class="popup-field">
+        <label>QUAL SEU ANO?</label>
+        <div class="popup-select-group" id="grupoAno">
+          <button class="popup-chip" onclick="selectChip('ano', '6°', this)">6º Ano</button>
+          <button class="popup-chip" onclick="selectChip('ano', '7°', this)">7º Ano</button>
+          <button class="popup-chip" onclick="selectChip('ano', '8°', this)">8º Ano</button>
+          <button class="popup-chip" onclick="selectChip('ano', '9°', this)">9º Ano</button>
+        </div>
+      </div>
+
+      <!-- Turma -->
+      <div class="popup-field">
+        <label>QUAL SUA TURMA?</label>
+        <div class="popup-select-group" id="grupoTurma">
+          <button class="popup-chip" onclick="selectChip('turma', 'A', this)">A</button>
+          <button class="popup-chip" onclick="selectChip('turma', 'B', this)">B</button>
+          <button class="popup-chip" onclick="selectChip('turma', 'C', this)">C</button>
+        </div>
+      </div>
+
+      <div class="popup-error" id="popupError">Preencha todos os campos para continuar.</div>
+
+      <div class="popup-actions">
+        <button class="btn-popup-enter" onclick="entrarGeolab()">ENTRAR</button>
+      </div>
+      <div class="popup-actions" style="margin-top:10px">
+        <button class="btn-popup-teacher" onclick="abrirAreaProfessor()">ÁREA DO PROFESSOR</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Área do Professor -->
+  <div id="professorModal">
+    <div class="prof-box">
+      <button class="prof-close" onclick="fecharAreaProfessor()">✕</button>
+      <h3>Área do Professor</h3>
+      <p>Digite a senha para acessar o painel docente</p>
+      <div class="popup-field">
+        <label>SENHA</label>
+        <input type="password" id="inputSenhaProfessor" class="popup-input" placeholder="••••••••" />
+      </div>
+      <div class="popup-error" id="professorError">Senha incorreta. Tente novamente.</div>
+      <button class="btn-popup-enter" onclick="verificarSenhaProfessor()" style="margin-top:16px">
+        Acessar Painel
+      </button>
+    </div>
+  </div>
+
+  <!-- Badge do Aluno - dentro da sidebar -->
+
   <aside class="sidebar-left">
     <div class="header-box">
-      <h1>📐 GeoLab Pro</h1>
-      <p class="subtitle">Laboratório de Geometria Analítica</p>
+      <h1>GeoLab Pro</h1>
+      <div id="studentBadge">
+        <span id="badgeNome"></span> &bull; <span id="badgeInfo"></span>
+      </div>
     </div>
 
     <div class="scroll-area" id="controlsPanel" style="display:none">
-      <!-- Ferramentas de Desenho -->
-      <div class="tool-category">Ferramentas de Desenho</div>
-      <div class="control-group">
-        <button class="btn-tool" onclick="setTool('point')">
-          <span class="icon">•</span> Ponto
-        </button>
-        <button class="btn-tool" onclick="setTool('segment')">
-          <span class="icon">━</span> Segmento de Reta
-        </button>
-        <button class="btn-tool" onclick="setTool('line')">
-          <span class="icon">↔</span> Reta (Infinita)
-        </button>
-        <button class="btn-tool" onclick="setTool('polygon')">
-          <span class="icon">⬡</span> Polígono Livre
-        </button>
-      </div>
 
       <div class="control-group" style="border-left: 3px solid var(--accent);">
         <h2 style="margin-top:0; color:var(--accent);">Centro da Figura</h2>
@@ -706,7 +1055,7 @@
           Arraste o ponto laranja para mover o eixo de rotação.
         </p>
         <button class="btn-toggle" onclick="resetAnchor()" style="font-size:0.8rem">
-          🎯 Resetar Centro
+          Resetar Centro
         </button>
       </div>
 
@@ -715,13 +1064,13 @@
         <label>X: <span id="valTx" class="value-display">0</span></label>
         <input type="range" id="inputTx" min="-500" max="500" value="0" oninput="updateShapeData()">
         <button class="btn-anim" id="animXBtn" onclick="toggleAnim('x')">
-          <span>▶</span> Animar X
+          Animar X
         </button>
 
         <label style="margin-top:12px;">Y: <span id="valTy" class="value-display">0</span></label>
         <input type="range" id="inputTy" min="-500" max="500" value="0" oninput="updateShapeData()">
         <button class="btn-anim" id="animYBtn" onclick="toggleAnim('y')">
-          <span>▶</span> Animar Y
+          Animar Y
         </button>
 
         <div class="speed-control">
@@ -736,7 +1085,7 @@
         <label>Ângulo: <span id="valRot" class="value-display">0°</span></label>
         <input type="range" id="inputRot" min="0" max="360" value="0" oninput="updateShapeData()">
         <button class="btn-anim" id="animRotBtn" onclick="toggleAnim('rot')">
-          <span>▶</span> Animar Rotação
+          Animar Rotação
         </button>
 
         <div class="speed-control">
@@ -750,24 +1099,24 @@
         <h2>Escala</h2>
         <label>Escala: <span id="valScale" class="value-display">100%</span></label>
         <input type="range" id="inputScale" min="10" max="300" value="100" oninput="updateShapeData()">
-        <button class="btn-toggle" onclick="resetScale()">↺ Resetar Tamanho</button>
+        <button class="btn-toggle" onclick="resetScale()">Resetar Tamanho</button>
       </div>
 
       <div class="control-group">
         <h2>Simetria (Espelho)</h2>
         <div class="quick-tools">
-          <button id="btnRefX" class="btn-toggle" onclick="toggleReflect('x')">↔ Espelho X</button>
-          <button id="btnRefY" class="btn-toggle" onclick="toggleReflect('y')">↕ Espelho Y</button>
+          <button id="btnRefX" class="btn-toggle" onclick="toggleReflect('x')">Espelho X</button>
+          <button id="btnRefY" class="btn-toggle" onclick="toggleReflect('y')">Espelho Y</button>
         </div>
       </div>
 
       <button class="btn-danger" onclick="deleteCurrentLayer()" style="margin-top:16px;">
-        🗑️ Excluir Figura
+        Excluir Figura
       </button>
     </div>
 
     <div class="scroll-area" id="emptyStateMsg">
-      <div class="empty-icon">📐</div>
+      <div class="empty-icon" style="display:none"></div>
       <p>Nenhuma figura selecionada.</p>
       <p style="font-size:0.75rem; margin-top:8px; opacity:0.6;">
         Clique em "+ Nova Figura" para começar
@@ -775,8 +1124,7 @@
     </div>
 
     <div class="footer">
-      Desenvolvido por Gilberto Fernandes<br>
-      <span style="opacity:0.6;">Matemática & Computação Gráfica</span>
+      Desenvolvido por Gilberto Fernandes
     </div>
   </aside>
 
@@ -796,35 +1144,23 @@
       </button>
 
       <div class="geo-menu" id="geoMenu">
-        <div class="tool-category">Formas Básicas</div>
-        <button class="geo-item" onclick="addPresetShape('point')">
-          <span class="left"><span class="geo-icon">•</span> Ponto</span><small>0D</small>
-        </button>
-        <button class="geo-item" onclick="addPresetShape('segment')">
-          <span class="left"><span class="geo-icon">━</span> Segmento</span><small>1D</small>
-        </button>
-        <button class="geo-item" onclick="addPresetShape('line')">
-          <span class="left"><span class="geo-icon">↔</span> Reta</span><small>1D</small>
-        </button>
         <button class="geo-item" onclick="addPresetShape('circle')">
-          <span class="left"><span class="geo-icon">◯</span> Círculo</span><small>2D</small>
+          <span class="left">Círculo</span><small>2D</small>
         </button>
-        
-        <div class="tool-category">Polígonos</div>
         <button class="geo-item" onclick="addPresetShape('triangle')">
-          <span class="left"><span class="geo-icon">△</span> Triângulo</span><small>2D</small>
+          <span class="left">Triângulo</span><small>2D</small>
         </button>
         <button class="geo-item" onclick="addPresetShape('square')">
-          <span class="left"><span class="geo-icon">▢</span> Quadrado</span><small>2D</small>
+          <span class="left">Quadrado</span><small>2D</small>
         </button>
         <button class="geo-item" onclick="addPresetShape('rect')">
-          <span class="left"><span class="geo-icon">▭</span> Retângulo</span><small>2D</small>
+          <span class="left">Retângulo</span><small>2D</small>
         </button>
         <button class="geo-item" onclick="addPresetShape('pent')">
-          <span class="left"><span class="geo-icon">⬠</span> Pentágono</span><small>2D</small>
+          <span class="left">Pentágono</span><small>2D</small>
         </button>
         <button class="geo-item" onclick="addPresetShape('hex')">
-          <span class="left"><span class="geo-icon">⬡</span> Hexágono</span><small>2D</small>
+          <span class="left">Hexágono</span><small>2D</small>
         </button>
       </div>
     </div>
@@ -1890,6 +2226,144 @@ function drawAnchor(x, y){
   ctx.stroke();
   ctx.restore();
 }
+
+/* ===== LÓGICA DO POPUP DE IDENTIFICAÇÃO ===== */
+const popupState = { ano: null, turma: null };
+
+function selectChip(tipo, valor, el) {
+  popupState[tipo] = valor;
+  const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
+  grupo.querySelectorAll('.popup-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function entrarGeolab() {
+  const nome = document.getElementById('inputNome').value.trim();
+  const erro = document.getElementById('popupError');
+  
+  if (!nome || !popupState.ano || !popupState.turma) {
+    erro.style.display = 'block';
+    const box = document.getElementById('popupBox');
+    box.style.animation = 'none';
+    box.offsetHeight;
+    box.style.animation = 'shake 0.4s ease';
+    return;
+  }
+  
+  erro.style.display = 'none';
+  
+  // Salvar identificação
+  const identificacao = {
+    nome,
+    ano: popupState.ano,
+    turma: popupState.turma,
+    timestamp: new Date().toLocaleString('pt-BR')
+  };
+  sessionStorage.setItem('geolab_aluno', JSON.stringify(identificacao));
+  
+  document.getElementById('badgeNome').textContent = nome;
+  document.getElementById('badgeInfo').textContent = `${popupState.ano} Ano | Turma ${popupState.turma}`;
+  const badge = document.getElementById('studentBadge');
+  badge.style.display = 'flex';
+  
+  // Fechar popup com animação
+  const overlay = document.getElementById('popupOverlay');
+  overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    // Mostrar o painel de controles
+    document.getElementById('controlsPanel').style.display = '';
+  }, 400);
+}
+
+function abrirAreaProfessor() {
+  document.getElementById('professorModal').classList.add('visible');
+  document.getElementById('inputSenhaProfessor').value = '';
+  document.getElementById('professorError').style.display = 'none';
+  setTimeout(() => document.getElementById('inputSenhaProfessor').focus(), 100);
+}
+
+function fecharAreaProfessor() {
+  document.getElementById('professorModal').classList.remove('visible');
+}
+
+function verificarSenhaProfessor() {
+  const senha = document.getElementById('inputSenhaProfessor').value;
+  // Senha padrão - altere conforme necessário
+  const SENHA_PROFESSOR = 'geolab2025';
+  
+  if (senha === SENHA_PROFESSOR) {
+    fecharAreaProfessor();
+    // Fecha popup principal e libera acesso completo
+    const overlay = document.getElementById('popupOverlay');
+    overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      document.getElementById('controlsPanel').style.display = '';
+    }, 400);
+    
+    const badge = document.getElementById('studentBadge');
+    badge.style.display = 'flex';
+    document.getElementById('badgeNome').textContent = 'Professor';
+    document.getElementById('badgeInfo').textContent = 'Acesso Total';
+    badge.style.borderColor = 'rgba(236,72,153,0.5)';
+  } else {
+    const erro = document.getElementById('professorError');
+    erro.style.display = 'block';
+    document.getElementById('inputSenhaProfessor').style.borderColor = 'rgba(239,68,68,0.6)';
+    setTimeout(() => {
+      document.getElementById('inputSenhaProfessor').style.borderColor = '';
+    }, 1500);
+  }
+}
+
+// Adicionar animação de saída e shake via CSS
+const extraStyles = document.createElement('style');
+extraStyles.textContent = `
+  @keyframes fadeOutOverlay {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-10px); }
+    40%       { transform: translateX(10px); }
+    60%       { transform: translateX(-8px); }
+    80%       { transform: translateX(8px); }
+  }
+`;
+document.head.appendChild(extraStyles);
+
+// Verificar se já há sessão ativa
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = sessionStorage.getItem('geolab_aluno');
+  if (saved) {
+    try {
+      const id = JSON.parse(saved);
+      document.getElementById('inputNome').value = id.nome;
+      popupState.ano = id.ano;
+      popupState.turma = id.turma;
+      // Auto-marcar chips salvos
+      ['ano','turma'].forEach(tipo => {
+        const val = id[tipo];
+        const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
+        if (grupo) {
+          grupo.querySelectorAll('.popup-chip').forEach(c => {
+            if (c.textContent.replace(' ✓','').includes(val)) c.classList.add('selected');
+          });
+        }
+      });
+    } catch(e) {}
+  }
+  
+  // Enter no campo de nome aciona entrar
+  document.getElementById('inputNome').addEventListener('keydown', e => {
+    if (e.key === 'Enter') entrarGeolab();
+  });
+  document.getElementById('inputSenhaProfessor').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verificarSenhaProfessor();
+  });
+});
 </script>
 </body>
 </html>
