@@ -965,6 +965,13 @@
       transform: translateY(3px);
     }
 
+    #addToolMainBtn:hover { background: #EDD9FF !important; border-color: var(--purple) !important; color: var(--purple-dark) !important; box-shadow: 0 5px 0 var(--purple-dark) !important; }
+    #addToolMainBtn:active { box-shadow: 0 0px 0 var(--purple-dark) !important; transform: translateY(5px); }
+    #additionalToolbar.open #addToolMainBtn .chev { transform: rotate(180deg); }
+    #additionalToolbar.open #addToolMenu { display: flex; }
+    #addToolMenu { position: absolute; left: 50%; transform: translateX(-50%); bottom: 70px; width: 220px; }
+    #addToolMenu .geo-item:hover { background: #EDD9FF !important; border-color: var(--purple-dark) !important; color: var(--purple-dark) !important; box-shadow: 0 3px 0 var(--purple-dark) !important; }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .sidebar-left {
@@ -1124,7 +1131,7 @@
         <div class="control-group" style="border: 2px solid var(--purple); background: #F9F0FF;">
           <h2 style="color: var(--purple-dark);">Reflexão — Eixo (Reta)</h2>
           <p style="font-size:0.75rem; color:var(--dark-gray); margin-bottom:10px; font-weight:700;">
-            Selecione uma reta de simetria criada no canvas.
+            Selecione uma reta.
           </p>
           <select id="symAxisSelect" onchange="setSymmetryAxisById(this.value)"
             style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid var(--light-gray);
@@ -1140,7 +1147,7 @@
 
           <h2 style="color: var(--purple-dark);">Reflexão — Ponto</h2>
           <p style="font-size:0.75rem; color:var(--dark-gray); margin-bottom:10px; font-weight:700;">
-            Selecione um ponto de simetria criado no canvas. Cada ponto P é mapeado em P' tal que o ponto de simetria é o ponto médio de PP'.
+            Selecione um ponto.
           </p>
           <select id="symPointSelect" onchange="setSymmetryPointById(this.value)"
             style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid var(--light-gray);
@@ -1168,25 +1175,40 @@
   <!-- ===== CANVAS PRINCIPAL ===== -->
   <main class="main-content" id="mainArea">
     <div class="instruction" id="instructionText">
-      Clique em "Figuras Geométricas" para começar
+      Clique em "NOVA FIGURA" para começar
     </div>
     <canvas id="canvas"></canvas>
     <div class="tooltip" id="tooltip"></div>
 
     <!-- Barra inferior de ferramentas -->
-    <div class="bottom-toolbar" id="bottomToolbar">
+    <div style="position:absolute; left:50%; bottom:24px; transform:translateX(-50%); z-index:25; display:flex; align-items:flex-end; gap:16px;">
+
+    <!-- Ferramentas adicionais -->
+    <div class="bottom-toolbar" id="additionalToolbar" style="position:relative; transform:none; left:auto; bottom:auto;">
+      <button class="geo-main-btn" id="addToolMainBtn" type="button" style="background:var(--white); color:var(--dark-gray); box-shadow:0 5px 0 var(--light-gray); border:2px solid var(--light-gray);">
+        <span class="dot" style="background:var(--purple); animation:pulse 2s infinite;"></span>
+        <span>Ferramentas Adicionais</span>
+        <span class="chev">▼</span>
+      </button>
+
+      <div class="geo-menu" id="addToolMenu">
+        <button class="geo-item" onclick="addSymmetryAxis(); additionalToolbar.classList.remove('open');" style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
+          <span class="left">↔ Reta</span>
+        </button>
+        <button class="geo-item" onclick="addSymmetryPointShape(); additionalToolbar.classList.remove('open');" style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
+          <span class="left">• Ponto</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra principal -->
+    <div class="bottom-toolbar" id="bottomToolbar" style="position:relative; transform:none; left:auto; bottom:auto;">
       <button class="geo-main-btn" id="geoMainBtn" type="button">
         <span>Figuras Geométricas</span>
         <span class="chev">▼</span>
       </button>
 
       <div class="geo-menu" id="geoMenu">
-        <button class="geo-item" onclick="addSymmetryAxis()" style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF;">
-          <span class="left">↔ Reta de Simetria</span>
-        </button>
-        <button class="geo-item" onclick="addSymmetryPointShape()" style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF;">
-          <span class="left">• Ponto de Simetria</span>
-        </button>
         <button class="geo-item" onclick="addPresetShape('circle')">
           <span class="left">Círculo</span>
         </button>
@@ -1206,7 +1228,8 @@
           <span class="left">Hexágono</span>
         </button>
       </div>
-    </div>
+    </div><!-- end bottomToolbar -->
+    </div><!-- end toolbar wrapper -->
   </main>
 
   <!-- ===== FLOATING LAYERS ===== -->
@@ -1294,18 +1317,31 @@ setTimeout(resizeCanvas, 100);
 /* ===================== MENU INFERIOR ===================== */
 const bottomToolbar = document.getElementById('bottomToolbar');
 const geoMainBtn = document.getElementById('geoMainBtn');
+const additionalToolbar = document.getElementById('additionalToolbar');
+const addToolMainBtn = document.getElementById('addToolMainBtn');
 
 function toggleGeoMenu(){
   bottomToolbar.classList.toggle('open');
+  additionalToolbar.classList.remove('open');
+}
+function toggleAddToolMenu(){
+  additionalToolbar.classList.toggle('open');
+  bottomToolbar.classList.remove('open');
 }
 geoMainBtn.addEventListener('click', (e)=>{
   e.stopPropagation();
   toggleGeoMenu();
 });
+addToolMainBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleAddToolMenu();
+});
 document.addEventListener('click', ()=>{
   bottomToolbar.classList.remove('open');
+  additionalToolbar.classList.remove('open');
 });
 document.getElementById('geoMenu').addEventListener('click', (e)=>e.stopPropagation());
+document.getElementById('addToolMenu').addEventListener('click', (e)=>e.stopPropagation());
 
 /* ===================== COORDENADAS ===================== */
 function screenToWorld(x, y){
@@ -1401,7 +1437,8 @@ function createNewLayer(){
   currentTool = 'polygon';
   mode = 'DRAWING';
   updateUI();
-  showInstruction(`Criando ${newShape.name}: Clique para adicionar vértices. Clique no primeiro ponto para fechar.`);
+  // Hide the welcome instruction permanently once user starts creating figures
+  hideInstruction();
 }
 
 function selectLayer(index){
@@ -1854,6 +1891,54 @@ let isPanning = false;
 let panStart = { x: 0, y: 0 };
 let panStartOffset = { x: 0, y: 0 };
 let draggingVertexIndex = -1; // index of vertex being dragged
+let edgeHoverInfo = null; // { edgeIndex, insertPoint } when hovering a polygon edge
+
+// Returns closest point on a line segment p1->p2 to point p
+function closestPointOnSegment(p, p1, p2) {
+  const dx = p2.x - p1.x, dy = p2.y - p1.y;
+  const lenSq = dx*dx + dy*dy;
+  if(lenSq === 0) return { x: p1.x, y: p1.y, t: 0 };
+  const t = Math.max(0, Math.min(1, ((p.x - p1.x)*dx + (p.y - p1.y)*dy) / lenSq));
+  return { x: p1.x + t*dx, y: p1.y + t*dy, t };
+}
+
+// Detects if mouseWorld is near an edge of the active closed polygon
+// Returns { edgeIndex, worldInsertPoint } or null
+function detectEdgeHover(sx, sy) {
+  if(activeIndex === -1) return null;
+  const s = shapes[activeIndex];
+  if(!s.isClosed || s.type !== SHAPE_TYPES.POLYGON || s.points.length < 3) return null;
+  const EDGE_HIT_PX = 10;
+  const transformed = getTransformedPoints(s);
+  const n = transformed.length;
+  let bestDist = Infinity, bestEdge = -1, bestPt = null;
+  for(let i = 0; i < n; i++){
+    const j = (i+1) % n;
+    const p1s = worldToScreen(transformed[i].x, transformed[i].y);
+    const p2s = worldToScreen(transformed[j].x, transformed[j].y);
+    const cp = closestPointOnSegment({x:sx,y:sy}, p1s, p2s);
+    const dist = Math.hypot(sx - cp.x, sy - cp.y);
+    if(dist < EDGE_HIT_PX && dist < bestDist) {
+      bestDist = dist;
+      bestEdge = i;
+      // Convert closest screen point back to world insert point
+      const worldCp = screenToWorld(cp.x, cp.y);
+      // Invert transform to local space
+      const ax = s.anchor.x, ay = s.anchor.y;
+      const angle = -(s.rotation * Math.PI / 180);
+      const cosA = Math.cos(angle), sinA = Math.sin(angle);
+      const scaleX = s.scale * (s.reflectX ? -1 : 1);
+      const scaleY = s.scale * (s.reflectY ? -1 : 1);
+      const wx = worldCp.x - s.tx - ax;
+      const wy = worldCp.y - s.ty - ay;
+      const rx = wx * cosA - wy * sinA;
+      const ry = wx * sinA + wy * cosA;
+      bestPt = { x: rx / scaleX + ax, y: ry / scaleY + ay };
+    }
+  }
+  if(bestEdge === -1) return null;
+  return { edgeIndex: bestEdge, localInsertPoint: bestPt };
+}
 
 canvas.addEventListener('mousedown', (e)=>{
   const rect = canvas.getBoundingClientRect();
@@ -1892,6 +1977,15 @@ canvas.addEventListener('mousedown', (e)=>{
           return;
         }
       }
+    }
+
+    // Check edge click to insert vertex on closed polygon
+    if(edgeHoverInfo && s.isClosed && s.type === SHAPE_TYPES.POLYGON) {
+      const newPt = { ...edgeHoverInfo.localInsertPoint, label: nextVertexLabel() };
+      s.points.splice(edgeHoverInfo.edgeIndex + 1, 0, newPt);
+      edgeHoverInfo = null;
+      draw();
+      return;
     }
 
     const anchorScreen = worldToScreen(s.anchor.x + s.tx, s.anchor.y + s.ty);
@@ -2036,26 +2130,35 @@ canvas.addEventListener('mousemove', (e)=>{
     }
 
     if(overVertex){
+      edgeHoverInfo = null;
       canvas.style.cursor = 'grab';
     } else {
-      // Check if hovering inside shape body
-      let overShape = false;
-      const mw = mouseWorld;
-      if(s.type === SHAPE_TYPES.CIRCLE){
-        const cx = s.points[0].x + s.tx;
-        const cy = s.points[0].y + s.ty;
-        overShape = Math.hypot(mw.x - cx, mw.y - cy) <= s.radius * s.scale;
-      } else if(transformed.length >= 3){
-        let inside = false;
-        for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
-          const xi = transformed[i].x, yi = transformed[i].y;
-          const xj = transformed[j].x, yj = transformed[j].y;
-          if(((yi > mw.y) !== (yj > mw.y)) && (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi))
-            inside = !inside;
+      // Check edge hover for closed polygons
+      const edgeHit = detectEdgeHover(sx, sy);
+      edgeHoverInfo = edgeHit;
+
+      if(edgeHit) {
+        canvas.style.cursor = 'cell'; // "+" cursor indicating add vertex
+      } else {
+        // Check if hovering inside shape body
+        let overShape = false;
+        const mw = mouseWorld;
+        if(s.type === SHAPE_TYPES.CIRCLE){
+          const cx = s.points[0].x + s.tx;
+          const cy = s.points[0].y + s.ty;
+          overShape = Math.hypot(mw.x - cx, mw.y - cy) <= s.radius * s.scale;
+        } else if(transformed.length >= 3){
+          let inside = false;
+          for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
+            const xi = transformed[i].x, yi = transformed[i].y;
+            const xj = transformed[j].x, yj = transformed[j].y;
+            if(((yi > mw.y) !== (yj > mw.y)) && (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi))
+              inside = !inside;
+          }
+          overShape = inside;
         }
-        overShape = inside;
+        canvas.style.cursor = overShape ? 'move' : 'default';
       }
-      canvas.style.cursor = overShape ? 'move' : 'default';
     }
   } else if(mode === 'DRAWING'){
     canvas.style.cursor = 'crosshair';
@@ -2143,6 +2246,7 @@ canvas.addEventListener('mouseup', (e)=>{
   if(mode === 'DRAGGING_ANCHOR' || mode === 'DRAGGING_SHAPE'){
     mode = 'IDLE';
   }
+  edgeHoverInfo = null;
 });
 
 canvas.addEventListener('mouseleave', ()=>{
@@ -2240,6 +2344,42 @@ function draw(){
     ctx.fillStyle = '#1CB0F6';
     ctx.fill();
     ctx.restore();
+  }
+
+  // Edge hover indicator — green "+" dot showing where new vertex will be inserted
+  if(edgeHoverInfo && mode === 'IDLE') {
+    const pt = edgeHoverInfo.localInsertPoint;
+    if(pt && activeIndex !== -1) {
+      const s = shapes[activeIndex];
+      // Transform the local insert point to world coords for drawing
+      const ax = s.anchor.x, ay = s.anchor.y;
+      const angle = s.rotation * Math.PI / 180;
+      const cosA = Math.cos(angle), sinA = Math.sin(angle);
+      const scaleX = s.scale * (s.reflectX ? -1 : 1);
+      const scaleY = s.scale * (s.reflectY ? -1 : 1);
+      const lx = pt.x - ax, ly = pt.y - ay;
+      const sx2 = lx * scaleX, sy2 = ly * scaleY;
+      const rx = sx2 * cosA - sy2 * sinA + ax + s.tx;
+      const ry = sx2 * sinA + sy2 * cosA + ay + s.ty;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(rx, ry, 7/view.scale, 0, Math.PI*2);
+      ctx.fillStyle = '#58CC02';
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2/view.scale;
+      ctx.stroke();
+      // Draw "+" symbol
+      ctx.beginPath();
+      ctx.moveTo(rx - 4/view.scale, ry);
+      ctx.lineTo(rx + 4/view.scale, ry);
+      ctx.moveTo(rx, ry - 4/view.scale);
+      ctx.lineTo(rx, ry + 4/view.scale);
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1.5/view.scale;
+      ctx.stroke();
+      ctx.restore();
+    }
   }
 
   ctx.restore();
