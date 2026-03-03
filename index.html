@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -106,7 +107,10 @@
       margin-top: 12px;
     }
 
-    #badgeNome { font-weight: 900; color: var(--green-shadow); }
+    #badgeNome {
+      font-weight: 900;
+      color: var(--green-shadow);
+    }
 
     .scroll-area {
       flex: 1;
@@ -118,8 +122,14 @@
       flex-direction: column;
     }
 
-    .scroll-area::-webkit-scrollbar { width: 4px; }
-    .scroll-area::-webkit-scrollbar-thumb { background: var(--light-gray); border-radius: 2px; }
+    .scroll-area::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .scroll-area::-webkit-scrollbar-thumb {
+      background: var(--light-gray);
+      border-radius: 2px;
+    }
 
     /* ===== SECTION HEADERS ===== */
     h2 {
@@ -145,7 +155,7 @@
       border-color: var(--green);
     }
 
-    .control-group > * + * {
+    .control-group>*+* {
       margin-top: 4px;
     }
 
@@ -201,8 +211,15 @@
       box-shadow: 0 4px 0 var(--green-shadow);
       border: none;
     }
-    .btn-primary:hover { background: var(--green-dark); }
-    .btn-primary:active { box-shadow: 0 0px 0 var(--green-shadow); transform: translateY(4px); }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+    }
+
+    .btn-primary:active {
+      box-shadow: 0 0px 0 var(--green-shadow);
+      transform: translateY(4px);
+    }
 
     .btn-danger {
       background: var(--red);
@@ -210,8 +227,15 @@
       box-shadow: 0 4px 0 var(--red-shadow);
       border: none;
     }
-    .btn-danger:hover { background: var(--red-dark); }
-    .btn-danger:active { box-shadow: 0 0px 0 var(--red-shadow); transform: translateY(4px); }
+
+    .btn-danger:hover {
+      background: var(--red-dark);
+    }
+
+    .btn-danger:active {
+      box-shadow: 0 0px 0 var(--red-shadow);
+      transform: translateY(4px);
+    }
 
     .btn-success {
       background: var(--green);
@@ -220,8 +244,15 @@
       border: none;
       font-size: 0.9rem;
     }
-    .btn-success:hover { background: var(--green-dark); }
-    .btn-success:active { box-shadow: 0 0px 0 var(--green-shadow); transform: translateY(4px); }
+
+    .btn-success:hover {
+      background: var(--green-dark);
+    }
+
+    .btn-success:active {
+      box-shadow: 0 0px 0 var(--green-shadow);
+      transform: translateY(4px);
+    }
 
     .btn-anim {
       background: var(--blue);
@@ -233,8 +264,16 @@
       justify-content: center;
       gap: 6px;
     }
-    .btn-anim:hover { background: var(--blue-dark); }
-    .btn-anim:active { box-shadow: 0 0px 0 var(--blue-shadow); transform: translateY(4px); }
+
+    .btn-anim:hover {
+      background: var(--blue-dark);
+    }
+
+    .btn-anim:active {
+      box-shadow: 0 0px 0 var(--blue-shadow);
+      transform: translateY(4px);
+    }
+
     .btn-anim.active {
       background: var(--blue-dark);
       box-shadow: 0 0px 0 var(--blue-shadow);
@@ -247,13 +286,19 @@
       border: 2px solid var(--light-gray);
       box-shadow: 0 4px 0 var(--light-gray);
     }
+
     .btn-toggle:hover {
       background: #E8F9D9;
       border-color: var(--green);
       color: var(--green-dark);
       box-shadow: 0 4px 0 var(--green-shadow);
     }
-    .btn-toggle:active { box-shadow: 0 0px 0 var(--light-gray); transform: translateY(4px); }
+
+    .btn-toggle:active {
+      box-shadow: 0 0px 0 var(--light-gray);
+      transform: translateY(4px);
+    }
+
     .btn-toggle.active {
       background: var(--purple);
       color: white;
@@ -335,8 +380,15 @@
       box-shadow: 0 3px 0 var(--green-shadow);
       border: none;
     }
-    .speed-btn:hover { background: var(--green-dark); }
-    .speed-btn:active { box-shadow: 0 0 0 var(--green-shadow); transform: translateY(3px); }
+
+    .speed-btn:hover {
+      background: var(--green-dark);
+    }
+
+    .speed-btn:active {
+      box-shadow: 0 0 0 var(--green-shadow);
+      transform: translateY(3px);
+    }
 
     .speed-txt {
       font-size: 0.75rem;
@@ -357,7 +409,7 @@
       z-index: 30;
       max-height: 80vh;
       overflow-y: auto;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     }
 
     .layers-title {
@@ -445,8 +497,15 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-4px); }
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(-4px);
+      }
     }
 
     /* ===== BOTTOM TOOLBAR ===== */
@@ -480,7 +539,10 @@
       margin-bottom: 0;
     }
 
-    .geo-main-btn:hover { background: var(--green-dark); }
+    .geo-main-btn:hover {
+      background: var(--green-dark);
+    }
+
     .geo-main-btn:active {
       box-shadow: 0 0 0 var(--green-shadow);
       transform: translateY(5px);
@@ -496,8 +558,17 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.3); opacity: 1; }
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
     }
 
     .geo-main-btn .chev {
@@ -507,7 +578,9 @@
       opacity: 0.8;
     }
 
-    .bottom-toolbar.open .geo-main-btn .chev { transform: rotate(180deg); }
+    .bottom-toolbar.open .geo-main-btn .chev {
+      transform: rotate(180deg);
+    }
 
     .geo-menu {
       position: absolute;
@@ -518,7 +591,7 @@
       background: var(--white);
       border: 2px solid var(--light-gray);
       border-radius: var(--border-radius-lg);
-      box-shadow: 0 8px 0 var(--light-gray), 0 16px 40px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 0 var(--light-gray), 0 16px 40px rgba(0, 0, 0, 0.15);
       padding: 12px;
       display: none;
       flex-direction: column;
@@ -529,11 +602,20 @@
     }
 
     @keyframes slideUp {
-      from { opacity: 0; transform: translateX(-50%) translateY(15px) scale(0.95); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(15px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
     }
 
-    .bottom-toolbar.open .geo-menu { display: flex; }
+    .bottom-toolbar.open .geo-menu {
+      display: flex;
+    }
 
     .geo-item {
       width: 100%;
@@ -602,8 +684,15 @@
     }
 
     @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
     }
 
     #emptyStateMsg p {
@@ -650,7 +739,7 @@
     #popupOverlay {
       position: fixed;
       inset: 0;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(8px);
       z-index: 9999;
       display: flex;
@@ -660,8 +749,13 @@
     }
 
     @keyframes fadeInOverlay {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     #popupBox {
@@ -670,15 +764,22 @@
       background: var(--white);
       border: 3px solid var(--light-gray);
       border-radius: 28px;
-      box-shadow: 0 8px 0 var(--light-gray), 0 24px 60px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 0 var(--light-gray), 0 24px 60px rgba(0, 0, 0, 0.12);
       padding: 40px 36px 32px;
       position: relative;
       animation: popupIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     @keyframes popupIn {
-      from { opacity: 0; transform: scale(0.85) translateY(30px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      from {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     .popup-header {
@@ -700,7 +801,9 @@
       letter-spacing: -1px;
     }
 
-    .popup-title span { color: var(--green); }
+    .popup-title span {
+      color: var(--green);
+    }
 
     .popup-tagline {
       font-size: 0.85rem;
@@ -847,7 +950,10 @@
       margin-bottom: 0;
     }
 
-    .btn-popup-enter:hover { background: var(--green-dark); }
+    .btn-popup-enter:hover {
+      background: var(--green-dark);
+    }
+
     .btn-popup-enter:active {
       box-shadow: 0 0 0 var(--green-shadow);
       transform: translateY(5px);
@@ -895,7 +1001,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      background: rgba(255,255,255,0.85);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(8px);
     }
 
@@ -911,7 +1017,7 @@
       border: 3px solid var(--orange);
       border-radius: 24px;
       padding: 36px 32px;
-      box-shadow: 0 8px 0 var(--orange-dark), 0 24px 60px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 0 var(--orange-dark), 0 24px 60px rgba(0, 0, 0, 0.1);
       animation: popupIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
     }
@@ -965,12 +1071,263 @@
       transform: translateY(3px);
     }
 
-    #addToolMainBtn:hover { background: #EDD9FF !important; border-color: var(--purple) !important; color: var(--purple-dark) !important; box-shadow: 0 5px 0 var(--purple-dark) !important; }
-    #addToolMainBtn:active { box-shadow: 0 0px 0 var(--purple-dark) !important; transform: translateY(5px); }
-    #additionalToolbar.open #addToolMainBtn .chev { transform: rotate(180deg); }
-    #additionalToolbar.open #addToolMenu { display: flex; }
-    #addToolMenu { position: absolute; left: 50%; transform: translateX(-50%); bottom: 70px; width: 220px; }
-    #addToolMenu .geo-item:hover { background: #EDD9FF !important; border-color: var(--purple-dark) !important; color: var(--purple-dark) !important; box-shadow: 0 3px 0 var(--purple-dark) !important; }
+    #addToolMainBtn:hover {
+      background: #EDD9FF !important;
+      border-color: var(--purple) !important;
+      color: var(--purple-dark) !important;
+      box-shadow: 0 5px 0 var(--purple-dark) !important;
+    }
+
+    #addToolMainBtn:active {
+      box-shadow: 0 0px 0 var(--purple-dark) !important;
+      transform: translateY(5px);
+    }
+
+    #additionalToolbar.open #addToolMainBtn .chev {
+      transform: rotate(180deg);
+    }
+
+    #additionalToolbar.open #addToolMenu {
+      display: flex;
+    }
+
+    #addToolMenu {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 70px;
+      width: 220px;
+    }
+
+    #addToolMenu .geo-item:hover {
+      background: #EDD9FF !important;
+      border-color: var(--purple-dark) !important;
+      color: var(--purple-dark) !important;
+      box-shadow: 0 3px 0 var(--purple-dark) !important;
+    }
+
+    /* ===== TUTORIAL POPUP OVERLAY ===== */
+    #tutorialOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      z-index: 10001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInOverlay 0.4s ease;
+    }
+
+    #tutorialOverlay.visible {
+      display: flex;
+    }
+
+    .tutorial-popup {
+      width: 520px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--white);
+      border: 3px solid var(--light-gray);
+      border-radius: 28px;
+      box-shadow: 0 8px 0 var(--light-gray), 0 24px 60px rgba(0, 0, 0, 0.12);
+      padding: 40px 36px 32px;
+      position: relative;
+      animation: popupIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: none;
+    }
+
+    .tutorial-popup.active {
+      display: block;
+    }
+
+    .tutorial-popup .tutorial-step-indicator {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .tutorial-popup .tutorial-step-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .tutorial-popup .tutorial-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--light-gray);
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .tutorial-popup .tutorial-dot.active {
+      transform: scale(1.3);
+    }
+
+    .tutorial-popup .tutorial-title {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+
+    .tutorial-popup .tutorial-image-box {
+      width: 100%;
+      height: 200px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .tutorial-popup .tutorial-image-box svg {
+      width: 260px;
+      height: 180px;
+    }
+
+    .tutorial-popup .tutorial-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 28px;
+      text-align: left;
+    }
+
+    .tutorial-popup .tutorial-divider {
+      height: 2px;
+      background: var(--light-gray);
+      border-radius: 1px;
+      margin: 0 0 24px;
+    }
+
+    /* Each popup has a unique accent color */
+    .tutorial-popup[data-step="0"] .tutorial-title {
+      color: #1CB0F6;
+    }
+
+    .tutorial-popup[data-step="0"] .tutorial-image-box {
+      background: #EBF7FF;
+    }
+
+    .tutorial-popup[data-step="0"] .tutorial-dot.active {
+      background: #1CB0F6;
+    }
+
+    .tutorial-popup[data-step="0"] .btn-tutorial-confirm {
+      background: #1CB0F6;
+      box-shadow: 0 5px 0 #0A6FA0;
+    }
+
+    .tutorial-popup[data-step="0"] .btn-tutorial-confirm:hover {
+      background: #0F8EC4;
+    }
+
+    .tutorial-popup[data-step="0"] .btn-tutorial-confirm:active {
+      box-shadow: 0 0 0 #0A6FA0;
+    }
+
+    .tutorial-popup[data-step="1"] .tutorial-title {
+      color: #58CC02;
+    }
+
+    .tutorial-popup[data-step="1"] .tutorial-image-box {
+      background: #EEFBE5;
+    }
+
+    .tutorial-popup[data-step="1"] .tutorial-dot.active {
+      background: #58CC02;
+    }
+
+    .tutorial-popup[data-step="1"] .btn-tutorial-confirm {
+      background: #58CC02;
+      box-shadow: 0 5px 0 #3D8A00;
+    }
+
+    .tutorial-popup[data-step="1"] .btn-tutorial-confirm:hover {
+      background: #46A302;
+    }
+
+    .tutorial-popup[data-step="1"] .btn-tutorial-confirm:active {
+      box-shadow: 0 0 0 #3D8A00;
+    }
+
+    .tutorial-popup[data-step="2"] .tutorial-title {
+      color: #CE82FF;
+    }
+
+    .tutorial-popup[data-step="2"] .tutorial-image-box {
+      background: #F5ECFF;
+    }
+
+    .tutorial-popup[data-step="2"] .tutorial-dot.active {
+      background: #CE82FF;
+    }
+
+    .tutorial-popup[data-step="2"] .btn-tutorial-confirm {
+      background: #CE82FF;
+      box-shadow: 0 5px 0 #9C3FA6;
+    }
+
+    .tutorial-popup[data-step="2"] .btn-tutorial-confirm:hover {
+      background: #B566E8;
+    }
+
+    .tutorial-popup[data-step="2"] .btn-tutorial-confirm:active {
+      box-shadow: 0 0 0 #9C3FA6;
+    }
+
+    .tutorial-popup[data-step="3"] .tutorial-title {
+      color: #FF9600;
+    }
+
+    .tutorial-popup[data-step="3"] .tutorial-image-box {
+      background: #FFF5E5;
+    }
+
+    .tutorial-popup[data-step="3"] .tutorial-dot.active {
+      background: #FF9600;
+    }
+
+    .tutorial-popup[data-step="3"] .btn-tutorial-confirm {
+      background: #FF9600;
+      box-shadow: 0 5px 0 #C47400;
+    }
+
+    .tutorial-popup[data-step="3"] .btn-tutorial-confirm:hover {
+      background: #D07B00;
+    }
+
+    .tutorial-popup[data-step="3"] .btn-tutorial-confirm:active {
+      box-shadow: 0 0 0 #C47400;
+    }
+
+    .btn-tutorial-confirm {
+      width: 100%;
+      padding: 16px;
+      border-radius: 14px;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: 900;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0;
+    }
+
+    .btn-tutorial-confirm:active {
+      transform: translateY(5px);
+    }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
@@ -980,8 +1337,28 @@
         height: 100%;
         z-index: 50;
       }
-      .sidebar-left.open { transform: translateX(0); }
-      .floating-layers { width: 170px; right: 10px; top: 10px; }
+
+      .sidebar-left.open {
+        transform: translateX(0);
+      }
+
+      .floating-layers {
+        width: 170px;
+        right: 10px;
+        top: 10px;
+      }
+
+      .tutorial-popup {
+        padding: 28px 20px 24px;
+      }
+
+      .tutorial-popup .tutorial-title {
+        font-size: 1.5rem;
+      }
+
+      .tutorial-popup .tutorial-text {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
@@ -999,7 +1376,8 @@
 
       <div class="popup-field">
         <label>Qual é o seu nome?</label>
-        <input type="text" id="inputNome" class="popup-input" placeholder="Digite seu nome completo..." autocomplete="off" />
+        <input type="text" id="inputNome" class="popup-input" placeholder="Digite seu nome completo..."
+          autocomplete="off" />
       </div>
 
       <div class="popup-field">
@@ -1049,6 +1427,168 @@
     </div>
   </div>
 
+  <!-- ===== TUTORIAL POPUPS OVERLAY ===== -->
+  <div id="tutorialOverlay">
+    <!-- Popup 1: Translação -->
+    <div class="tutorial-popup" data-step="0">
+      <div class="tutorial-step-indicator">
+        <div class="tutorial-step-dots">
+          <div class="tutorial-dot active"></div>
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot"></div>
+        </div>
+      </div>
+      <div class="tutorial-title">Translação</div>
+      <div class="tutorial-image-box">
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Original triangle -->
+          <polygon points="40,130 80,60 120,130" fill="#1CB0F633" stroke="#1CB0F6" stroke-width="2.5"
+            stroke-linejoin="round" />
+          <text x="80" y="150" text-anchor="middle" font-size="11" fill="#0A6FA0" font-weight="700"
+            font-family="Nunito,sans-serif">Original</text>
+          <!-- Arrow -->
+          <line x1="128" y1="95" x2="148" y2="95" stroke="#1CB0F6" stroke-width="2" stroke-dasharray="4 3" />
+          <polygon points="148,90 158,95 148,100" fill="#1CB0F6" />
+          <!-- Translated triangle -->
+          <polygon points="160,130 200,60 240,130" fill="#1CB0F644" stroke="#1CB0F6" stroke-width="2.5"
+            stroke-linejoin="round" stroke-dasharray="6 3" />
+          <text x="200" y="150" text-anchor="middle" font-size="11" fill="#0A6FA0" font-weight="700"
+            font-family="Nunito,sans-serif">Transladada</text>
+        </svg>
+      </div>
+      <div class="tutorial-divider"></div>
+      <div class="tutorial-text">
+        A <strong>translação</strong> é uma transformação geométrica que desloca todos os pontos de uma figura na mesma
+        direção e sentido, mantendo a mesma distância. A forma e o tamanho da figura não mudam — ela apenas muda de
+        posição no plano.
+      </div>
+      <button type="button" class="btn-tutorial-confirm" onclick="nextTutorialStep()">Confirmar leitura</button>
+    </div>
+
+    <!-- Popup 2: Rotação -->
+    <div class="tutorial-popup" data-step="1">
+      <div class="tutorial-step-indicator">
+        <div class="tutorial-step-dots">
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot active"></div>
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot"></div>
+        </div>
+      </div>
+      <div class="tutorial-title">Rotação</div>
+      <div class="tutorial-image-box">
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Center point -->
+          <circle cx="130" cy="100" r="4" fill="#3D8A00" />
+          <text x="130" y="125" text-anchor="middle" font-size="10" fill="#3D8A00" font-weight="700"
+            font-family="Nunito,sans-serif">Centro</text>
+          <!-- Original triangle -->
+          <polygon points="130,40 160,80 100,80" fill="#58CC0233" stroke="#58CC02" stroke-width="2.5"
+            stroke-linejoin="round" />
+          <!-- Rotated triangle -->
+          <polygon points="170,100 140,140 180,140" fill="#58CC0244" stroke="#58CC02" stroke-width="2.5"
+            stroke-linejoin="round" stroke-dasharray="6 3" />
+          <!-- Curved arrow -->
+          <path d="M155,55 Q185,70 178,105" stroke="#58CC02" stroke-width="2" fill="none" stroke-dasharray="4 3" />
+          <polygon points="175,100 182,108 172,108" fill="#58CC02" />
+          <text x="192" y="78" font-size="12" fill="#3D8A00" font-weight="800"
+            font-family="Nunito,sans-serif">90°</text>
+        </svg>
+      </div>
+      <div class="tutorial-divider"></div>
+      <div class="tutorial-text">
+        A <strong>rotação</strong> é uma transformação geométrica que gira uma figura ao redor de um ponto fixo chamado
+        centro de rotação. A figura mantém seu tamanho e forma, mas muda de orientação de acordo com o ângulo escolhido.
+      </div>
+      <button type="button" class="btn-tutorial-confirm" onclick="nextTutorialStep()">Confirmar leitura</button>
+    </div>
+
+    <!-- Popup 3: Simetria -->
+    <div class="tutorial-popup" data-step="2">
+      <div class="tutorial-step-indicator">
+        <div class="tutorial-step-dots">
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot active"></div>
+          <div class="tutorial-dot"></div>
+        </div>
+      </div>
+      <div class="tutorial-title">Simetria</div>
+      <div class="tutorial-image-box">
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Axis of symmetry -->
+          <line x1="130" y1="20" x2="130" y2="165" stroke="#9C3FA6" stroke-width="2" stroke-dasharray="6 4" />
+          <text x="130" y="178" text-anchor="middle" font-size="10" fill="#9C3FA6" font-weight="700"
+            font-family="Nunito,sans-serif">Eixo de simetria</text>
+          <!-- Original shape (left) -->
+          <polygon points="50,130 70,50 110,80 110,130" fill="#CE82FF33" stroke="#CE82FF" stroke-width="2.5"
+            stroke-linejoin="round" />
+          <!-- Reflected shape (right) -->
+          <polygon points="210,130 190,50 150,80 150,130" fill="#CE82FF44" stroke="#CE82FF" stroke-width="2.5"
+            stroke-linejoin="round" stroke-dasharray="6 3" />
+          <!-- Connection lines -->
+          <line x1="70" y1="50" x2="190" y2="50" stroke="#CE82FF" stroke-width="1" stroke-dasharray="3 3"
+            opacity="0.5" />
+          <line x1="110" y1="80" x2="150" y2="80" stroke="#CE82FF" stroke-width="1" stroke-dasharray="3 3"
+            opacity="0.5" />
+        </svg>
+      </div>
+      <div class="tutorial-divider"></div>
+      <div class="tutorial-text">
+        A <strong>simetria</strong> (ou reflexão) é uma transformação geométrica que cria uma imagem espelhada de uma
+        figura em relação a um eixo. A figura refletida é idêntica à original, mas com orientação invertida, como uma
+        imagem vista no espelho.
+      </div>
+      <button type="button" class="btn-tutorial-confirm" onclick="nextTutorialStep()">Confirmar leitura</button>
+    </div>
+
+    <!-- Popup 4: Homotetia -->
+    <div class="tutorial-popup" data-step="3">
+      <div class="tutorial-step-indicator">
+        <div class="tutorial-step-dots">
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot"></div>
+          <div class="tutorial-dot active"></div>
+        </div>
+      </div>
+      <div class="tutorial-title">Homotetia</div>
+      <div class="tutorial-image-box">
+        <svg viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Center point -->
+          <circle cx="40" cy="140" r="4" fill="#C47400" />
+          <text x="40" y="158" text-anchor="middle" font-size="10" fill="#C47400" font-weight="700"
+            font-family="Nunito,sans-serif">Centro</text>
+          <!-- Small triangle -->
+          <polygon points="80,120 100,80 120,120" fill="#FF960033" stroke="#FF9600" stroke-width="2.5"
+            stroke-linejoin="round" />
+          <text x="100" y="136" text-anchor="middle" font-size="9" fill="#C47400" font-weight="700"
+            font-family="Nunito,sans-serif">Original</text>
+          <!-- Lines from center through vertices -->
+          <line x1="40" y1="140" x2="200" y2="100" stroke="#FF9600" stroke-width="1" stroke-dasharray="4 3"
+            opacity="0.4" />
+          <line x1="40" y1="140" x2="160" y2="20" stroke="#FF9600" stroke-width="1" stroke-dasharray="4 3"
+            opacity="0.4" />
+          <line x1="40" y1="140" x2="240" y2="100" stroke="#FF9600" stroke-width="1" stroke-dasharray="4 3"
+            opacity="0.4" />
+          <!-- Large triangle -->
+          <polygon points="140,100 180,20 220,100" fill="#FF960022" stroke="#FF9600" stroke-width="2.5"
+            stroke-linejoin="round" stroke-dasharray="6 3" />
+          <text x="180" y="116" text-anchor="middle" font-size="9" fill="#C47400" font-weight="700"
+            font-family="Nunito,sans-serif">Ampliada</text>
+        </svg>
+      </div>
+      <div class="tutorial-divider"></div>
+      <div class="tutorial-text">
+        A <strong>homotetia</strong> é uma transformação geométrica que amplia ou reduz uma figura a partir de um ponto
+        fixo chamado centro de homotetia. A forma da figura é preservada, mas seu tamanho muda de acordo com a razão de
+        ampliação ou redução aplicada.
+      </div>
+      <button type="button" class="btn-tutorial-confirm" onclick="nextTutorialStep()">Confirmar leitura</button>
+    </div>
+  </div>
+
   <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar-left">
     <div class="header-box">
@@ -1066,10 +1606,12 @@
     <div class="scroll-area" id="controlsPanel">
 
       <!-- Empty state shown when no figure is selected -->
-      <div id="emptyStateMsg" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; padding:40px 20px; text-align:center; min-height:300px;">
+      <div id="emptyStateMsg"
+        style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; padding:40px 20px; text-align:center; min-height:300px;">
         <div style="font-size:3rem; opacity:0.1; margin-bottom:20px; line-height:1; font-weight:900;">◻</div>
         <p style="font-weight:800; color:var(--medium-gray); font-size:0.9rem;">Nenhuma figura selecionada</p>
-        <p style="font-size:0.78rem; margin-top:8px; font-weight:600; color:#C8C8C8;">Crie uma figura para ver as opções</p>
+        <p style="font-size:0.78rem; margin-top:8px; font-weight:600; color:#C8C8C8;">Crie uma figura para ver as opções
+        </p>
       </div>
 
       <!-- Controls shown when a figure is selected and closed -->
@@ -1133,13 +1675,13 @@
           <p style="font-size:0.75rem; color:var(--dark-gray); margin-bottom:10px; font-weight:700;">
             Selecione uma reta.
           </p>
-          <select id="symAxisSelect" onchange="setSymmetryAxisById(this.value)"
-            style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid var(--light-gray);
+          <select id="symAxisSelect" onchange="setSymmetryAxisById(this.value)" style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid var(--light-gray);
                    font-family:var(--font); font-weight:700; font-size:0.82rem; background:var(--white);
                    color:var(--text); cursor:pointer; outline:none; margin-bottom:6px;">
             <option value="">— Nenhuma —</option>
           </select>
-          <div id="symAxisInfo" style="display:none; margin-bottom:4px; background:var(--white); border:2px solid var(--purple); border-radius:10px; padding:7px 10px; font-size:0.73rem; font-weight:700; color:var(--purple-dark); text-align:center;">
+          <div id="symAxisInfo"
+            style="display:none; margin-bottom:4px; background:var(--white); border:2px solid var(--purple); border-radius:10px; padding:7px 10px; font-size:0.73rem; font-weight:700; color:var(--purple-dark); text-align:center;">
             ✦ Reflexão em reta ativa
           </div>
 
@@ -1149,13 +1691,13 @@
           <p style="font-size:0.75rem; color:var(--dark-gray); margin-bottom:10px; font-weight:700;">
             Selecione um ponto.
           </p>
-          <select id="symPointSelect" onchange="setSymmetryPointById(this.value)"
-            style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid var(--light-gray);
+          <select id="symPointSelect" onchange="setSymmetryPointById(this.value)" style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid var(--light-gray);
                    font-family:var(--font); font-weight:700; font-size:0.82rem; background:var(--white);
                    color:var(--text); cursor:pointer; outline:none; margin-bottom:6px;">
             <option value="">— Nenhum —</option>
           </select>
-          <div id="symPointInfo" style="display:none; background:var(--white); border:2px solid var(--purple); border-radius:10px; padding:7px 10px; font-size:0.73rem; font-weight:700; color:var(--purple-dark); text-align:center;">
+          <div id="symPointInfo"
+            style="display:none; background:var(--white); border:2px solid var(--purple); border-radius:10px; padding:7px 10px; font-size:0.73rem; font-weight:700; color:var(--purple-dark); text-align:center;">
             ✦ Reflexão em ponto ativa
           </div>
         </div>
@@ -1181,352 +1723,358 @@
     <div class="tooltip" id="tooltip"></div>
 
     <!-- Barra inferior de ferramentas -->
-    <div style="position:absolute; left:50%; bottom:24px; transform:translateX(-50%); z-index:25; display:flex; align-items:flex-end; gap:16px;">
+    <div
+      style="position:absolute; left:50%; bottom:24px; transform:translateX(-50%); z-index:25; display:flex; align-items:flex-end; gap:16px;">
 
-    <!-- Ferramentas adicionais -->
-    <div class="bottom-toolbar" id="additionalToolbar" style="position:relative; transform:none; left:auto; bottom:auto;">
-      <button class="geo-main-btn" id="addToolMainBtn" type="button" style="background:var(--white); color:var(--dark-gray); box-shadow:0 5px 0 var(--light-gray); border:2px solid var(--light-gray);">
-        <span class="dot" style="background:var(--purple); animation:pulse 2s infinite;"></span>
-        <span>Ferramentas Adicionais</span>
-        <span class="chev">▼</span>
-      </button>
+      <!-- Ferramentas adicionais -->
+      <div class="bottom-toolbar" id="additionalToolbar"
+        style="position:relative; transform:none; left:auto; bottom:auto;">
+        <button class="geo-main-btn" id="addToolMainBtn" type="button"
+          style="background:var(--white); color:var(--dark-gray); box-shadow:0 5px 0 var(--light-gray); border:2px solid var(--light-gray);">
+          <span class="dot" style="background:var(--purple); animation:pulse 2s infinite;"></span>
+          <span>Ferramentas Adicionais</span>
+          <span class="chev">▼</span>
+        </button>
 
-      <div class="geo-menu" id="addToolMenu">
-        <button class="geo-item" onclick="addSymmetryAxis(); additionalToolbar.classList.remove('open');" style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
-          <span class="left">↔ Reta</span>
-        </button>
-        <button class="geo-item" onclick="addSymmetryPointShape(); additionalToolbar.classList.remove('open');" style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
-          <span class="left">• Ponto</span>
-        </button>
+        <div class="geo-menu" id="addToolMenu">
+          <button class="geo-item" onclick="addSymmetryAxis(); additionalToolbar.classList.remove('open');"
+            style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
+            <span class="left">↔ Reta</span>
+          </button>
+          <button class="geo-item" onclick="addSymmetryPointShape(); additionalToolbar.classList.remove('open');"
+            style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
+            <span class="left">• Ponto</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- Barra principal -->
-    <div class="bottom-toolbar" id="bottomToolbar" style="position:relative; transform:none; left:auto; bottom:auto;">
-      <button class="geo-main-btn" id="geoMainBtn" type="button">
-        <span>Figuras Geométricas</span>
-        <span class="chev">▼</span>
-      </button>
+      <!-- Barra principal -->
+      <div class="bottom-toolbar" id="bottomToolbar" style="position:relative; transform:none; left:auto; bottom:auto;">
+        <button class="geo-main-btn" id="geoMainBtn" type="button">
+          <span>Figuras Geométricas</span>
+          <span class="chev">▼</span>
+        </button>
 
-      <div class="geo-menu" id="geoMenu">
-        <button class="geo-item" onclick="addPresetShape('circle')">
-          <span class="left">Círculo</span>
-        </button>
-        <button class="geo-item" onclick="addPresetShape('triangle')">
-          <span class="left">Triângulo</span>
-        </button>
-        <button class="geo-item" onclick="addPresetShape('square')">
-          <span class="left">Quadrado</span>
-        </button>
-        <button class="geo-item" onclick="addPresetShape('rect')">
-          <span class="left">Retângulo</span>
-        </button>
-        <button class="geo-item" onclick="addPresetShape('pent')">
-          <span class="left">Pentágono</span>
-        </button>
-        <button class="geo-item" onclick="addPresetShape('hex')">
-          <span class="left">Hexágono</span>
-        </button>
-      </div>
-    </div><!-- end bottomToolbar -->
+        <div class="geo-menu" id="geoMenu">
+          <button class="geo-item" onclick="addPresetShape('circle')">
+            <span class="left">Círculo</span>
+          </button>
+          <button class="geo-item" onclick="addPresetShape('triangle')">
+            <span class="left">Triângulo</span>
+          </button>
+          <button class="geo-item" onclick="addPresetShape('square')">
+            <span class="left">Quadrado</span>
+          </button>
+          <button class="geo-item" onclick="addPresetShape('rect')">
+            <span class="left">Retângulo</span>
+          </button>
+          <button class="geo-item" onclick="addPresetShape('pent')">
+            <span class="left">Pentágono</span>
+          </button>
+          <button class="geo-item" onclick="addPresetShape('hex')">
+            <span class="left">Hexágono</span>
+          </button>
+        </div>
+      </div><!-- end bottomToolbar -->
     </div><!-- end toolbar wrapper -->
   </main>
 
   <!-- ===== FLOATING LAYERS ===== -->
   <div class="floating-layers">
     <div class="layers-title">Figuras</div>
-    <button class="btn-success" onclick="createNewLayer()" style="margin-bottom:10px; width:100%; padding:12px; font-size:0.82rem;">
+    <button class="btn-success" onclick="createNewLayer()"
+      style="margin-bottom:10px; width:100%; padding:12px; font-size:0.82rem;">
       + Nova Figura
     </button>
     <div id="layersList"></div>
   </div>
 
-<script>
-/* =========================================================
-   PROTEÇÃO BÁSICA
-========================================================= */
-(function hardenPage(){
-  document.addEventListener('contextmenu', (e)=>e.preventDefault(), {capture:true});
-  document.addEventListener('dragstart', (e)=>e.preventDefault(), {capture:true});
-  document.addEventListener('selectstart', (e)=>{
-    const tag = e.target?.tagName?.toLowerCase?.() || '';
-    if(tag === 'input' || tag === 'textarea') return;
-    e.preventDefault();
-  }, {capture:true});
-})();
+  <script>
+    /* =========================================================
+       PROTEÇÃO BÁSICA
+    ========================================================= */
+    (function hardenPage() {
+      document.addEventListener('contextmenu', (e) => e.preventDefault(), { capture: true });
+      document.addEventListener('dragstart', (e) => e.preventDefault(), { capture: true });
+      document.addEventListener('selectstart', (e) => {
+        const tag = e.target?.tagName?.toLowerCase?.() || '';
+        if (tag === 'input' || tag === 'textarea') return;
+        e.preventDefault();
+      }, { capture: true });
+    })();
 
-/* =========================================================
-   APP GEOLAB PRO
-========================================================= */
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const mainArea = document.getElementById('mainArea');
-const tooltip = document.getElementById('tooltip');
+    /* =========================================================
+       APP GEOLAB PRO
+    ========================================================= */
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const mainArea = document.getElementById('mainArea');
+    const tooltip = document.getElementById('tooltip');
 
-let shapes = [];
-let activeIndex = -1;
-let mode = 'IDLE'; // IDLE, DRAWING, DRAGGING_ANCHOR, DRAGGING_SHAPE
-let currentTool = 'polygon'; // polygon, point, segment, line
-let mouseScreen = { x: 0, y: 0 };
-let mouseWorld = { x: 0, y: 0 };
-let dragStartWorld = { x: 0, y: 0 };
+    let shapes = [];
+    let activeIndex = -1;
+    let mode = 'IDLE'; // IDLE, DRAWING, DRAGGING_ANCHOR, DRAGGING_SHAPE
+    let currentTool = 'polygon'; // polygon, point, segment, line
+    let mouseScreen = { x: 0, y: 0 };
+    let mouseWorld = { x: 0, y: 0 };
+    let dragStartWorld = { x: 0, y: 0 };
 
-// Global vertex letter counter — every vertex placed gets the next available letter
-let nextVertexLetterCode = 65; // 'A' = 65
-function nextVertexLabel(){
-  if(nextVertexLetterCode > 90) nextVertexLetterCode = 65; // wrap A-Z
-  return String.fromCharCode(nextVertexLetterCode++);
-}
-// Assign labels to a fresh array of points, giving each a letter
-function assignLabels(points){
-  points.forEach(p => { if(!p.label) p.label = nextVertexLabel(); });
-}
-
-// View (Zoom e Pan)
-let view = {
-  scale: 1.0,
-  offsetX: 0,
-  offsetY: 0,
-  minScale: 0.2,
-  maxScale: 5.0
-};
-
-const colors = ['#58CC02', '#1CB0F6', '#FF9600', '#FF4B4B', '#CE82FF', '#FF6B9D', '#00CD9C'];
-
-// Tipos de forma
-const SHAPE_TYPES = {
-  POINT: 'point',
-  SEGMENT: 'segment',
-  LINE: 'line',
-  POLYGON: 'polygon',
-  CIRCLE: 'circle'
-};
-
-function resizeCanvas(){
-  canvas.width = mainArea.clientWidth;
-  canvas.height = mainArea.clientHeight;
-  if (view.offsetX === 0 && view.offsetY === 0) {
-    view.offsetX = canvas.width / 2;
-    view.offsetY = canvas.height / 2;
-  }
-  draw();
-}
-window.addEventListener('resize', resizeCanvas);
-setTimeout(resizeCanvas, 100);
-
-/* ===================== MENU INFERIOR ===================== */
-const bottomToolbar = document.getElementById('bottomToolbar');
-const geoMainBtn = document.getElementById('geoMainBtn');
-const additionalToolbar = document.getElementById('additionalToolbar');
-const addToolMainBtn = document.getElementById('addToolMainBtn');
-
-function toggleGeoMenu(){
-  bottomToolbar.classList.toggle('open');
-  additionalToolbar.classList.remove('open');
-}
-function toggleAddToolMenu(){
-  additionalToolbar.classList.toggle('open');
-  bottomToolbar.classList.remove('open');
-}
-geoMainBtn.addEventListener('click', (e)=>{
-  e.stopPropagation();
-  toggleGeoMenu();
-});
-addToolMainBtn.addEventListener('click', (e)=>{
-  e.stopPropagation();
-  toggleAddToolMenu();
-});
-document.addEventListener('click', ()=>{
-  bottomToolbar.classList.remove('open');
-  additionalToolbar.classList.remove('open');
-});
-document.getElementById('geoMenu').addEventListener('click', (e)=>e.stopPropagation());
-document.getElementById('addToolMenu').addEventListener('click', (e)=>e.stopPropagation());
-
-/* ===================== COORDENADAS ===================== */
-function screenToWorld(x, y){
-  return {
-    x: (x - view.offsetX) / view.scale,
-    y: (y - view.offsetY) / view.scale
-  };
-}
-function worldToScreen(x, y){
-  return {
-    x: x * view.scale + view.offsetX,
-    y: y * view.scale + view.offsetY
-  };
-}
-
-/* ===================== SNAP À GRADE ===================== */
-let snapEnabled = true;
-const SNAP_THRESHOLD_PX = 12; // pixels de distância para ativar o snap
-
-function snapToGrid(wx, wy){
-  if(!snapEnabled) return { x: wx, y: wy };
-
-  // Use the same adaptive step as drawGrid
-  let step = GRID_UNIT;
-  while(step * view.scale < 30) step *= 2;
-  while(step * view.scale > 120) step /= 2;
-  if(step < 1) step = 1;
-
-  const snappedX = Math.round(wx / step) * step;
-  const snappedY = Math.round(wy / step) * step;
-
-  // Only snap if the cursor is close enough (in screen pixels)
-  const dxPx = Math.abs(snappedX - wx) * view.scale;
-  const dyPx = Math.abs(snappedY - wy) * view.scale;
-
-  return {
-    x: dxPx < SNAP_THRESHOLD_PX ? snappedX : wx,
-    y: dyPx < SNAP_THRESHOLD_PX ? snappedY : wy,
-    snapped: (dxPx < SNAP_THRESHOLD_PX && dyPx < SNAP_THRESHOLD_PX)
-  };
-}
-
-// Snap indicator drawn on canvas
-let snapIndicator = null; // { x, y } world coords, or null
-canvas.addEventListener('wheel', (e)=>{
-  e.preventDefault();
-  const rect = canvas.getBoundingClientRect();
-  const sx = e.clientX - rect.left;
-  const sy = e.clientY - rect.top;
-  const before = screenToWorld(sx, sy);
-  
-  const zoomIn = e.deltaY < 0;
-  const factor = zoomIn ? 1.15 : 0.85;
-  const newScale = Math.max(view.minScale, Math.min(view.maxScale, view.scale * factor));
-  view.scale = newScale;
-  
-  view.offsetX = sx - before.x * view.scale;
-  view.offsetY = sy - before.y * view.scale;
-  
-  mouseScreen = {x: sx, y: sy};
-  mouseWorld = screenToWorld(sx, sy);
-  draw();
-}, { passive: false });
-
-/* ===================== GERENCIAMENTO DE CAMADAS ===================== */
-function createNewLayer(){
-  const newShape = {
-    id: Date.now(),
-    name: `Figura ${shapes.length + 1}`,
-    type: SHAPE_TYPES.POLYGON,
-    points: [],
-    color: colors[shapes.length % colors.length],
-    isClosed: false,
-    tx: 0, ty: 0, rotation: 0,
-    scale: 1.0,
-    reflectX: false, reflectY: false,
-    symmetryAxis: 'none',
-    symmetry: { x: false, y: false },
-    symmetryLineId: null,
-    symmetryPointId: null,
-    isSymAxis: false,
-    isSymPoint: false,
-    anchor: { x: 0, y: 0 },
-    anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
-    speed: { trans: 1.0, rot: 1.0 },
-    pointRadius: 5,
-    lineLength: 1000,
-    showExtension: true
-  };
-
-  shapes.push(newShape);
-  selectLayer(shapes.length - 1);
-  currentTool = 'polygon';
-  mode = 'DRAWING';
-  updateUI();
-  // Hide the welcome instruction permanently once user starts creating figures
-  hideInstruction();
-}
-
-function selectLayer(index){
-  if(index < 0 || index >= shapes.length){
-    activeIndex = -1;
-    mode = 'IDLE';
-  } else {
-    if(activeIndex !== -1 && !shapes[activeIndex].isClosed && shapes[activeIndex].type !== SHAPE_TYPES.POINT){
-      alert("Feche a forma atual antes de trocar.");
-      return;
+    // Global vertex letter counter — every vertex placed gets the next available letter
+    let nextVertexLetterCode = 65; // 'A' = 65
+    function nextVertexLabel() {
+      if (nextVertexLetterCode > 90) nextVertexLetterCode = 65; // wrap A-Z
+      return String.fromCharCode(nextVertexLetterCode++);
     }
-    activeIndex = index;
-    const shape = shapes[index];
-    mode = shape.isClosed ? 'IDLE' : 'DRAWING';
-    currentTool = shape.type === SHAPE_TYPES.POLYGON && !shape.isClosed ? 'polygon' : shape.type;
-  }
-  updateUI();
-  draw();
-}
+    // Assign labels to a fresh array of points, giving each a letter
+    function assignLabels(points) {
+      points.forEach(p => { if (!p.label) p.label = nextVertexLabel(); });
+    }
 
-function deleteCurrentLayer(){
-  if(activeIndex === -1) return;
-  const deleted = shapes[activeIndex];
-  // If deleting a sym-axis, unlink all shapes that referenced it
-  if(deleted.isSymAxis){
-    shapes.forEach(s => {
-      if(s.symmetryLineId  === deleted.id) { s.symmetryLineId  = null; s.frozenAxis     = null; }
-      if(s.symmetryPointId === deleted.id) { s.symmetryPointId = null; s.frozenSymPoint = null; }
+    // View (Zoom e Pan)
+    let view = {
+      scale: 1.0,
+      offsetX: 0,
+      offsetY: 0,
+      minScale: 0.2,
+      maxScale: 5.0
+    };
+
+    const colors = ['#58CC02', '#1CB0F6', '#FF9600', '#FF4B4B', '#CE82FF', '#FF6B9D', '#00CD9C'];
+
+    // Tipos de forma
+    const SHAPE_TYPES = {
+      POINT: 'point',
+      SEGMENT: 'segment',
+      LINE: 'line',
+      POLYGON: 'polygon',
+      CIRCLE: 'circle'
+    };
+
+    function resizeCanvas() {
+      canvas.width = mainArea.clientWidth;
+      canvas.height = mainArea.clientHeight;
+      if (view.offsetX === 0 && view.offsetY === 0) {
+        view.offsetX = canvas.width / 2;
+        view.offsetY = canvas.height / 2;
+      }
+      draw();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    setTimeout(resizeCanvas, 100);
+
+    /* ===================== MENU INFERIOR ===================== */
+    const bottomToolbar = document.getElementById('bottomToolbar');
+    const geoMainBtn = document.getElementById('geoMainBtn');
+    const additionalToolbar = document.getElementById('additionalToolbar');
+    const addToolMainBtn = document.getElementById('addToolMainBtn');
+
+    function toggleGeoMenu() {
+      bottomToolbar.classList.toggle('open');
+      additionalToolbar.classList.remove('open');
+    }
+    function toggleAddToolMenu() {
+      additionalToolbar.classList.toggle('open');
+      bottomToolbar.classList.remove('open');
+    }
+    geoMainBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleGeoMenu();
     });
-  }
-  shapes.splice(activeIndex, 1);
-  activeIndex = -1;
-  mode = 'IDLE';
-  updateUI();
-  updateAxisSelectOptions();
-  draw();
-}
+    addToolMainBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleAddToolMenu();
+    });
+    document.addEventListener('click', () => {
+      bottomToolbar.classList.remove('open');
+      additionalToolbar.classList.remove('open');
+    });
+    document.getElementById('geoMenu').addEventListener('click', (e) => e.stopPropagation());
+    document.getElementById('addToolMenu').addEventListener('click', (e) => e.stopPropagation());
 
-function updateUI(){
-  const layersList = document.getElementById('layersList');
-  layersList.innerHTML = '';
+    /* ===================== COORDENADAS ===================== */
+    function screenToWorld(x, y) {
+      return {
+        x: (x - view.offsetX) / view.scale,
+        y: (y - view.offsetY) / view.scale
+      };
+    }
+    function worldToScreen(x, y) {
+      return {
+        x: x * view.scale + view.offsetX,
+        y: y * view.scale + view.offsetY
+      };
+    }
 
-  shapes.forEach((shape, idx)=>{
-    const div = document.createElement('div');
-    div.className = `layer-item ${idx === activeIndex ? 'active' : ''}`;
-    div.onclick = ()=>selectLayer(idx);
-    
-    const icon = shape.isSymAxis ? '↔' : getShapeIcon(shape.type);
-    div.innerHTML = `
+    /* ===================== SNAP À GRADE ===================== */
+    let snapEnabled = true;
+    const SNAP_THRESHOLD_PX = 12; // pixels de distância para ativar o snap
+
+    function snapToGrid(wx, wy) {
+      if (!snapEnabled) return { x: wx, y: wy };
+
+      // Use the same adaptive step as drawGrid
+      let step = GRID_UNIT;
+      while (step * view.scale < 30) step *= 2;
+      while (step * view.scale > 120) step /= 2;
+      if (step < 1) step = 1;
+
+      const snappedX = Math.round(wx / step) * step;
+      const snappedY = Math.round(wy / step) * step;
+
+      // Only snap if the cursor is close enough (in screen pixels)
+      const dxPx = Math.abs(snappedX - wx) * view.scale;
+      const dyPx = Math.abs(snappedY - wy) * view.scale;
+
+      return {
+        x: dxPx < SNAP_THRESHOLD_PX ? snappedX : wx,
+        y: dyPx < SNAP_THRESHOLD_PX ? snappedY : wy,
+        snapped: (dxPx < SNAP_THRESHOLD_PX && dyPx < SNAP_THRESHOLD_PX)
+      };
+    }
+
+    // Snap indicator drawn on canvas
+    let snapIndicator = null; // { x, y } world coords, or null
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+      const before = screenToWorld(sx, sy);
+
+      const zoomIn = e.deltaY < 0;
+      const factor = zoomIn ? 1.15 : 0.85;
+      const newScale = Math.max(view.minScale, Math.min(view.maxScale, view.scale * factor));
+      view.scale = newScale;
+
+      view.offsetX = sx - before.x * view.scale;
+      view.offsetY = sy - before.y * view.scale;
+
+      mouseScreen = { x: sx, y: sy };
+      mouseWorld = screenToWorld(sx, sy);
+      draw();
+    }, { passive: false });
+
+    /* ===================== GERENCIAMENTO DE CAMADAS ===================== */
+    function createNewLayer() {
+      const newShape = {
+        id: Date.now(),
+        name: `Figura ${shapes.length + 1}`,
+        type: SHAPE_TYPES.POLYGON,
+        points: [],
+        color: colors[shapes.length % colors.length],
+        isClosed: false,
+        tx: 0, ty: 0, rotation: 0,
+        scale: 1.0,
+        reflectX: false, reflectY: false,
+        symmetryAxis: 'none',
+        symmetry: { x: false, y: false },
+        symmetryLineId: null,
+        symmetryPointId: null,
+        isSymAxis: false,
+        isSymPoint: false,
+        anchor: { x: 0, y: 0 },
+        anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
+        speed: { trans: 1.0, rot: 1.0 },
+        pointRadius: 5,
+        lineLength: 1000,
+        showExtension: true
+      };
+
+      shapes.push(newShape);
+      selectLayer(shapes.length - 1);
+      currentTool = 'polygon';
+      mode = 'DRAWING';
+      updateUI();
+      // Hide the welcome instruction permanently once user starts creating figures
+      hideInstruction();
+    }
+
+    function selectLayer(index) {
+      if (index < 0 || index >= shapes.length) {
+        activeIndex = -1;
+        mode = 'IDLE';
+      } else {
+        if (activeIndex !== -1 && !shapes[activeIndex].isClosed && shapes[activeIndex].type !== SHAPE_TYPES.POINT) {
+          alert("Feche a forma atual antes de trocar.");
+          return;
+        }
+        activeIndex = index;
+        const shape = shapes[index];
+        mode = shape.isClosed ? 'IDLE' : 'DRAWING';
+        currentTool = shape.type === SHAPE_TYPES.POLYGON && !shape.isClosed ? 'polygon' : shape.type;
+      }
+      updateUI();
+      draw();
+    }
+
+    function deleteCurrentLayer() {
+      if (activeIndex === -1) return;
+      const deleted = shapes[activeIndex];
+      // If deleting a sym-axis, unlink all shapes that referenced it
+      if (deleted.isSymAxis) {
+        shapes.forEach(s => {
+          if (s.symmetryLineId === deleted.id) { s.symmetryLineId = null; s.frozenAxis = null; }
+          if (s.symmetryPointId === deleted.id) { s.symmetryPointId = null; s.frozenSymPoint = null; }
+        });
+      }
+      shapes.splice(activeIndex, 1);
+      activeIndex = -1;
+      mode = 'IDLE';
+      updateUI();
+      updateAxisSelectOptions();
+      draw();
+    }
+
+    function updateUI() {
+      const layersList = document.getElementById('layersList');
+      layersList.innerHTML = '';
+
+      shapes.forEach((shape, idx) => {
+        const div = document.createElement('div');
+        div.className = `layer-item ${idx === activeIndex ? 'active' : ''}`;
+        div.onclick = () => selectLayer(idx);
+
+        const icon = shape.isSymAxis ? '↔' : getShapeIcon(shape.type);
+        div.innerHTML = `
       <span style="display:flex; align-items:center; gap:8px; ${shape.isSymAxis ? 'color:var(--purple-dark);font-weight:900;' : ''}">
         <span style="font-size:1.1rem;">${icon}</span>
         ${shape.name}
       </span>
       <div class="layer-status" style="${shape.isSymAxis ? 'background:var(--purple);border-color:var(--purple-dark);' : ''}"></div>
     `;
-    layersList.appendChild(div);
-  });
+        layersList.appendChild(div);
+      });
 
-  const controls = document.getElementById('figureControls');
-  const emptyMsg = document.getElementById('emptyStateMsg');
+      const controls = document.getElementById('figureControls');
+      const emptyMsg = document.getElementById('emptyStateMsg');
 
-  if(activeIndex !== -1 && shapes[activeIndex].isClosed && !shapes[activeIndex].isSymAxis){
-    controls.style.display = 'block';
-    emptyMsg.style.display = 'none';
+      if (activeIndex !== -1 && shapes[activeIndex].isClosed && !shapes[activeIndex].isSymAxis) {
+        controls.style.display = 'block';
+        emptyMsg.style.display = 'none';
 
-    const s = shapes[activeIndex];
-    document.getElementById('inputTx').value = s.tx;
-    document.getElementById('inputTy').value = s.ty;
-    document.getElementById('inputRot').value = s.rotation;
-    document.getElementById('inputScale').value = Math.round(s.scale * 100);
+        const s = shapes[activeIndex];
+        document.getElementById('inputTx').value = s.tx;
+        document.getElementById('inputTy').value = s.ty;
+        document.getElementById('inputRot').value = s.rotation;
+        document.getElementById('inputScale').value = Math.round(s.scale * 100);
 
-    document.getElementById('btnRefX').classList.toggle('active', s.reflectX);
-    document.getElementById('btnRefY').classList.toggle('active', s.reflectY);
+        document.getElementById('btnRefX').classList.toggle('active', s.reflectX);
+        document.getElementById('btnRefY').classList.toggle('active', s.reflectY);
 
-    // Sync symmetry axis buttons
-    syncSymmetryUI(s);
+        // Sync symmetry axis buttons
+        syncSymmetryUI(s);
 
-    document.getElementById('animXBtn').classList.toggle('active', s.anim.x);
-    document.getElementById('animYBtn').classList.toggle('active', s.anim.y);
-    document.getElementById('animRotBtn').classList.toggle('active', s.anim.rot);
+        document.getElementById('animXBtn').classList.toggle('active', s.anim.x);
+        document.getElementById('animYBtn').classList.toggle('active', s.anim.y);
+        document.getElementById('animRotBtn').classList.toggle('active', s.anim.rot);
 
-    hideInstruction();
-  } else if(activeIndex !== -1 && shapes[activeIndex].isSymAxis){
-    controls.style.display = 'none';
-    emptyMsg.style.display = 'flex';
-    const sel = shapes[activeIndex];
-    const isPoint = sel.isSymPoint;
-    emptyMsg.innerHTML = `
+        hideInstruction();
+      } else if (activeIndex !== -1 && shapes[activeIndex].isSymAxis) {
+        controls.style.display = 'none';
+        emptyMsg.style.display = 'flex';
+        const sel = shapes[activeIndex];
+        const isPoint = sel.isSymPoint;
+        emptyMsg.innerHTML = `
       <div style="font-size:2rem;margin-bottom:12px;">${isPoint ? '•' : '↔'}</div>
       <p style="font-weight:800;color:var(--purple-dark);font-size:0.9rem;">${sel.name}</p>
       <p style="font-size:0.78rem;margin-top:6px;font-weight:600;color:#C8C8C8;">
@@ -1536,1705 +2084,1707 @@ function updateUI(){
         ${isPoint ? 'Excluir Ponto' : 'Excluir Reta'}
       </button>
     `;
-    hideInstruction();
-  } else {
-    controls.style.display = 'none';
-    emptyMsg.style.display = 'flex';
-    emptyMsg.innerHTML = `
+        hideInstruction();
+      } else {
+        controls.style.display = 'none';
+        emptyMsg.style.display = 'flex';
+        emptyMsg.innerHTML = `
       <div style="font-size:3rem; opacity:0.1; margin-bottom:20px; line-height:1; font-weight:900;">◻</div>
       <p style="font-weight:800; color:var(--medium-gray); font-size:0.9rem;">Nenhuma figura selecionada</p>
       <p style="font-size:0.78rem; margin-top:8px; font-weight:600; color:#C8C8C8;">Crie uma figura para ver as opções</p>
     `;
-  }
-  updateLabelValues();
-}
-
-function getShapeIcon(type){
-  const icons = {
-    [SHAPE_TYPES.POINT]: '•',
-    [SHAPE_TYPES.SEGMENT]: '━',
-    [SHAPE_TYPES.LINE]: '↔',
-    [SHAPE_TYPES.POLYGON]: '⬡',
-    [SHAPE_TYPES.CIRCLE]: '◯'
-  };
-  return icons[type] || '⬡';
-}
-
-function updateLabelValues(){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  const txEl = document.getElementById('valTx');
-  const tyEl = document.getElementById('valTy');
-  const rotEl = document.getElementById('valRot');
-  const scaleEl = document.getElementById('valScale');
-  const speedTransEl = document.getElementById('speedTransDisplay');
-  const speedRotEl = document.getElementById('speedRotDisplay');
-  
-  if(txEl) txEl.textContent = Math.round(s.tx);
-  if(tyEl) tyEl.textContent = Math.round(s.ty);
-  if(rotEl) rotEl.textContent = Math.round(s.rotation) + '°';
-  if(scaleEl) scaleEl.textContent = Math.round(s.scale * 100) + '%';
-  if(speedTransEl) speedTransEl.textContent = s.speed.trans + 'x';
-  if(speedRotEl) speedRotEl.textContent = s.speed.rot + 'x';
-}
-
-/* ===================== CONTROLES DE FORMA ===================== */
-function updateShapeData(){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  s.tx = parseFloat(document.getElementById('inputTx').value);
-  s.ty = parseFloat(document.getElementById('inputTy').value);
-  s.rotation = parseFloat(document.getElementById('inputRot').value);
-  s.scale = parseFloat(document.getElementById('inputScale').value) / 100;
-  updateLabelValues();
-  draw();
-}
-
-function resetScale(){
-  if(activeIndex === -1) return;
-  shapes[activeIndex].scale = 1.0;
-  document.getElementById('inputScale').value = 100;
-  updateLabelValues();
-  draw();
-}
-
-function resetAnchor(){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  const pts = s.points;
-  if(pts.length === 0) return;
-  const cx = pts.reduce((a,p)=>a+p.x,0)/pts.length;
-  const cy = pts.reduce((a,p)=>a+p.y,0)/pts.length;
-  s.anchor = { x: cx, y: cy };
-  draw();
-}
-
-/* ===================== OBJETOS DE SIMETRIA (RETA E PONTO) ===================== */
-
-function addSymmetryAxis(){
-  createNewLayer();
-  const s = shapes[shapes.length - 1];
-  s.type = SHAPE_TYPES.LINE;
-  s.isSymAxis  = true;
-  s.isSymPoint = false;
-  s.name  = `Eixo ${shapes.filter(x => x.isSymAxis && !x.isSymPoint).length}`;
-  s.color = '#9C3FA6';
-  s.points = [{ x: -120, y: -80 }, { x: 120, y: 80 }];
-  s.isClosed = true;
-  s.anchor = { x: 0, y: 0 };
-  mode = 'IDLE';
-  updateUI();
-  updateSymSelectOptions();
-  draw();
-  bottomToolbar.classList.remove('open');
-  showInstruction('Reta de simetria criada. Arraste os pontos para posicioná-la.');
-  setTimeout(hideInstruction, 3000);
-}
-
-function addSymmetryPointShape(){
-  createNewLayer();
-  const s = shapes[shapes.length - 1];
-  s.type = SHAPE_TYPES.POINT;
-  s.isSymAxis  = true;
-  s.isSymPoint = true;
-  s.name  = `Ponto ${shapes.filter(x => x.isSymPoint).length + 1}`;
-  s.color = '#9C3FA6';
-  s.points = [{ x: 0, y: 0, label: '' }];
-  s.pointRadius = 7;
-  s.isClosed = true;
-  s.anchor   = { x: 0, y: 0 };
-  mode = 'IDLE';
-  updateUI();
-  updateSymSelectOptions();
-  draw();
-  bottomToolbar.classList.remove('open');
-  showInstruction('Ponto de simetria criado. Arraste-o para posicioná-lo.');
-  setTimeout(hideInstruction, 3000);
-}
-
-/* Populate BOTH selects (reta and ponto) */
-function updateSymSelectOptions(){
-  // --- Reta select ---
-  const selAxis = document.getElementById('symAxisSelect');
-  if(selAxis){
-    const curAxis = selAxis.value;
-    selAxis.innerHTML = '<option value="">— Nenhuma —</option>';
-    shapes.forEach(s => {
-      if(s.isSymAxis && !s.isSymPoint){
-        const o = document.createElement('option');
-        o.value = s.id; o.textContent = s.name;
-        selAxis.appendChild(o);
       }
-    });
-    if(curAxis && shapes.find(s => String(s.id) === curAxis)) selAxis.value = curAxis;
-  }
+      updateLabelValues();
+    }
 
-  // --- Ponto select ---
-  const selPt = document.getElementById('symPointSelect');
-  if(selPt){
-    const curPt = selPt.value;
-    selPt.innerHTML = '<option value="">— Nenhum —</option>';
-    shapes.forEach(s => {
-      if(s.isSymPoint){
-        const o = document.createElement('option');
-        o.value = s.id; o.textContent = s.name;
-        selPt.appendChild(o);
+    function getShapeIcon(type) {
+      const icons = {
+        [SHAPE_TYPES.POINT]: '•',
+        [SHAPE_TYPES.SEGMENT]: '━',
+        [SHAPE_TYPES.LINE]: '↔',
+        [SHAPE_TYPES.POLYGON]: '⬡',
+        [SHAPE_TYPES.CIRCLE]: '◯'
+      };
+      return icons[type] || '⬡';
+    }
+
+    function updateLabelValues() {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      const txEl = document.getElementById('valTx');
+      const tyEl = document.getElementById('valTy');
+      const rotEl = document.getElementById('valRot');
+      const scaleEl = document.getElementById('valScale');
+      const speedTransEl = document.getElementById('speedTransDisplay');
+      const speedRotEl = document.getElementById('speedRotDisplay');
+
+      if (txEl) txEl.textContent = Math.round(s.tx);
+      if (tyEl) tyEl.textContent = Math.round(s.ty);
+      if (rotEl) rotEl.textContent = Math.round(s.rotation) + '°';
+      if (scaleEl) scaleEl.textContent = Math.round(s.scale * 100) + '%';
+      if (speedTransEl) speedTransEl.textContent = s.speed.trans + 'x';
+      if (speedRotEl) speedRotEl.textContent = s.speed.rot + 'x';
+    }
+
+    /* ===================== CONTROLES DE FORMA ===================== */
+    function updateShapeData() {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      s.tx = parseFloat(document.getElementById('inputTx').value);
+      s.ty = parseFloat(document.getElementById('inputTy').value);
+      s.rotation = parseFloat(document.getElementById('inputRot').value);
+      s.scale = parseFloat(document.getElementById('inputScale').value) / 100;
+      updateLabelValues();
+      draw();
+    }
+
+    function resetScale() {
+      if (activeIndex === -1) return;
+      shapes[activeIndex].scale = 1.0;
+      document.getElementById('inputScale').value = 100;
+      updateLabelValues();
+      draw();
+    }
+
+    function resetAnchor() {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      const pts = s.points;
+      if (pts.length === 0) return;
+      const cx = pts.reduce((a, p) => a + p.x, 0) / pts.length;
+      const cy = pts.reduce((a, p) => a + p.y, 0) / pts.length;
+      s.anchor = { x: cx, y: cy };
+      draw();
+    }
+
+    /* ===================== OBJETOS DE SIMETRIA (RETA E PONTO) ===================== */
+
+    function addSymmetryAxis() {
+      createNewLayer();
+      const s = shapes[shapes.length - 1];
+      s.type = SHAPE_TYPES.LINE;
+      s.isSymAxis = true;
+      s.isSymPoint = false;
+      s.name = `Eixo ${shapes.filter(x => x.isSymAxis && !x.isSymPoint).length}`;
+      s.color = '#9C3FA6';
+      s.points = [{ x: -120, y: -80 }, { x: 120, y: 80 }];
+      s.isClosed = true;
+      s.anchor = { x: 0, y: 0 };
+      mode = 'IDLE';
+      updateUI();
+      updateSymSelectOptions();
+      draw();
+      bottomToolbar.classList.remove('open');
+      showInstruction('Reta de simetria criada. Arraste os pontos para posicioná-la.');
+      setTimeout(hideInstruction, 3000);
+    }
+
+    function addSymmetryPointShape() {
+      createNewLayer();
+      const s = shapes[shapes.length - 1];
+      s.type = SHAPE_TYPES.POINT;
+      s.isSymAxis = true;
+      s.isSymPoint = true;
+      s.name = `Ponto ${shapes.filter(x => x.isSymPoint).length + 1}`;
+      s.color = '#9C3FA6';
+      s.points = [{ x: 0, y: 0, label: '' }];
+      s.pointRadius = 7;
+      s.isClosed = true;
+      s.anchor = { x: 0, y: 0 };
+      mode = 'IDLE';
+      updateUI();
+      updateSymSelectOptions();
+      draw();
+      bottomToolbar.classList.remove('open');
+      showInstruction('Ponto de simetria criado. Arraste-o para posicioná-lo.');
+      setTimeout(hideInstruction, 3000);
+    }
+
+    /* Populate BOTH selects (reta and ponto) */
+    function updateSymSelectOptions() {
+      // --- Reta select ---
+      const selAxis = document.getElementById('symAxisSelect');
+      if (selAxis) {
+        const curAxis = selAxis.value;
+        selAxis.innerHTML = '<option value="">— Nenhuma —</option>';
+        shapes.forEach(s => {
+          if (s.isSymAxis && !s.isSymPoint) {
+            const o = document.createElement('option');
+            o.value = s.id; o.textContent = s.name;
+            selAxis.appendChild(o);
+          }
+        });
+        if (curAxis && shapes.find(s => String(s.id) === curAxis)) selAxis.value = curAxis;
       }
-    });
-    if(curPt && shapes.find(s => String(s.id) === curPt)) selPt.value = curPt;
-  }
-}
 
-/* Keep legacy name so old call-sites still work */
-function updateAxisSelectOptions(){ updateSymSelectOptions(); }
-
-function setSymmetryAxisById(id){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  s.symmetryLineId = id ? Number(id) : null;
-  if(s.symmetryLineId){
-    const axShape = shapes.find(x => x.id === s.symmetryLineId);
-    if(axShape){
-      const axis = getAxisPoints(axShape);
-      if(axis) s.frozenAxis = { a: { ...axis.a }, b: { ...axis.b } };
-    }
-  } else {
-    s.frozenAxis = null;
-  }
-  const info = document.getElementById('symAxisInfo');
-  if(info) info.style.display = id ? 'block' : 'none';
-  draw();
-}
-
-function setSymmetryPointById(id){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  s.symmetryPointId = id ? Number(id) : null;
-  if(s.symmetryPointId){
-    const ptShape = shapes.find(x => x.id === s.symmetryPointId);
-    if(ptShape && ptShape.points[0]){
-      const p = ptShape.points[0];
-      s.frozenSymPoint = { x: p.x + (ptShape.tx||0), y: p.y + (ptShape.ty||0) };
-    }
-  } else {
-    s.frozenSymPoint = null;
-  }
-  const info = document.getElementById('symPointInfo');
-  if(info) info.style.display = id ? 'block' : 'none';
-  draw();
-}
-
-function syncSymmetryUI(s){
-  updateSymSelectOptions();
-  const selAxis = document.getElementById('symAxisSelect');
-  if(selAxis) selAxis.value = s.symmetryLineId  ? String(s.symmetryLineId)  : '';
-  const selPt = document.getElementById('symPointSelect');
-  if(selPt)   selPt.value  = s.symmetryPointId ? String(s.symmetryPointId) : '';
-  const infoAxis = document.getElementById('symAxisInfo');
-  if(infoAxis) infoAxis.style.display = s.symmetryLineId  ? 'block' : 'none';
-  const infoPt = document.getElementById('symPointInfo');
-  if(infoPt)   infoPt.style.display   = s.symmetryPointId ? 'block' : 'none';
-}
-
-// Legacy stubs
-function toggleSymmetryAxis(axis){ /* deprecated */ }
-function setSymmetry(axis){ /* deprecated */ }
-function toggleReflect(axis){ /* deprecated */ }
-
-/* ===================== ANIMAÇÕES ===================== */
-let animFrame = null;
-let lastTime = 0;
-
-function toggleAnim(type){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  s.anim[type] = !s.anim[type];
-  
-  const hasAny = shapes.some(sh => sh.anim.x || sh.anim.y || sh.anim.rot);
-  if(hasAny && !animFrame){
-    lastTime = performance.now();
-    animFrame = requestAnimationFrame(animLoop);
-  } else if(!hasAny && animFrame){
-    cancelAnimationFrame(animFrame);
-    animFrame = null;
-  }
-  updateUI();
-}
-
-function animLoop(now){
-  const dt = Math.min((now - lastTime) / 1000, 0.05);
-  lastTime = now;
-
-  // Bounce bounds: 1 full canvas-width beyond each side in world units,
-  // so shapes travel well off-screen before returning (natural bounce animation).
-  const boundsX = canvas.width  / view.scale;
-  const boundsY = canvas.height / view.scale;
-
-  shapes.forEach(s => {
-    const spd    = s.speed.trans * 60;
-    const rotSpd = s.speed.rot  * 60;
-
-    if(s.anim.x){
-      s.tx += spd * s.anim.dirX * dt;
-      if(s.tx >  boundsX){ s.anim.dirX = -1; }
-      else if(s.tx < -boundsX){ s.anim.dirX =  1; }
-      const el = document.getElementById('inputTx');
-      if(el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.tx);
-    }
-    if(s.anim.y){
-      s.ty += spd * s.anim.dirY * dt;
-      if(s.ty >  boundsY){ s.anim.dirY = -1; }
-      else if(s.ty < -boundsY){ s.anim.dirY =  1; }
-      const el = document.getElementById('inputTy');
-      if(el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.ty);
-    }
-    if(s.anim.rot){
-      s.rotation = (s.rotation + rotSpd * dt) % 360;
-      const el = document.getElementById('inputRot');
-      if(el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.rotation);
-    }
-  });
-
-  updateLabelValues();
-  draw();
-  animFrame = requestAnimationFrame(animLoop);
-}
-
-function changeSpeed(type, delta){
-  if(activeIndex === -1) return;
-  const s = shapes[activeIndex];
-  const speeds = [0.25, 0.5, 1, 2, 3, 5];
-  let idx = speeds.indexOf(s.speed[type]);
-  idx = Math.max(0, Math.min(speeds.length - 1, idx + delta));
-  s.speed[type] = speeds[idx];
-  updateLabelValues();
-}
-
-/* ===================== PRESET SHAPES ===================== */
-function addPresetShape(type){
-  const cx = 0, cy = 0;
-  createNewLayer();
-  const s = shapes[shapes.length - 1];
-  
-  switch(type){
-    case 'circle':
-      s.type = SHAPE_TYPES.CIRCLE;
-      s.points = [{ x: cx, y: cy }];
-      s.radius = 80;
-      s.isClosed = true;
-      break;
-    case 'triangle': {
-      const r = 80;
-      s.points = [
-        { x: cx, y: cy - r },
-        { x: cx + r * Math.cos(Math.PI/6), y: cy + r * Math.sin(Math.PI/6) },
-        { x: cx - r * Math.cos(Math.PI/6), y: cy + r * Math.sin(Math.PI/6) }
-      ];
-      s.isClosed = true;
-      break;
-    }
-    case 'square': {
-      const h = 70;
-      s.points = [
-        { x: cx - h, y: cy - h },
-        { x: cx + h, y: cy - h },
-        { x: cx + h, y: cy + h },
-        { x: cx - h, y: cy + h }
-      ];
-      s.isClosed = true;
-      break;
-    }
-    case 'rect': {
-      s.points = [
-        { x: cx - 100, y: cy - 60 },
-        { x: cx + 100, y: cy - 60 },
-        { x: cx + 100, y: cy + 60 },
-        { x: cx - 100, y: cy + 60 }
-      ];
-      s.isClosed = true;
-      break;
-    }
-    case 'pent': {
-      const rp = 80;
-      for(let i = 0; i < 5; i++){
-        const angle = (i * 2 * Math.PI / 5) - Math.PI / 2;
-        s.points.push({ x: cx + rp * Math.cos(angle), y: cy + rp * Math.sin(angle) });
+      // --- Ponto select ---
+      const selPt = document.getElementById('symPointSelect');
+      if (selPt) {
+        const curPt = selPt.value;
+        selPt.innerHTML = '<option value="">— Nenhum —</option>';
+        shapes.forEach(s => {
+          if (s.isSymPoint) {
+            const o = document.createElement('option');
+            o.value = s.id; o.textContent = s.name;
+            selPt.appendChild(o);
+          }
+        });
+        if (curPt && shapes.find(s => String(s.id) === curPt)) selPt.value = curPt;
       }
-      s.isClosed = true;
-      break;
     }
-    case 'hex': {
-      const rh = 80;
-      for(let i = 0; i < 6; i++){
-        const angle = (i * 2 * Math.PI / 6);
-        s.points.push({ x: cx + rh * Math.cos(angle), y: cy + rh * Math.sin(angle) });
+
+    /* Keep legacy name so old call-sites still work */
+    function updateAxisSelectOptions() { updateSymSelectOptions(); }
+
+    function setSymmetryAxisById(id) {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      s.symmetryLineId = id ? Number(id) : null;
+      if (s.symmetryLineId) {
+        const axShape = shapes.find(x => x.id === s.symmetryLineId);
+        if (axShape) {
+          const axis = getAxisPoints(axShape);
+          if (axis) s.frozenAxis = { a: { ...axis.a }, b: { ...axis.b } };
+        }
+      } else {
+        s.frozenAxis = null;
       }
-      s.isClosed = true;
-      break;
+      const info = document.getElementById('symAxisInfo');
+      if (info) info.style.display = id ? 'block' : 'none';
+      draw();
     }
-  }
 
-  s.anchor = {
-    x: s.points.reduce((a,p)=>a+p.x,0) / s.points.length,
-    y: s.points.reduce((a,p)=>a+p.y,0) / s.points.length
-  };
-  assignLabels(s.points); // give each vertex a letter A, B, C...
-
-  mode = 'IDLE';
-  updateUI();
-  draw();
-  bottomToolbar.classList.remove('open');
-}
-
-/* ===================== EVENTOS DO CANVAS ===================== */
-let isPanning = false;
-let panStart = { x: 0, y: 0 };
-let panStartOffset = { x: 0, y: 0 };
-let draggingVertexIndex = -1; // index of vertex being dragged
-let edgeHoverInfo = null; // { edgeIndex, insertPoint } when hovering a polygon edge
-
-// Returns closest point on a line segment p1->p2 to point p
-function closestPointOnSegment(p, p1, p2) {
-  const dx = p2.x - p1.x, dy = p2.y - p1.y;
-  const lenSq = dx*dx + dy*dy;
-  if(lenSq === 0) return { x: p1.x, y: p1.y, t: 0 };
-  const t = Math.max(0, Math.min(1, ((p.x - p1.x)*dx + (p.y - p1.y)*dy) / lenSq));
-  return { x: p1.x + t*dx, y: p1.y + t*dy, t };
-}
-
-// Detects if mouseWorld is near an edge of the active closed polygon
-// Returns { edgeIndex, worldInsertPoint } or null
-function detectEdgeHover(sx, sy) {
-  if(activeIndex === -1) return null;
-  const s = shapes[activeIndex];
-  if(!s.isClosed || s.type !== SHAPE_TYPES.POLYGON || s.points.length < 3) return null;
-  const EDGE_HIT_PX = 10;
-  const transformed = getTransformedPoints(s);
-  const n = transformed.length;
-  let bestDist = Infinity, bestEdge = -1, bestPt = null;
-  for(let i = 0; i < n; i++){
-    const j = (i+1) % n;
-    const p1s = worldToScreen(transformed[i].x, transformed[i].y);
-    const p2s = worldToScreen(transformed[j].x, transformed[j].y);
-    const cp = closestPointOnSegment({x:sx,y:sy}, p1s, p2s);
-    const dist = Math.hypot(sx - cp.x, sy - cp.y);
-    if(dist < EDGE_HIT_PX && dist < bestDist) {
-      bestDist = dist;
-      bestEdge = i;
-      // Convert closest screen point back to world insert point
-      const worldCp = screenToWorld(cp.x, cp.y);
-      // Invert transform to local space
-      const ax = s.anchor.x, ay = s.anchor.y;
-      const angle = -(s.rotation * Math.PI / 180);
-      const cosA = Math.cos(angle), sinA = Math.sin(angle);
-      const scaleX = s.scale * (s.reflectX ? -1 : 1);
-      const scaleY = s.scale * (s.reflectY ? -1 : 1);
-      const wx = worldCp.x - s.tx - ax;
-      const wy = worldCp.y - s.ty - ay;
-      const rx = wx * cosA - wy * sinA;
-      const ry = wx * sinA + wy * cosA;
-      bestPt = { x: rx / scaleX + ax, y: ry / scaleY + ay };
+    function setSymmetryPointById(id) {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      s.symmetryPointId = id ? Number(id) : null;
+      if (s.symmetryPointId) {
+        const ptShape = shapes.find(x => x.id === s.symmetryPointId);
+        if (ptShape && ptShape.points[0]) {
+          const p = ptShape.points[0];
+          s.frozenSymPoint = { x: p.x + (ptShape.tx || 0), y: p.y + (ptShape.ty || 0) };
+        }
+      } else {
+        s.frozenSymPoint = null;
+      }
+      const info = document.getElementById('symPointInfo');
+      if (info) info.style.display = id ? 'block' : 'none';
+      draw();
     }
-  }
-  if(bestEdge === -1) return null;
-  return { edgeIndex: bestEdge, localInsertPoint: bestPt };
-}
 
-canvas.addEventListener('mousedown', (e)=>{
-  const rect = canvas.getBoundingClientRect();
-  const sx = e.clientX - rect.left;
-  const sy = e.clientY - rect.top;
-  mouseScreen = { x: sx, y: sy };
-  const rawDown = screenToWorld(sx, sy);
-  // Snap in drawing mode; use raw coords for drag/select
-  if(mode === 'DRAWING'){
-    const snapped = snapToGrid(rawDown.x, rawDown.y);
-    mouseWorld = { x: snapped.x, y: snapped.y };
-  } else {
-    mouseWorld = rawDown;
-  }
+    function syncSymmetryUI(s) {
+      updateSymSelectOptions();
+      const selAxis = document.getElementById('symAxisSelect');
+      if (selAxis) selAxis.value = s.symmetryLineId ? String(s.symmetryLineId) : '';
+      const selPt = document.getElementById('symPointSelect');
+      if (selPt) selPt.value = s.symmetryPointId ? String(s.symmetryPointId) : '';
+      const infoAxis = document.getElementById('symAxisInfo');
+      if (infoAxis) infoAxis.style.display = s.symmetryLineId ? 'block' : 'none';
+      const infoPt = document.getElementById('symPointInfo');
+      if (infoPt) infoPt.style.display = s.symmetryPointId ? 'block' : 'none';
+    }
 
-  if(e.button === 1 || (e.button === 0 && e.altKey)){
-    isPanning = true;
-    panStart = { x: sx, y: sy };
-    panStartOffset = { x: view.offsetX, y: view.offsetY };
-    canvas.style.cursor = 'grabbing';
-    return;
-  }
+    // Legacy stubs
+    function toggleSymmetryAxis(axis) { /* deprecated */ }
+    function setSymmetry(axis) { /* deprecated */ }
+    function toggleReflect(axis) { /* deprecated */ }
 
-  if(mode === 'IDLE' && activeIndex !== -1){
-    const s = shapes[activeIndex];
+    /* ===================== ANIMAÇÕES ===================== */
+    let animFrame = null;
+    let lastTime = 0;
 
-    // Check vertex handles first (for closed polygons, segments, and sym-axis lines)
-    if(s.isClosed && (s.type === SHAPE_TYPES.POLYGON || s.type === SHAPE_TYPES.SEGMENT || s.isSymAxis)){
-      const VERTEX_HIT = 14; // px
+    function toggleAnim(type) {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      s.anim[type] = !s.anim[type];
+
+      const hasAny = shapes.some(sh => sh.anim.x || sh.anim.y || sh.anim.rot);
+      if (hasAny && !animFrame) {
+        lastTime = performance.now();
+        animFrame = requestAnimationFrame(animLoop);
+      } else if (!hasAny && animFrame) {
+        cancelAnimationFrame(animFrame);
+        animFrame = null;
+      }
+      updateUI();
+    }
+
+    function animLoop(now) {
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+
+      // Bounce bounds: 1 full canvas-width beyond each side in world units,
+      // so shapes travel well off-screen before returning (natural bounce animation).
+      const boundsX = canvas.width / view.scale;
+      const boundsY = canvas.height / view.scale;
+
+      shapes.forEach(s => {
+        const spd = s.speed.trans * 60;
+        const rotSpd = s.speed.rot * 60;
+
+        if (s.anim.x) {
+          s.tx += spd * s.anim.dirX * dt;
+          if (s.tx > boundsX) { s.anim.dirX = -1; }
+          else if (s.tx < -boundsX) { s.anim.dirX = 1; }
+          const el = document.getElementById('inputTx');
+          if (el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.tx);
+        }
+        if (s.anim.y) {
+          s.ty += spd * s.anim.dirY * dt;
+          if (s.ty > boundsY) { s.anim.dirY = -1; }
+          else if (s.ty < -boundsY) { s.anim.dirY = 1; }
+          const el = document.getElementById('inputTy');
+          if (el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.ty);
+        }
+        if (s.anim.rot) {
+          s.rotation = (s.rotation + rotSpd * dt) % 360;
+          const el = document.getElementById('inputRot');
+          if (el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.rotation);
+        }
+      });
+
+      updateLabelValues();
+      draw();
+      animFrame = requestAnimationFrame(animLoop);
+    }
+
+    function changeSpeed(type, delta) {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      const speeds = [0.25, 0.5, 1, 2, 3, 5];
+      let idx = speeds.indexOf(s.speed[type]);
+      idx = Math.max(0, Math.min(speeds.length - 1, idx + delta));
+      s.speed[type] = speeds[idx];
+      updateLabelValues();
+    }
+
+    /* ===================== PRESET SHAPES ===================== */
+    function addPresetShape(type) {
+      const cx = 0, cy = 0;
+      createNewLayer();
+      const s = shapes[shapes.length - 1];
+
+      switch (type) {
+        case 'circle':
+          s.type = SHAPE_TYPES.CIRCLE;
+          s.points = [{ x: cx, y: cy }];
+          s.radius = 80;
+          s.isClosed = true;
+          break;
+        case 'triangle': {
+          const r = 80;
+          s.points = [
+            { x: cx, y: cy - r },
+            { x: cx + r * Math.cos(Math.PI / 6), y: cy + r * Math.sin(Math.PI / 6) },
+            { x: cx - r * Math.cos(Math.PI / 6), y: cy + r * Math.sin(Math.PI / 6) }
+          ];
+          s.isClosed = true;
+          break;
+        }
+        case 'square': {
+          const h = 70;
+          s.points = [
+            { x: cx - h, y: cy - h },
+            { x: cx + h, y: cy - h },
+            { x: cx + h, y: cy + h },
+            { x: cx - h, y: cy + h }
+          ];
+          s.isClosed = true;
+          break;
+        }
+        case 'rect': {
+          s.points = [
+            { x: cx - 100, y: cy - 60 },
+            { x: cx + 100, y: cy - 60 },
+            { x: cx + 100, y: cy + 60 },
+            { x: cx - 100, y: cy + 60 }
+          ];
+          s.isClosed = true;
+          break;
+        }
+        case 'pent': {
+          const rp = 80;
+          for (let i = 0; i < 5; i++) {
+            const angle = (i * 2 * Math.PI / 5) - Math.PI / 2;
+            s.points.push({ x: cx + rp * Math.cos(angle), y: cy + rp * Math.sin(angle) });
+          }
+          s.isClosed = true;
+          break;
+        }
+        case 'hex': {
+          const rh = 80;
+          for (let i = 0; i < 6; i++) {
+            const angle = (i * 2 * Math.PI / 6);
+            s.points.push({ x: cx + rh * Math.cos(angle), y: cy + rh * Math.sin(angle) });
+          }
+          s.isClosed = true;
+          break;
+        }
+      }
+
+      s.anchor = {
+        x: s.points.reduce((a, p) => a + p.x, 0) / s.points.length,
+        y: s.points.reduce((a, p) => a + p.y, 0) / s.points.length
+      };
+      assignLabels(s.points); // give each vertex a letter A, B, C...
+
+      mode = 'IDLE';
+      updateUI();
+      draw();
+      bottomToolbar.classList.remove('open');
+    }
+
+    /* ===================== EVENTOS DO CANVAS ===================== */
+    let isPanning = false;
+    let panStart = { x: 0, y: 0 };
+    let panStartOffset = { x: 0, y: 0 };
+    let draggingVertexIndex = -1; // index of vertex being dragged
+    let edgeHoverInfo = null; // { edgeIndex, insertPoint } when hovering a polygon edge
+
+    // Returns closest point on a line segment p1->p2 to point p
+    function closestPointOnSegment(p, p1, p2) {
+      const dx = p2.x - p1.x, dy = p2.y - p1.y;
+      const lenSq = dx * dx + dy * dy;
+      if (lenSq === 0) return { x: p1.x, y: p1.y, t: 0 };
+      const t = Math.max(0, Math.min(1, ((p.x - p1.x) * dx + (p.y - p1.y) * dy) / lenSq));
+      return { x: p1.x + t * dx, y: p1.y + t * dy, t };
+    }
+
+    // Detects if mouseWorld is near an edge of the active closed polygon
+    // Returns { edgeIndex, worldInsertPoint } or null
+    function detectEdgeHover(sx, sy) {
+      if (activeIndex === -1) return null;
+      const s = shapes[activeIndex];
+      if (!s.isClosed || s.type !== SHAPE_TYPES.POLYGON || s.points.length < 3) return null;
+      const EDGE_HIT_PX = 10;
       const transformed = getTransformedPoints(s);
-      for(let vi = 0; vi < transformed.length; vi++){
-        const sp = worldToScreen(transformed[vi].x, transformed[vi].y);
-        if(Math.hypot(sx - sp.x, sy - sp.y) < VERTEX_HIT){
-          draggingVertexIndex = vi;
-          mode = 'DRAGGING_VERTEX';
+      const n = transformed.length;
+      let bestDist = Infinity, bestEdge = -1, bestPt = null;
+      for (let i = 0; i < n; i++) {
+        const j = (i + 1) % n;
+        const p1s = worldToScreen(transformed[i].x, transformed[i].y);
+        const p2s = worldToScreen(transformed[j].x, transformed[j].y);
+        const cp = closestPointOnSegment({ x: sx, y: sy }, p1s, p2s);
+        const dist = Math.hypot(sx - cp.x, sy - cp.y);
+        if (dist < EDGE_HIT_PX && dist < bestDist) {
+          bestDist = dist;
+          bestEdge = i;
+          // Convert closest screen point back to world insert point
+          const worldCp = screenToWorld(cp.x, cp.y);
+          // Invert transform to local space
+          const ax = s.anchor.x, ay = s.anchor.y;
+          const angle = -(s.rotation * Math.PI / 180);
+          const cosA = Math.cos(angle), sinA = Math.sin(angle);
+          const scaleX = s.scale * (s.reflectX ? -1 : 1);
+          const scaleY = s.scale * (s.reflectY ? -1 : 1);
+          const wx = worldCp.x - s.tx - ax;
+          const wy = worldCp.y - s.ty - ay;
+          const rx = wx * cosA - wy * sinA;
+          const ry = wx * sinA + wy * cosA;
+          bestPt = { x: rx / scaleX + ax, y: ry / scaleY + ay };
+        }
+      }
+      if (bestEdge === -1) return null;
+      return { edgeIndex: bestEdge, localInsertPoint: bestPt };
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+      mouseScreen = { x: sx, y: sy };
+      const rawDown = screenToWorld(sx, sy);
+      // Snap in drawing mode; use raw coords for drag/select
+      if (mode === 'DRAWING') {
+        const snapped = snapToGrid(rawDown.x, rawDown.y);
+        mouseWorld = { x: snapped.x, y: snapped.y };
+      } else {
+        mouseWorld = rawDown;
+      }
+
+      if (e.button === 1 || (e.button === 0 && e.altKey)) {
+        isPanning = true;
+        panStart = { x: sx, y: sy };
+        panStartOffset = { x: view.offsetX, y: view.offsetY };
+        canvas.style.cursor = 'grabbing';
+        return;
+      }
+
+      if (mode === 'IDLE' && activeIndex !== -1) {
+        const s = shapes[activeIndex];
+
+        // Check vertex handles first (for closed polygons, segments, and sym-axis lines)
+        if (s.isClosed && (s.type === SHAPE_TYPES.POLYGON || s.type === SHAPE_TYPES.SEGMENT || s.isSymAxis)) {
+          const VERTEX_HIT = 14; // px
+          const transformed = getTransformedPoints(s);
+          for (let vi = 0; vi < transformed.length; vi++) {
+            const sp = worldToScreen(transformed[vi].x, transformed[vi].y);
+            if (Math.hypot(sx - sp.x, sy - sp.y) < VERTEX_HIT) {
+              draggingVertexIndex = vi;
+              mode = 'DRAGGING_VERTEX';
+              return;
+            }
+          }
+        }
+
+        // Check edge click to insert vertex on closed polygon
+        if (edgeHoverInfo && s.isClosed && s.type === SHAPE_TYPES.POLYGON) {
+          const newPt = { ...edgeHoverInfo.localInsertPoint, label: nextVertexLabel() };
+          s.points.splice(edgeHoverInfo.edgeIndex + 1, 0, newPt);
+          edgeHoverInfo = null;
+          draw();
           return;
         }
-      }
-    }
 
-    // Check edge click to insert vertex on closed polygon
-    if(edgeHoverInfo && s.isClosed && s.type === SHAPE_TYPES.POLYGON) {
-      const newPt = { ...edgeHoverInfo.localInsertPoint, label: nextVertexLabel() };
-      s.points.splice(edgeHoverInfo.edgeIndex + 1, 0, newPt);
-      edgeHoverInfo = null;
-      draw();
-      return;
-    }
+        const anchorScreen = worldToScreen(s.anchor.x + s.tx, s.anchor.y + s.ty);
+        const distAnchor = Math.hypot(sx - anchorScreen.x, sy - anchorScreen.y);
 
-    const anchorScreen = worldToScreen(s.anchor.x + s.tx, s.anchor.y + s.ty);
-    const distAnchor = Math.hypot(sx - anchorScreen.x, sy - anchorScreen.y);
-    
-    if(distAnchor < 12){
-      mode = 'DRAGGING_ANCHOR';
-      return;
-    }
+        if (distAnchor < 12) {
+          mode = 'DRAGGING_ANCHOR';
+          return;
+        }
 
-    const transformed = getTransformedPoints(s);
+        const transformed = getTransformedPoints(s);
 
-    // Check if click is inside the polygon (point-in-polygon test)
-    let hitShape = false;
-    if(s.type === SHAPE_TYPES.CIRCLE){
-      const cx = s.points[0].x + s.tx;
-      const cy = s.points[0].y + s.ty;
-      const r = s.radius * s.scale;
-      const mw = mouseWorld;
-      hitShape = Math.hypot(mw.x - cx, mw.y - cy) <= r;
-    } else if(transformed.length >= 3){
-      // Ray casting algorithm for polygon
-      const mw = mouseWorld;
-      let inside = false;
-      for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
-        const xi = transformed[i].x, yi = transformed[i].y;
-        const xj = transformed[j].x, yj = transformed[j].y;
-        const intersect = ((yi > mw.y) !== (yj > mw.y)) &&
-          (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi);
-        if(intersect) inside = !inside;
-      }
-      hitShape = inside;
-      // Also allow clicking near edges (within ~10px screen)
-      if(!hitShape){
-        for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
-          const ps = worldToScreen(transformed[i].x, transformed[i].y);
-          if(Math.hypot(sx - ps.x, sy - ps.y) < 10){ hitShape = true; break; }
-          j = i;
+        // Check if click is inside the polygon (point-in-polygon test)
+        let hitShape = false;
+        if (s.type === SHAPE_TYPES.CIRCLE) {
+          const cx = s.points[0].x + s.tx;
+          const cy = s.points[0].y + s.ty;
+          const r = s.radius * s.scale;
+          const mw = mouseWorld;
+          hitShape = Math.hypot(mw.x - cx, mw.y - cy) <= r;
+        } else if (transformed.length >= 3) {
+          // Ray casting algorithm for polygon
+          const mw = mouseWorld;
+          let inside = false;
+          for (let i = 0, j = transformed.length - 1; i < transformed.length; j = i++) {
+            const xi = transformed[i].x, yi = transformed[i].y;
+            const xj = transformed[j].x, yj = transformed[j].y;
+            const intersect = ((yi > mw.y) !== (yj > mw.y)) &&
+              (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+          }
+          hitShape = inside;
+          // Also allow clicking near edges (within ~10px screen)
+          if (!hitShape) {
+            for (let i = 0, j = transformed.length - 1; i < transformed.length; j = i++) {
+              const ps = worldToScreen(transformed[i].x, transformed[i].y);
+              if (Math.hypot(sx - ps.x, sy - ps.y) < 10) { hitShape = true; break; }
+              j = i;
+            }
+          }
+        } else {
+          // Segment/line/point - click near the shape
+          if (s.isSymPoint) {
+            // Sym-point: click within radius
+            const pp = worldToScreen(s.points[0].x + (s.tx || 0), s.points[0].y + (s.ty || 0));
+            hitShape = Math.hypot(sx - pp.x, sy - pp.y) < (s.pointRadius || 7) * 2;
+          } else if (s.type === SHAPE_TYPES.LINE || s.isSymAxis) {
+            // Distance from mouseWorld to the infinite line through transformed[0] and transformed[1]
+            const p1 = transformed[0], p2 = transformed[1];
+            const ldx = p2.x - p1.x, ldy = p2.y - p1.y;
+            const llen = Math.hypot(ldx, ldy) || 1;
+            const distToLine = Math.abs((mouseWorld.y - p1.y) * ldx - (mouseWorld.x - p1.x) * ldy) / llen;
+            hitShape = (distToLine * view.scale) < 10;
+          } else {
+            transformed.forEach(p => {
+              const ps = worldToScreen(p.x, p.y);
+              if (Math.hypot(sx - ps.x, sy - ps.y) < 16) hitShape = true;
+            });
+          }
+        }
+
+        if (hitShape) {
+          mode = 'DRAGGING_SHAPE';
+          dragStartWorld = { ...mouseWorld };
         }
       }
-    } else {
-      // Segment/line/point - click near the shape
-      if(s.isSymPoint){
-        // Sym-point: click within radius
-        const pp = worldToScreen(s.points[0].x + (s.tx||0), s.points[0].y + (s.ty||0));
-        hitShape = Math.hypot(sx - pp.x, sy - pp.y) < (s.pointRadius||7) * 2;
-      } else if(s.type === SHAPE_TYPES.LINE || s.isSymAxis){
-        // Distance from mouseWorld to the infinite line through transformed[0] and transformed[1]
-        const p1 = transformed[0], p2 = transformed[1];
-        const ldx = p2.x - p1.x, ldy = p2.y - p1.y;
-        const llen = Math.hypot(ldx, ldy) || 1;
-        const distToLine = Math.abs((mouseWorld.y - p1.y)*ldx - (mouseWorld.x - p1.x)*ldy) / llen;
-        hitShape = (distToLine * view.scale) < 10;
-      } else {
-        transformed.forEach(p => {
-          const ps = worldToScreen(p.x, p.y);
-          if(Math.hypot(sx - ps.x, sy - ps.y) < 16) hitShape = true;
-        });
+
+      if (mode === 'DRAWING' && activeIndex !== -1) {
+        const s = shapes[activeIndex];
+        if (s.type === SHAPE_TYPES.POLYGON && s.points.length >= 3) {
+          const first = worldToScreen(s.points[0].x, s.points[0].y);
+          const dist = Math.hypot(sx - first.x, sy - first.y);
+          if (dist < 15) {
+            s.isClosed = true;
+            mode = 'IDLE';
+            s.anchor = {
+              x: s.points.reduce((a, p) => a + p.x, 0) / s.points.length,
+              y: s.points.reduce((a, p) => a + p.y, 0) / s.points.length
+            };
+            updateUI();
+            draw();
+            return;
+          }
+        }
+
+        const rawPt = screenToWorld(sx, sy);
+        const snapped = snapToGrid(rawPt.x, rawPt.y);
+        const worldPt = { x: snapped.x, y: snapped.y };
+        worldPt.label = nextVertexLabel(); // assign letter immediately
+        if (s.type === SHAPE_TYPES.POINT) {
+          s.points = [worldPt];
+          s.isClosed = true;
+          mode = 'IDLE';
+          s.anchor = { ...worldPt };
+          updateUI();
+        } else if (s.type === SHAPE_TYPES.SEGMENT || s.type === SHAPE_TYPES.LINE) {
+          s.points.push(worldPt);
+          if (s.points.length >= 2) {
+            s.isClosed = true;
+            mode = 'IDLE';
+            s.anchor = {
+              x: (s.points[0].x + s.points[1].x) / 2,
+              y: (s.points[0].y + s.points[1].y) / 2
+            };
+            updateUI();
+          }
+        } else {
+          s.points.push(worldPt);
+        }
+        draw();
       }
-    }
+    });
 
-    if(hitShape){
-      mode = 'DRAGGING_SHAPE';
-      dragStartWorld = { ...mouseWorld };
-    }
-  }
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+      mouseScreen = { x: sx, y: sy };
+      const rawWorld = screenToWorld(sx, sy);
+      // Only snap during drawing so free drag isn't affected
+      if (mode === 'DRAWING') {
+        const snapped = snapToGrid(rawWorld.x, rawWorld.y);
+        mouseWorld = { x: snapped.x, y: snapped.y };
+        snapIndicator = snapped.snapped ? { x: snapped.x, y: snapped.y } : null;
+      } else {
+        mouseWorld = rawWorld;
+        snapIndicator = null;
+      }
 
-  if(mode === 'DRAWING' && activeIndex !== -1){
-    const s = shapes[activeIndex];
-    if(s.type === SHAPE_TYPES.POLYGON && s.points.length >= 3){
-      const first = worldToScreen(s.points[0].x, s.points[0].y);
-      const dist = Math.hypot(sx - first.x, sy - first.y);
-      if(dist < 15){
-        s.isClosed = true;
-        mode = 'IDLE';
-        s.anchor = {
-          x: s.points.reduce((a,p)=>a+p.x,0)/s.points.length,
-          y: s.points.reduce((a,p)=>a+p.y,0)/s.points.length
-        };
-        updateUI();
+      // Update cursor based on what's hovered
+      if (mode === 'IDLE' && activeIndex !== -1) {
+        const s = shapes[activeIndex];
+        const transformed = getTransformedPoints(s);
+
+        // Check vertex handles first
+        let overVertex = false;
+        if (s.isClosed && (s.type === SHAPE_TYPES.POLYGON || s.type === SHAPE_TYPES.SEGMENT || s.isSymAxis)) {
+          for (let vi = 0; vi < transformed.length; vi++) {
+            const sp = worldToScreen(transformed[vi].x, transformed[vi].y);
+            if (Math.hypot(sx - sp.x, sy - sp.y) < 14) { overVertex = true; break; }
+          }
+        }
+
+        if (overVertex) {
+          edgeHoverInfo = null;
+          canvas.style.cursor = 'grab';
+        } else {
+          // Check edge hover for closed polygons
+          const edgeHit = detectEdgeHover(sx, sy);
+          edgeHoverInfo = edgeHit;
+
+          if (edgeHit) {
+            canvas.style.cursor = 'cell'; // "+" cursor indicating add vertex
+          } else {
+            // Check if hovering inside shape body
+            let overShape = false;
+            const mw = mouseWorld;
+            if (s.type === SHAPE_TYPES.CIRCLE) {
+              const cx = s.points[0].x + s.tx;
+              const cy = s.points[0].y + s.ty;
+              overShape = Math.hypot(mw.x - cx, mw.y - cy) <= s.radius * s.scale;
+            } else if (transformed.length >= 3) {
+              let inside = false;
+              for (let i = 0, j = transformed.length - 1; i < transformed.length; j = i++) {
+                const xi = transformed[i].x, yi = transformed[i].y;
+                const xj = transformed[j].x, yj = transformed[j].y;
+                if (((yi > mw.y) !== (yj > mw.y)) && (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi))
+                  inside = !inside;
+              }
+              overShape = inside;
+            }
+            canvas.style.cursor = overShape ? 'move' : 'default';
+          }
+        }
+      } else if (mode === 'DRAWING') {
+        canvas.style.cursor = 'crosshair';
+      } else if (mode === 'DRAGGING_VERTEX') {
+        canvas.style.cursor = 'grabbing';
+      } else if (mode === 'DRAGGING_SHAPE') {
+        canvas.style.cursor = 'grabbing';
+      }
+
+      if (isPanning) {
+        view.offsetX = panStartOffset.x + (sx - panStart.x);
+        view.offsetY = panStartOffset.y + (sy - panStart.y);
         draw();
         return;
       }
-    }
-    
-    const rawPt = screenToWorld(sx, sy);
-    const snapped = snapToGrid(rawPt.x, rawPt.y);
-    const worldPt = { x: snapped.x, y: snapped.y };
-    worldPt.label = nextVertexLabel(); // assign letter immediately
-    if(s.type === SHAPE_TYPES.POINT){
-      s.points = [worldPt];
-      s.isClosed = true;
-      mode = 'IDLE';
-      s.anchor = { ...worldPt };
-      updateUI();
-    } else if(s.type === SHAPE_TYPES.SEGMENT || s.type === SHAPE_TYPES.LINE){
-      s.points.push(worldPt);
-      if(s.points.length >= 2){
-        s.isClosed = true;
+
+      if (mode === 'DRAGGING_VERTEX' && activeIndex !== -1 && draggingVertexIndex !== -1) {
+        const s = shapes[activeIndex];
+        // Apply snap to the raw mouse position before inverse-transforming
+        const snapped = snapToGrid(mouseWorld.x, mouseWorld.y);
+        const mw = { x: snapped.x, y: snapped.y };
+        snapIndicator = snapped.snapped ? { x: snapped.x, y: snapped.y } : null;
+
+        // Convert mouseWorld back to local (pre-transform) space by inverting all transforms
+        const ax = s.anchor.x;
+        const ay = s.anchor.y;
+        const angle = -(s.rotation * Math.PI / 180);
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        const scaleX = s.scale * (s.reflectX ? -1 : 1);
+        const scaleY = s.scale * (s.reflectY ? -1 : 1);
+
+        // Step 1: remove translation and anchor offset
+        const wx = mw.x - s.tx - ax;
+        const wy = mw.y - s.ty - ay;
+
+        // Step 2: invert rotation
+        const rx = wx * cos - wy * sin;
+        const ry = wx * sin + wy * cos;
+
+        // Step 3: invert scale + reflection
+        const lx = rx / scaleX + ax;
+        const ly = ry / scaleY + ay;
+
+        s.points[draggingVertexIndex] = { x: lx, y: ly, label: s.points[draggingVertexIndex].label };
+        // Do NOT update anchor — keep it fixed so other vertices stay put
+        draw();
+        return;
+      }
+
+      if (mode === 'DRAGGING_ANCHOR' && activeIndex !== -1) {
+        const s = shapes[activeIndex];
+        s.anchor.x = mouseWorld.x - s.tx;
+        s.anchor.y = mouseWorld.y - s.ty;
+        draw();
+        return;
+      }
+
+      if (mode === 'DRAGGING_SHAPE' && activeIndex !== -1) {
+        const s = shapes[activeIndex];
+        const dx = mouseWorld.x - dragStartWorld.x;
+        const dy = mouseWorld.y - dragStartWorld.y;
+        s.tx += dx;
+        s.ty += dy;
+        dragStartWorld = { ...mouseWorld };
+        if (!s.anim.x) document.getElementById('inputTx').value = s.tx;
+        if (!s.anim.y) document.getElementById('inputTy').value = s.ty;
+        updateLabelValues();
+        draw();
+        return;
+      }
+
+      draw();
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+      if (isPanning) {
+        isPanning = false;
+        canvas.style.cursor = mode === 'DRAWING' ? 'crosshair' : 'default';
+      }
+      if (mode === 'DRAGGING_VERTEX') {
         mode = 'IDLE';
-        s.anchor = {
-          x: (s.points[0].x + s.points[1].x) / 2,
-          y: (s.points[0].y + s.points[1].y) / 2
-        };
-        updateUI();
+        draggingVertexIndex = -1;
       }
-    } else {
-      s.points.push(worldPt);
-    }
-    draw();
-  }
-});
-
-canvas.addEventListener('mousemove', (e)=>{
-  const rect = canvas.getBoundingClientRect();
-  const sx = e.clientX - rect.left;
-  const sy = e.clientY - rect.top;
-  mouseScreen = { x: sx, y: sy };
-  const rawWorld = screenToWorld(sx, sy);
-  // Only snap during drawing so free drag isn't affected
-  if(mode === 'DRAWING'){
-    const snapped = snapToGrid(rawWorld.x, rawWorld.y);
-    mouseWorld = { x: snapped.x, y: snapped.y };
-    snapIndicator = snapped.snapped ? { x: snapped.x, y: snapped.y } : null;
-  } else {
-    mouseWorld = rawWorld;
-    snapIndicator = null;
-  }
-
-  // Update cursor based on what's hovered
-  if(mode === 'IDLE' && activeIndex !== -1){
-    const s = shapes[activeIndex];
-    const transformed = getTransformedPoints(s);
-
-    // Check vertex handles first
-    let overVertex = false;
-    if(s.isClosed && (s.type === SHAPE_TYPES.POLYGON || s.type === SHAPE_TYPES.SEGMENT || s.isSymAxis)){
-      for(let vi = 0; vi < transformed.length; vi++){
-        const sp = worldToScreen(transformed[vi].x, transformed[vi].y);
-        if(Math.hypot(sx - sp.x, sy - sp.y) < 14){ overVertex = true; break; }
+      if (mode === 'DRAGGING_ANCHOR' || mode === 'DRAGGING_SHAPE') {
+        mode = 'IDLE';
       }
-    }
-
-    if(overVertex){
       edgeHoverInfo = null;
-      canvas.style.cursor = 'grab';
-    } else {
-      // Check edge hover for closed polygons
-      const edgeHit = detectEdgeHover(sx, sy);
-      edgeHoverInfo = edgeHit;
+    });
 
-      if(edgeHit) {
-        canvas.style.cursor = 'cell'; // "+" cursor indicating add vertex
-      } else {
-        // Check if hovering inside shape body
-        let overShape = false;
-        const mw = mouseWorld;
-        if(s.type === SHAPE_TYPES.CIRCLE){
-          const cx = s.points[0].x + s.tx;
-          const cy = s.points[0].y + s.ty;
-          overShape = Math.hypot(mw.x - cx, mw.y - cy) <= s.radius * s.scale;
-        } else if(transformed.length >= 3){
-          let inside = false;
-          for(let i = 0, j = transformed.length - 1; i < transformed.length; j = i++){
-            const xi = transformed[i].x, yi = transformed[i].y;
-            const xj = transformed[j].x, yj = transformed[j].y;
-            if(((yi > mw.y) !== (yj > mw.y)) && (mw.x < (xj - xi) * (mw.y - yi) / (yj - yi) + xi))
-              inside = !inside;
-          }
-          overShape = inside;
-        }
-        canvas.style.cursor = overShape ? 'move' : 'default';
+    canvas.addEventListener('mouseleave', () => {
+      isPanning = false;
+      if (mode === 'DRAGGING_VERTEX') {
+        mode = 'IDLE';
+        draggingVertexIndex = -1;
       }
+      if (mode === 'DRAGGING_ANCHOR' || mode === 'DRAGGING_SHAPE') {
+        mode = 'IDLE';
+      }
+    });
+
+    /* ===================== INSTRUÇÃO ===================== */
+    function showInstruction(text) {
+      const el = document.getElementById('instructionText');
+      el.textContent = text;
+      el.style.display = 'flex';
     }
-  } else if(mode === 'DRAWING'){
-    canvas.style.cursor = 'crosshair';
-  } else if(mode === 'DRAGGING_VERTEX'){
-    canvas.style.cursor = 'grabbing';
-  } else if(mode === 'DRAGGING_SHAPE'){
-    canvas.style.cursor = 'grabbing';
-  }
 
-  if(isPanning){
-    view.offsetX = panStartOffset.x + (sx - panStart.x);
-    view.offsetY = panStartOffset.y + (sy - panStart.y);
-    draw();
-    return;
-  }
-
-  if(mode === 'DRAGGING_VERTEX' && activeIndex !== -1 && draggingVertexIndex !== -1){
-    const s = shapes[activeIndex];
-    // Apply snap to the raw mouse position before inverse-transforming
-    const snapped = snapToGrid(mouseWorld.x, mouseWorld.y);
-    const mw = { x: snapped.x, y: snapped.y };
-    snapIndicator = snapped.snapped ? { x: snapped.x, y: snapped.y } : null;
-
-    // Convert mouseWorld back to local (pre-transform) space by inverting all transforms
-    const ax = s.anchor.x;
-    const ay = s.anchor.y;
-    const angle = -(s.rotation * Math.PI / 180);
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    const scaleX = s.scale * (s.reflectX ? -1 : 1);
-    const scaleY = s.scale * (s.reflectY ? -1 : 1);
-
-    // Step 1: remove translation and anchor offset
-    const wx = mw.x - s.tx - ax;
-    const wy = mw.y - s.ty - ay;
-
-    // Step 2: invert rotation
-    const rx = wx * cos - wy * sin;
-    const ry = wx * sin + wy * cos;
-
-    // Step 3: invert scale + reflection
-    const lx = rx / scaleX + ax;
-    const ly = ry / scaleY + ay;
-
-    s.points[draggingVertexIndex] = { x: lx, y: ly, label: s.points[draggingVertexIndex].label };
-    // Do NOT update anchor — keep it fixed so other vertices stay put
-    draw();
-    return;
-  }
-
-  if(mode === 'DRAGGING_ANCHOR' && activeIndex !== -1){
-    const s = shapes[activeIndex];
-    s.anchor.x = mouseWorld.x - s.tx;
-    s.anchor.y = mouseWorld.y - s.ty;
-    draw();
-    return;
-  }
-
-  if(mode === 'DRAGGING_SHAPE' && activeIndex !== -1){
-    const s = shapes[activeIndex];
-    const dx = mouseWorld.x - dragStartWorld.x;
-    const dy = mouseWorld.y - dragStartWorld.y;
-    s.tx += dx;
-    s.ty += dy;
-    dragStartWorld = { ...mouseWorld };
-    if(!s.anim.x) document.getElementById('inputTx').value = s.tx;
-    if(!s.anim.y) document.getElementById('inputTy').value = s.ty;
-    updateLabelValues();
-    draw();
-    return;
-  }
-
-  draw();
-});
-
-canvas.addEventListener('mouseup', (e)=>{
-  if(isPanning){
-    isPanning = false;
-    canvas.style.cursor = mode === 'DRAWING' ? 'crosshair' : 'default';
-  }
-  if(mode === 'DRAGGING_VERTEX'){
-    mode = 'IDLE';
-    draggingVertexIndex = -1;
-  }
-  if(mode === 'DRAGGING_ANCHOR' || mode === 'DRAGGING_SHAPE'){
-    mode = 'IDLE';
-  }
-  edgeHoverInfo = null;
-});
-
-canvas.addEventListener('mouseleave', ()=>{
-  isPanning = false;
-  if(mode === 'DRAGGING_VERTEX'){
-    mode = 'IDLE';
-    draggingVertexIndex = -1;
-  }
-  if(mode === 'DRAGGING_ANCHOR' || mode === 'DRAGGING_SHAPE'){
-    mode = 'IDLE';
-  }
-});
-
-/* ===================== INSTRUÇÃO ===================== */
-function showInstruction(text){
-  const el = document.getElementById('instructionText');
-  el.textContent = text;
-  el.style.display = 'flex';
-}
-
-function hideInstruction(){
-  document.getElementById('instructionText').style.display = 'none';
-}
-
-/* ===================== DESENHO ===================== */
-function draw(){
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.save();
-  ctx.translate(view.offsetX, view.offsetY);
-  ctx.scale(view.scale, view.scale);
-
-  drawGrid();
-  drawAxes();
-
-  shapes.forEach((shape, idx) => {
-    const isSelected = idx === activeIndex;
-    const isGhost = false;
-    drawShape(shape, isGhost, isSelected);
-    if(!shape.isSymAxis) drawVertexLabels(shape, false);
-    // Reflexão em reta
-    if(!shape.isSymAxis && shape.symmetryLineId){
-      drawSymmetryImage(shape);
+    function hideInstruction() {
+      document.getElementById('instructionText').style.display = 'none';
     }
-    // Reflexão em ponto
-    if(!shape.isSymAxis && shape.symmetryPointId){
-      drawPointSymmetryImage(shape);
-    }
-  });
 
-  if(mode === 'DRAWING' && activeIndex !== -1){
-    const s = shapes[activeIndex];
-    if(s.points.length > 0 && s.type === SHAPE_TYPES.POLYGON){
+    /* ===================== DESENHO ===================== */
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       ctx.save();
-      ctx.strokeStyle = s.color + '88';
-      ctx.lineWidth = 1.5 / view.scale;
-      ctx.setLineDash([4/view.scale, 4/view.scale]);
-      ctx.beginPath();
-      ctx.moveTo(s.points[s.points.length-1].x, s.points[s.points.length-1].y);
-      ctx.lineTo(mouseWorld.x, mouseWorld.y);
-      ctx.stroke();
-      ctx.restore();
+      ctx.translate(view.offsetX, view.offsetY);
+      ctx.scale(view.scale, view.scale);
 
-      if(s.points.length >= 3){
-        const first = s.points[0];
-        const distWorld = Math.hypot(mouseWorld.x - first.x, mouseWorld.y - first.y);
-        const threshold = 15 / view.scale;
-        if(distWorld < threshold){
+      drawGrid();
+      drawAxes();
+
+      shapes.forEach((shape, idx) => {
+        const isSelected = idx === activeIndex;
+        const isGhost = false;
+        drawShape(shape, isGhost, isSelected);
+        if (!shape.isSymAxis) drawVertexLabels(shape, false);
+        // Reflexão em reta
+        if (!shape.isSymAxis && shape.symmetryLineId) {
+          drawSymmetryImage(shape);
+        }
+        // Reflexão em ponto
+        if (!shape.isSymAxis && shape.symmetryPointId) {
+          drawPointSymmetryImage(shape);
+        }
+      });
+
+      if (mode === 'DRAWING' && activeIndex !== -1) {
+        const s = shapes[activeIndex];
+        if (s.points.length > 0 && s.type === SHAPE_TYPES.POLYGON) {
+          ctx.save();
+          ctx.strokeStyle = s.color + '88';
+          ctx.lineWidth = 1.5 / view.scale;
+          ctx.setLineDash([4 / view.scale, 4 / view.scale]);
+          ctx.beginPath();
+          ctx.moveTo(s.points[s.points.length - 1].x, s.points[s.points.length - 1].y);
+          ctx.lineTo(mouseWorld.x, mouseWorld.y);
+          ctx.stroke();
+          ctx.restore();
+
+          if (s.points.length >= 3) {
+            const first = s.points[0];
+            const distWorld = Math.hypot(mouseWorld.x - first.x, mouseWorld.y - first.y);
+            const threshold = 15 / view.scale;
+            if (distWorld < threshold) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.arc(first.x, first.y, threshold, 0, Math.PI * 2);
+              ctx.fillStyle = s.color + '33';
+              ctx.fill();
+              ctx.strokeStyle = s.color;
+              ctx.lineWidth = 2 / view.scale;
+              ctx.setLineDash([]);
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+        }
+      }
+
+      // Snap indicator — blue ring at grid intersection when snapping
+      if (snapIndicator && (mode === 'DRAWING' || mode === 'DRAGGING_VERTEX')) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(snapIndicator.x, snapIndicator.y, 6 / view.scale, 0, Math.PI * 2);
+        ctx.strokeStyle = '#1CB0F6';
+        ctx.lineWidth = 2 / view.scale;
+        ctx.setLineDash([]);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(snapIndicator.x, snapIndicator.y, 2 / view.scale, 0, Math.PI * 2);
+        ctx.fillStyle = '#1CB0F6';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // Edge hover indicator — green "+" dot showing where new vertex will be inserted
+      if (edgeHoverInfo && mode === 'IDLE') {
+        const pt = edgeHoverInfo.localInsertPoint;
+        if (pt && activeIndex !== -1) {
+          const s = shapes[activeIndex];
+          // Transform the local insert point to world coords for drawing
+          const ax = s.anchor.x, ay = s.anchor.y;
+          const angle = s.rotation * Math.PI / 180;
+          const cosA = Math.cos(angle), sinA = Math.sin(angle);
+          const scaleX = s.scale * (s.reflectX ? -1 : 1);
+          const scaleY = s.scale * (s.reflectY ? -1 : 1);
+          const lx = pt.x - ax, ly = pt.y - ay;
+          const sx2 = lx * scaleX, sy2 = ly * scaleY;
+          const rx = sx2 * cosA - sy2 * sinA + ax + s.tx;
+          const ry = sx2 * sinA + sy2 * cosA + ay + s.ty;
           ctx.save();
           ctx.beginPath();
-          ctx.arc(first.x, first.y, threshold, 0, Math.PI*2);
-          ctx.fillStyle = s.color + '33';
+          ctx.arc(rx, ry, 7 / view.scale, 0, Math.PI * 2);
+          ctx.fillStyle = '#58CC02';
           ctx.fill();
-          ctx.strokeStyle = s.color;
+          ctx.strokeStyle = '#fff';
           ctx.lineWidth = 2 / view.scale;
-          ctx.setLineDash([]);
+          ctx.stroke();
+          // Draw "+" symbol
+          ctx.beginPath();
+          ctx.moveTo(rx - 4 / view.scale, ry);
+          ctx.lineTo(rx + 4 / view.scale, ry);
+          ctx.moveTo(rx, ry - 4 / view.scale);
+          ctx.lineTo(rx, ry + 4 / view.scale);
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 1.5 / view.scale;
           ctx.stroke();
           ctx.restore();
         }
       }
+
+      ctx.restore();
     }
-  }
 
-  // Snap indicator — blue ring at grid intersection when snapping
-  if(snapIndicator && (mode === 'DRAWING' || mode === 'DRAGGING_VERTEX')){
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(snapIndicator.x, snapIndicator.y, 6/view.scale, 0, Math.PI*2);
-    ctx.strokeStyle = '#1CB0F6';
-    ctx.lineWidth = 2/view.scale;
-    ctx.setLineDash([]);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(snapIndicator.x, snapIndicator.y, 2/view.scale, 0, Math.PI*2);
-    ctx.fillStyle = '#1CB0F6';
-    ctx.fill();
-    ctx.restore();
-  }
+    /* ---- GeoGebra-style grid constants ---- */
+    const GRID_UNIT = 40; // world units per major grid cell (1 unit = 40px at scale 1)
 
-  // Edge hover indicator — green "+" dot showing where new vertex will be inserted
-  if(edgeHoverInfo && mode === 'IDLE') {
-    const pt = edgeHoverInfo.localInsertPoint;
-    if(pt && activeIndex !== -1) {
-      const s = shapes[activeIndex];
-      // Transform the local insert point to world coords for drawing
-      const ax = s.anchor.x, ay = s.anchor.y;
-      const angle = s.rotation * Math.PI / 180;
-      const cosA = Math.cos(angle), sinA = Math.sin(angle);
-      const scaleX = s.scale * (s.reflectX ? -1 : 1);
-      const scaleY = s.scale * (s.reflectY ? -1 : 1);
-      const lx = pt.x - ax, ly = pt.y - ay;
-      const sx2 = lx * scaleX, sy2 = ly * scaleY;
-      const rx = sx2 * cosA - sy2 * sinA + ax + s.tx;
-      const ry = sx2 * sinA + sy2 * cosA + ay + s.ty;
+    function drawGrid() {
+      const left = -view.offsetX / view.scale;
+      const top = -view.offsetY / view.scale;
+      const right = (canvas.width - view.offsetX) / view.scale;
+      const bottom = (canvas.height - view.offsetY) / view.scale;
+
+      // Adaptive step: keep grid cells between 30-120 px on screen
+      let step = GRID_UNIT;
+      while (step * view.scale < 30) step *= 2;
+      while (step * view.scale > 120) step /= 2;
+      if (step < 1) step = 1;
+
+      const startX = Math.floor(left / step) * step;
+      const startY = Math.floor(top / step) * step;
+
       ctx.save();
+
+      // --- Minor grid lines (thin, light) ---
+      ctx.strokeStyle = 'rgba(180,180,200,0.35)';
+      ctx.lineWidth = 0.6 / view.scale;
+      ctx.setLineDash([]);
+      for (let x = startX; x <= right + step; x += step) {
+        ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
+      }
+      for (let y = startY; y <= bottom + step; y += step) {
+        ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(right, y); ctx.stroke();
+      }
+
+      // --- Dots at intersections (GeoGebra style) ---
+      ctx.fillStyle = 'rgba(150,150,180,0.5)';
+      const dotR = 1.5 / view.scale;
+      for (let x = startX; x <= right + step; x += step) {
+        for (let y = startY; y <= bottom + step; y += step) {
+          ctx.beginPath();
+          ctx.arc(x, y, dotR, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      ctx.restore();
+    }
+
+    function drawAxes() {
+      const left = -view.offsetX / view.scale;
+      const top = -view.offsetY / view.scale;
+      const right = (canvas.width - view.offsetX) / view.scale;
+      const bottom = (canvas.height - view.offsetY) / view.scale;
+
+      // Adaptive step (same as grid)
+      let step = GRID_UNIT;
+      while (step * view.scale < 30) step *= 2;
+      while (step * view.scale > 120) step /= 2;
+      if (step < 1) step = 1;
+
+      ctx.save();
+
+      // --- X axis ---
+      ctx.strokeStyle = 'rgba(100,100,130,0.7)';
+      ctx.lineWidth = 1.5 / view.scale;
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(left, 0); ctx.lineTo(right, 0); ctx.stroke();
+
+      // --- Y axis ---
+      ctx.beginPath(); ctx.moveTo(0, top); ctx.lineTo(0, bottom); ctx.stroke();
+
+      // --- Axis arrows ---
+      const aw = 8 / view.scale, ah = 5 / view.scale;
+      ctx.fillStyle = 'rgba(100,100,130,0.7)';
+      // X arrow (right)
       ctx.beginPath();
-      ctx.arc(rx, ry, 7/view.scale, 0, Math.PI*2);
-      ctx.fillStyle = '#58CC02';
+      ctx.moveTo(right - 2 / view.scale, 0);
+      ctx.lineTo(right - 2 / view.scale - aw, -ah);
+      ctx.lineTo(right - 2 / view.scale - aw, ah);
+      ctx.closePath(); ctx.fill();
+      // Y arrow (up — canvas Y is flipped)
+      ctx.beginPath();
+      ctx.moveTo(0, top + 2 / view.scale);
+      ctx.lineTo(-ah, top + 2 / view.scale + aw);
+      ctx.lineTo(ah, top + 2 / view.scale + aw);
+      ctx.closePath(); ctx.fill();
+
+      // --- Tick marks and numbers ---
+      ctx.fillStyle = 'rgba(80,80,110,0.85)';
+      ctx.font = `${11 / view.scale}px Nunito, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+
+      const tickH = 4 / view.scale;
+      const startX = Math.floor(left / step) * step;
+      const startY = Math.floor(top / step) * step;
+
+      // X-axis ticks & numbers
+      for (let x = startX; x <= right + step; x += step) {
+        if (Math.abs(x) < step * 0.01) continue; // skip origin
+        ctx.strokeStyle = 'rgba(100,100,130,0.7)';
+        ctx.lineWidth = 1 / view.scale;
+        ctx.beginPath(); ctx.moveTo(x, -tickH); ctx.lineTo(x, tickH); ctx.stroke();
+        // Number: show integer or 1-decimal
+        const label = (Math.abs(x / step - Math.round(x / step)) < 0.01) ? Math.round(x / step) : (x / step).toFixed(1);
+        ctx.fillText(String(label), x, tickH + 2 / view.scale);
+      }
+
+      // Y-axis ticks & numbers (Y is inverted in canvas)
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      for (let y = startY; y <= bottom + step; y += step) {
+        if (Math.abs(y) < step * 0.01) continue;
+        ctx.strokeStyle = 'rgba(100,100,130,0.7)';
+        ctx.lineWidth = 1 / view.scale;
+        ctx.beginPath(); ctx.moveTo(-tickH, y); ctx.lineTo(tickH, y); ctx.stroke();
+        const label = (Math.abs(y / step - Math.round(y / step)) < 0.01) ? -Math.round(y / step) : -(y / step).toFixed(1);
+        ctx.fillText(String(label), -tickH - 3 / view.scale, y);
+      }
+
+      // Origin label
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = 'rgba(80,80,110,0.6)';
+      ctx.fillText('O', -4 / view.scale, 4 / view.scale);
+
+      ctx.restore();
+    }
+
+    /* ===================== SIMETRIA — REFLEXÃO EM RELAÇÃO A UMA RETA ===================== */
+
+    /**
+     * Reflexão de um ponto P em relação à reta definida pelos pontos A e B.
+     *
+     * Fórmula (projeção ortogonal):
+     *   d = AB / |AB|  (vetor unitário da reta)
+     *   t = (P - A) · d   (projeção escalar)
+     *   F = A + t·d        (pé da perpendicular — ponto do eixo mais próximo de P)
+     *   P' = 2F - P        (reflexão: o eixo biseta PP', PP' ⊥ eixo)
+     */
+    function reflectPointOverLine(p, a, b) {
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const len2 = dx * dx + dy * dy;
+      if (len2 === 0) return { ...p };
+      const t = ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2;
+      const fx = a.x + t * dx;
+      const fy = a.y + t * dy;
+      return { x: 2 * fx - p.x, y: 2 * fy - p.y };
+    }
+
+    // Get the two defining world-points of a sym-axis shape (after its own transforms)
+    function getAxisPoints(axisShape) {
+      const pts = getTransformedPoints(axisShape);
+      if (pts.length < 2) return null;
+      return { a: pts[0], b: pts[1] };
+    }
+
+    function drawSymmetryImage(shape) {
+      if (!shape.symmetryLineId) return;
+      const axisShape = shapes.find(s => s.id === shape.symmetryLineId);
+      if (!axisShape || !axisShape.isSymAxis) return;
+
+      // Use the FROZEN axis position (captured at link time).
+      // Moving the line after linking does NOT move the reflected image —
+      // only changing the original object does.
+      const axis = shape.frozenAxis || getAxisPoints(axisShape);
+      if (!axis) return;
+
+      const ext = Math.max(canvas.width, canvas.height) * 2 / view.scale;
+      const dx = axis.b.x - axis.a.x, dy = axis.b.y - axis.a.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const ux = dx / len, uy = dy / len;
+
+      // (no extra axis line drawn here — the sym-axis shape itself is drawn by drawShape)
+
+      // Compute reflected points
+      let refPts;
+      if (shape.type === SHAPE_TYPES.CIRCLE) {
+        const cx = shape.points[0].x + shape.tx;
+        const cy = shape.points[0].y + shape.ty;
+        const rc = reflectPointOverLine({ x: cx, y: cy }, axis.a, axis.b);
+        const r = shape.radius * shape.scale;
+        ctx.save();
+        ctx.globalAlpha = 0.70;
+        ctx.fillStyle = shape.color + '28';
+        ctx.strokeStyle = shape.color;
+        ctx.lineWidth = 2 / view.scale;
+        ctx.setLineDash([5 / view.scale, 4 / view.scale]);
+        ctx.beginPath();
+        ctx.arc(rc.x, rc.y, r, 0, Math.PI * 2);
+        ctx.fill(); ctx.stroke();
+        ctx.restore();
+        drawReflectedLabels(shape, [rc], axis);
+        return;
+      }
+
+      const pts = getTransformedPoints(shape);
+      refPts = pts.map(p => reflectPointOverLine(p, axis.a, axis.b));
+
+      ctx.save();
+      ctx.globalAlpha = 0.70;
+      ctx.fillStyle = shape.color + '28';
+      ctx.strokeStyle = shape.color;
+      ctx.lineWidth = 2 / view.scale;
+      ctx.setLineDash([5 / view.scale, 4 / view.scale]);
+
+      if (shape.type === SHAPE_TYPES.POLYGON && shape.isClosed && refPts.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x, refPts[0].y);
+        for (let i = 1; i < refPts.length; i++) ctx.lineTo(refPts[i].x, refPts[i].y);
+        ctx.closePath();
+        ctx.fill(); ctx.stroke();
+
+      } else if (shape.type === SHAPE_TYPES.SEGMENT && refPts.length === 2) {
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x, refPts[0].y); ctx.lineTo(refPts[1].x, refPts[1].y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        refPts.forEach(p => {
+          ctx.beginPath(); ctx.arc(p.x, p.y, 3 / view.scale, 0, Math.PI * 2);
+          ctx.fillStyle = shape.color; ctx.fill();
+        });
+
+      } else if (shape.type === SHAPE_TYPES.LINE && refPts.length === 2) {
+        const rdx = refPts[1].x - refPts[0].x, rdy = refPts[1].y - refPts[0].y;
+        const rlen = Math.hypot(rdx, rdy) || 1;
+        const rux = rdx / rlen, ruy = rdy / rlen;
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x - rux * ext, refPts[0].y - ruy * ext);
+        ctx.lineTo(refPts[1].x + rux * ext, refPts[1].y + ruy * ext);
+        ctx.stroke();
+
+      } else if (shape.type === SHAPE_TYPES.POINT && refPts.length === 1) {
+        const r = shape.pointRadius / view.scale;
+        ctx.setLineDash([]);
+        ctx.beginPath(); ctx.arc(refPts[0].x, refPts[0].y, r, 0, Math.PI * 2);
+        ctx.fill(); ctx.stroke();
+
+      } else if (refPts.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x, refPts[0].y);
+        for (let i = 1; i < refPts.length; i++) ctx.lineTo(refPts[i].x, refPts[i].y);
+        if (shape.isClosed) ctx.closePath();
+        ctx.stroke();
+      }
+
+      ctx.restore();
+
+      // Draw A', B', C'... labels on reflected vertices
+      drawReflectedLabels(shape, refPts, axis);
+    }
+
+    function getTransformedPoints(shape) {
+      if (shape.type === SHAPE_TYPES.CIRCLE) {
+        const cx = shape.points[0].x + shape.tx;
+        const cy = shape.points[0].y + shape.ty;
+        return [{ x: cx, y: cy }];
+      }
+
+      const angle = shape.rotation * Math.PI / 180;
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      const ax = shape.anchor.x;
+      const ay = shape.anchor.y;
+      const sx = shape.reflectX ? -1 : 1;
+      const sy = shape.reflectY ? -1 : 1;
+      const scale = shape.scale;
+
+      return shape.points.map(p => {
+        let dx = p.x - ax;
+        let dy = p.y - ay;
+        dx *= scale * sx;
+        dy *= scale * sy;
+        const rx = dx * cos - dy * sin;
+        const ry = dx * sin + dy * cos;
+        return {
+          x: ax + rx + shape.tx,
+          y: ay + ry + shape.ty
+        };
+      });
+    }
+
+    /* ===================== RÓTULOS DOS VÉRTICES ===================== */
+
+    function drawVertexLabels(shape, isReflected) {
+      if (!shape.points || shape.points.length === 0) return;
+
+      // Build list of {x, y, label} using TRANSFORMED positions + original labels
+      let labeled = [];
+      if (shape.type === SHAPE_TYPES.CIRCLE) {
+        const cx = shape.points[0].x + shape.tx;
+        const cy = shape.points[0].y + shape.ty;
+        labeled = [{ x: cx, y: cy, label: shape.points[0].label || '' }];
+      } else {
+        const transformed = getTransformedPoints(shape);
+        labeled = transformed.map((p, i) => ({
+          x: p.x,
+          y: p.y,
+          label: (shape.points[i] && shape.points[i].label) ? shape.points[i].label : ''
+        }));
+      }
+
+      ctx.save();
+      ctx.font = `bold ${13 / view.scale}px Nunito, sans-serif`;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+
+      labeled.forEach(p => {
+        if (!p.label) return;
+        const lbl = isReflected ? p.label + "'" : p.label;
+        const ox = 9 / view.scale;
+        const oy = -9 / view.scale;
+
+        // White halo for readability
+        ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+        ctx.lineWidth = 4 / view.scale;
+        ctx.lineJoin = 'round';
+        ctx.strokeText(lbl, p.x + ox, p.y + oy);
+
+        ctx.fillStyle = isReflected ? shape.color + 'CC' : shape.color;
+        ctx.fillText(lbl, p.x + ox, p.y + oy);
+      });
+
+      ctx.restore();
+    }
+
+    function drawReflectedLabels(shape, refPts, axis) {
+      if (!shape.points || shape.points.length === 0) return;
+      ctx.save();
+      ctx.font = `bold ${12 / view.scale}px Nunito, sans-serif`;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+
+      refPts.forEach((p, i) => {
+        const origLabel = shape.points[i] ? shape.points[i].label : '';
+        if (!origLabel) return;
+        const lbl = origLabel + "'";
+        const ox = 8 / view.scale;
+        const oy = -8 / view.scale;
+
+        ctx.fillStyle = 'white';
+        ctx.lineWidth = 3 / view.scale;
+        ctx.strokeStyle = 'white';
+        ctx.lineJoin = 'round';
+        ctx.strokeText(lbl, p.x + ox, p.y + oy);
+
+        ctx.fillStyle = shape.color + 'BB';
+        ctx.fillText(lbl, p.x + ox, p.y + oy);
+      });
+
+      ctx.restore();
+    }
+
+    /* ===================== REFLEXÃO EM PONTO ===================== */
+
+    /**
+     * Reflexão de P em relação ao ponto C:
+     *   P' = 2C - P
+     * O ponto C é o ponto médio do segmento PP'. P' fica do lado oposto de C.
+     */
+    function reflectPointOverPoint(p, c) {
+      return { x: 2 * c.x - p.x, y: 2 * c.y - p.y };
+    }
+
+    function drawPointSymmetryImage(shape) {
+      if (!shape.symmetryPointId) return;
+      const ptShape = shapes.find(s => s.id === shape.symmetryPointId);
+      if (!ptShape || !ptShape.isSymPoint) return;
+
+      // Use frozen center (captured when linked); moving the sym-point doesn't move the image
+      const center = shape.frozenSymPoint ||
+        (ptShape.points[0] ? { x: ptShape.points[0].x + (ptShape.tx || 0), y: ptShape.points[0].y + (ptShape.ty || 0) } : null);
+      if (!center) return;
+
+      // Draw a subtle cross-hair at the center of symmetry
+      const ext2 = 12 / view.scale;
+      ctx.save();
+      ctx.strokeStyle = '#9C3FA6';
+      ctx.lineWidth = 1.2 / view.scale;
+      ctx.setLineDash([4 / view.scale, 3 / view.scale]);
+      ctx.beginPath();
+      ctx.moveTo(center.x - ext2, center.y); ctx.lineTo(center.x + ext2, center.y);
+      ctx.moveTo(center.x, center.y - ext2); ctx.lineTo(center.x, center.y + ext2);
+      ctx.stroke();
+      ctx.restore();
+
+      let refPts;
+      if (shape.type === SHAPE_TYPES.CIRCLE) {
+        const cx = shape.points[0].x + shape.tx;
+        const cy = shape.points[0].y + shape.ty;
+        const rc = reflectPointOverPoint({ x: cx, y: cy }, center);
+        const r = shape.radius * shape.scale;
+        ctx.save();
+        ctx.globalAlpha = 0.70;
+        ctx.fillStyle = shape.color + '28';
+        ctx.strokeStyle = shape.color;
+        ctx.lineWidth = 2 / view.scale;
+        ctx.setLineDash([5 / view.scale, 4 / view.scale]);
+        ctx.beginPath();
+        ctx.arc(rc.x, rc.y, r, 0, Math.PI * 2);
+        ctx.fill(); ctx.stroke();
+        ctx.restore();
+        drawReflectedLabels(shape, [rc], null);
+        return;
+      }
+
+      const pts = getTransformedPoints(shape);
+      refPts = pts.map(p => reflectPointOverPoint(p, center));
+
+      const ext = Math.max(canvas.width, canvas.height) * 2 / view.scale;
+
+      ctx.save();
+      ctx.globalAlpha = 0.70;
+      ctx.fillStyle = shape.color + '28';
+      ctx.strokeStyle = shape.color;
+      ctx.lineWidth = 2 / view.scale;
+      ctx.setLineDash([5 / view.scale, 4 / view.scale]);
+
+      if (shape.type === SHAPE_TYPES.POLYGON && shape.isClosed && refPts.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x, refPts[0].y);
+        for (let i = 1; i < refPts.length; i++) ctx.lineTo(refPts[i].x, refPts[i].y);
+        ctx.closePath();
+        ctx.fill(); ctx.stroke();
+
+      } else if (shape.type === SHAPE_TYPES.SEGMENT && refPts.length === 2) {
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x, refPts[0].y); ctx.lineTo(refPts[1].x, refPts[1].y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        refPts.forEach(p => {
+          ctx.beginPath(); ctx.arc(p.x, p.y, 3 / view.scale, 0, Math.PI * 2);
+          ctx.fillStyle = shape.color; ctx.fill();
+        });
+
+      } else if (shape.type === SHAPE_TYPES.LINE && refPts.length === 2) {
+        const rdx = refPts[1].x - refPts[0].x, rdy = refPts[1].y - refPts[0].y;
+        const rlen = Math.hypot(rdx, rdy) || 1;
+        const rux = rdx / rlen, ruy = rdy / rlen;
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x - rux * ext, refPts[0].y - ruy * ext);
+        ctx.lineTo(refPts[1].x + rux * ext, refPts[1].y + ruy * ext);
+        ctx.stroke();
+
+      } else if (shape.type === SHAPE_TYPES.POINT && refPts.length === 1) {
+        const r = shape.pointRadius / view.scale;
+        ctx.setLineDash([]);
+        ctx.beginPath(); ctx.arc(refPts[0].x, refPts[0].y, r, 0, Math.PI * 2);
+        ctx.fill(); ctx.stroke();
+
+      } else if (refPts.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(refPts[0].x, refPts[0].y);
+        for (let i = 1; i < refPts.length; i++) ctx.lineTo(refPts[i].x, refPts[i].y);
+        if (shape.isClosed) ctx.closePath();
+        ctx.stroke();
+      }
+
+      ctx.restore();
+      drawReflectedLabels(shape, refPts, null);
+    }
+
+    function drawSymPointShape(shape, isSelected) {
+      if (!shape.points || shape.points.length === 0) return;
+      const p = { x: shape.points[0].x + (shape.tx || 0), y: shape.points[0].y + (shape.ty || 0) };
+      const r = (shape.pointRadius || 7) / view.scale;
+
+      ctx.save();
+
+      // Outer glow when selected
+      if (isSelected) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r * 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = '#CE82FF22';
+        ctx.fill();
+      }
+
+      // Main filled circle
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = isSelected ? '#7B2FBE' : '#9C3FA6';
       ctx.fill();
       ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 2/view.scale;
+      ctx.lineWidth = 2 / view.scale;
+      ctx.setLineDash([]);
       ctx.stroke();
-      // Draw "+" symbol
-      ctx.beginPath();
-      ctx.moveTo(rx - 4/view.scale, ry);
-      ctx.lineTo(rx + 4/view.scale, ry);
-      ctx.moveTo(rx, ry - 4/view.scale);
-      ctx.lineTo(rx, ry + 4/view.scale);
+
+      // Cross inside
+      const arm = r * 0.7;
       ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 1.5/view.scale;
+      ctx.lineWidth = 1.5 / view.scale;
+      ctx.beginPath();
+      ctx.moveTo(p.x - arm, p.y); ctx.lineTo(p.x + arm, p.y);
+      ctx.moveTo(p.x, p.y - arm); ctx.lineTo(p.x, p.y + arm);
+      ctx.stroke();
+
+      // Name label
+      ctx.font = `bold ${11 / view.scale}px Nunito, sans-serif`;
+      ctx.fillStyle = '#9C3FA6';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      ctx.lineWidth = 3 / view.scale;
+      ctx.lineJoin = 'round';
+      const lx = p.x + r + 4 / view.scale;
+      const ly = p.y - r;
+      ctx.strokeText(shape.name, lx, ly);
+      ctx.fillText(shape.name, lx, ly);
+
+      ctx.restore();
+    }
+
+    function drawSymAxisLine(shape, isSelected) {
+      if (shape.points.length < 2) return;
+      const pts = getTransformedPoints(shape);
+      const p1 = pts[0], p2 = pts[1];
+      const dx = p2.x - p1.x, dy = p2.y - p1.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const ux = dx / len, uy = dy / len;
+      const ext = Math.max(canvas.width, canvas.height) * 2 / view.scale;
+
+      ctx.save();
+      ctx.strokeStyle = isSelected ? '#7B2FBE' : '#9C3FA6';
+      ctx.lineWidth = (isSelected ? 2.5 : 1.8) / view.scale;
+      ctx.setLineDash([14 / view.scale, 7 / view.scale]);
+      if (isSelected) { ctx.shadowColor = '#CE82FF'; ctx.shadowBlur = 10 / view.scale; }
+      ctx.beginPath();
+      ctx.moveTo(p1.x - ux * ext, p1.y - uy * ext);
+      ctx.lineTo(p2.x + ux * ext, p2.y + uy * ext);
+      ctx.stroke();
+      ctx.restore();
+
+      // Label
+      ctx.save();
+      ctx.font = `bold ${13 / view.scale}px Nunito,sans-serif`;
+      ctx.fillStyle = '#9C3FA6';
+      ctx.globalAlpha = 0.9;
+      const mx = (p1.x + p2.x) / 2 + 10 / view.scale;
+      const my = (p1.y + p2.y) / 2 - 10 / view.scale;
+      ctx.fillText(shape.name, mx, my);
+      ctx.restore();
+
+      // Draggable endpoint handles when selected
+      if (isSelected) {
+        ctx.save();
+        [p1, p2].forEach((p, i) => {
+          const isD = (mode === 'DRAGGING_VERTEX' && draggingVertexIndex === i);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, (isD ? 9 : 7) / view.scale, 0, Math.PI * 2);
+          ctx.fillStyle = isD ? '#7B2FBE' : '#fff';
+          ctx.fill();
+          ctx.strokeStyle = '#9C3FA6';
+          ctx.lineWidth = 2 / view.scale;
+          ctx.setLineDash([]);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 3 / view.scale, 0, Math.PI * 2);
+          ctx.fillStyle = '#9C3FA6';
+          ctx.fill();
+        });
+        ctx.restore();
+      }
+    }
+
+    function drawShape(shape, isGhost, isSelected) {
+      // Sym-axis lines and sym-points get special rendering
+      if (shape.isSymAxis) {
+        if (shape.isSymPoint) {
+          drawSymPointShape(shape, isSelected);
+        } else {
+          drawSymAxisLine(shape, isSelected);
+        }
+        return;
+      }
+
+      ctx.save();
+
+      const alpha = isGhost ? 0.3 : 1;
+      ctx.globalAlpha = alpha;
+
+      ctx.fillStyle = shape.color + '30';
+      ctx.strokeStyle = shape.color;
+      ctx.lineWidth = (isSelected ? 2.5 : 1.8) / view.scale;
+      ctx.setLineDash([]);
+
+      if (isSelected) {
+        ctx.shadowColor = shape.color;
+        ctx.shadowBlur = 8 / view.scale;
+      }
+
+      const pivotX = shape.anchor.x + shape.tx;
+      const pivotY = shape.anchor.y + shape.ty;
+
+      switch (shape.type) {
+        case SHAPE_TYPES.POINT:
+          drawPoint(shape, isGhost, isSelected);
+          break;
+        case SHAPE_TYPES.SEGMENT:
+          drawSegment(shape);
+          break;
+        case SHAPE_TYPES.LINE:
+          drawLine(shape);
+          break;
+        case SHAPE_TYPES.CIRCLE:
+          drawCircle(shape);
+          break;
+        case SHAPE_TYPES.POLYGON:
+          drawPolygon(shape);
+          break;
+      }
+
+      ctx.restore();
+
+      if (isSelected && !isGhost && shape.type !== SHAPE_TYPES.POINT) {
+        drawAnchor(pivotX, pivotY);
+      }
+
+      // Draw draggable vertex handles on selected, closed polygon
+      if (isSelected && !isGhost && shape.isClosed &&
+        (shape.type === SHAPE_TYPES.POLYGON || shape.type === SHAPE_TYPES.SEGMENT)) {
+        drawVertexHandles(shape);
+      }
+    }
+
+    function drawVertexHandles(shape) {
+      ctx.save();
+      const r = 6 / view.scale;
+      const transformed = getTransformedPoints(shape);
+      transformed.forEach((p, i) => {
+        const isBeingDragged = (mode === 'DRAGGING_VERTEX' && draggingVertexIndex === i);
+
+        // Outer ring
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r * (isBeingDragged ? 1.4 : 1), 0, Math.PI * 2);
+        ctx.fillStyle = isBeingDragged ? shape.color : '#FFFFFF';
+        ctx.fill();
+        ctx.strokeStyle = shape.color;
+        ctx.lineWidth = 2 / view.scale;
+        ctx.stroke();
+
+        // Inner dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = shape.color;
+        ctx.fill();
+      });
+      ctx.restore();
+    }
+
+    function drawPoint(shape, isGhost, isSelected) {
+      const p = shape.points[0];
+      const r = shape.pointRadius / view.scale;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      if (isSelected && !isGhost) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = shape.color + "22";
+        ctx.fill();
+      }
+    }
+
+    function drawSegment(shape) {
+      if (shape.points.length < 2) return;
+      const pts = getTransformedPoints(shape);
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, pts[0].y);
+      ctx.lineTo(pts[1].x, pts[1].y);
+      ctx.stroke();
+
+      ctx.fillStyle = shape.color;
+      pts.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 3 / view.scale, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function drawLine(shape) {
+      if (shape.points.length < 2) return;
+      const pts = getTransformedPoints(shape);
+      const p1 = pts[0];
+      const p2 = pts[1];
+
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const len = Math.hypot(dx, dy);
+      const unitX = dx / len;
+      const unitY = dy / len;
+
+      const ext = shape.lineLength;
+
+      ctx.beginPath();
+      ctx.moveTo(p1.x - unitX * ext, p1.y - unitY * ext);
+      ctx.lineTo(p2.x + unitX * ext, p2.y + unitY * ext);
+      ctx.stroke();
+
+      ctx.fillStyle = shape.color;
+      pts.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 3 / view.scale, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function drawCircle(shape) {
+      const center = shape.points[0];
+      const cx = center.x + shape.tx;
+      const cy = center.y + shape.ty;
+      const r = shape.radius * shape.scale;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3 / view.scale, 0, Math.PI * 2);
+      ctx.fillStyle = shape.color;
+      ctx.fill();
+    }
+
+    function drawPolygon(shape) {
+      if (shape.points.length < 2) return;
+      const pts = getTransformedPoints(shape);
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < pts.length; i++) {
+        ctx.lineTo(pts[i].x, pts[i].y);
+      }
+      if (shape.isClosed) ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      if (!shape.isClosed) {
+        pts.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 4 / view.scale, 0, Math.PI * 2);
+          ctx.fillStyle = shape.color;
+          ctx.fill();
+        });
+      }
+    }
+
+    function drawAnchor(x, y) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, 7 / view.scale, 0, Math.PI * 2);
+      ctx.fillStyle = '#FF9600';
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2 / view.scale;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(x - 10 / view.scale, y);
+      ctx.lineTo(x + 10 / view.scale, y);
+      ctx.moveTo(x, y - 10 / view.scale);
+      ctx.lineTo(x, y + 10 / view.scale);
+      ctx.strokeStyle = '#FF9600';
+      ctx.lineWidth = 1.5 / view.scale;
       ctx.stroke();
       ctx.restore();
     }
-  }
 
-  ctx.restore();
-}
+    /* ===== LÓGICA DO POPUP DE IDENTIFICAÇÃO ===== */
+    const popupState = { ano: null, turma: null };
 
-/* ---- GeoGebra-style grid constants ---- */
-const GRID_UNIT = 40; // world units per major grid cell (1 unit = 40px at scale 1)
-
-function drawGrid(){
-  const left   = -view.offsetX / view.scale;
-  const top    = -view.offsetY / view.scale;
-  const right  = (canvas.width  - view.offsetX) / view.scale;
-  const bottom = (canvas.height - view.offsetY) / view.scale;
-
-  // Adaptive step: keep grid cells between 30-120 px on screen
-  let step = GRID_UNIT;
-  while(step * view.scale < 30) step *= 2;
-  while(step * view.scale > 120) step /= 2;
-  if(step < 1) step = 1;
-
-  const startX = Math.floor(left / step) * step;
-  const startY = Math.floor(top  / step) * step;
-
-  ctx.save();
-
-  // --- Minor grid lines (thin, light) ---
-  ctx.strokeStyle = 'rgba(180,180,200,0.35)';
-  ctx.lineWidth = 0.6 / view.scale;
-  ctx.setLineDash([]);
-  for(let x = startX; x <= right + step; x += step){
-    ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
-  }
-  for(let y = startY; y <= bottom + step; y += step){
-    ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(right, y); ctx.stroke();
-  }
-
-  // --- Dots at intersections (GeoGebra style) ---
-  ctx.fillStyle = 'rgba(150,150,180,0.5)';
-  const dotR = 1.5 / view.scale;
-  for(let x = startX; x <= right + step; x += step){
-    for(let y = startY; y <= bottom + step; y += step){
-      ctx.beginPath();
-      ctx.arc(x, y, dotR, 0, Math.PI * 2);
-      ctx.fill();
+    function selectChip(tipo, valor, el) {
+      popupState[tipo] = valor;
+      const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
+      grupo.querySelectorAll('.popup-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
     }
-  }
 
-  ctx.restore();
-}
-
-function drawAxes(){
-  const left   = -view.offsetX / view.scale;
-  const top    = -view.offsetY / view.scale;
-  const right  = (canvas.width  - view.offsetX) / view.scale;
-  const bottom = (canvas.height - view.offsetY) / view.scale;
-
-  // Adaptive step (same as grid)
-  let step = GRID_UNIT;
-  while(step * view.scale < 30) step *= 2;
-  while(step * view.scale > 120) step /= 2;
-  if(step < 1) step = 1;
-
-  ctx.save();
-
-  // --- X axis ---
-  ctx.strokeStyle = 'rgba(100,100,130,0.7)';
-  ctx.lineWidth = 1.5 / view.scale;
-  ctx.setLineDash([]);
-  ctx.beginPath(); ctx.moveTo(left, 0); ctx.lineTo(right, 0); ctx.stroke();
-
-  // --- Y axis ---
-  ctx.beginPath(); ctx.moveTo(0, top); ctx.lineTo(0, bottom); ctx.stroke();
-
-  // --- Axis arrows ---
-  const aw = 8 / view.scale, ah = 5 / view.scale;
-  ctx.fillStyle = 'rgba(100,100,130,0.7)';
-  // X arrow (right)
-  ctx.beginPath();
-  ctx.moveTo(right - 2/view.scale, 0);
-  ctx.lineTo(right - 2/view.scale - aw, -ah);
-  ctx.lineTo(right - 2/view.scale - aw,  ah);
-  ctx.closePath(); ctx.fill();
-  // Y arrow (up — canvas Y is flipped)
-  ctx.beginPath();
-  ctx.moveTo(0, top + 2/view.scale);
-  ctx.lineTo(-ah, top + 2/view.scale + aw);
-  ctx.lineTo( ah, top + 2/view.scale + aw);
-  ctx.closePath(); ctx.fill();
-
-  // --- Tick marks and numbers ---
-  ctx.fillStyle = 'rgba(80,80,110,0.85)';
-  ctx.font = `${11/view.scale}px Nunito, sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'top';
-
-  const tickH = 4 / view.scale;
-  const startX = Math.floor(left / step) * step;
-  const startY = Math.floor(top  / step) * step;
-
-  // X-axis ticks & numbers
-  for(let x = startX; x <= right + step; x += step){
-    if(Math.abs(x) < step * 0.01) continue; // skip origin
-    ctx.strokeStyle = 'rgba(100,100,130,0.7)';
-    ctx.lineWidth = 1 / view.scale;
-    ctx.beginPath(); ctx.moveTo(x, -tickH); ctx.lineTo(x, tickH); ctx.stroke();
-    // Number: show integer or 1-decimal
-    const label = (Math.abs(x/step - Math.round(x/step)) < 0.01) ? Math.round(x/step) : (x/step).toFixed(1);
-    ctx.fillText(String(label), x, tickH + 2/view.scale);
-  }
-
-  // Y-axis ticks & numbers (Y is inverted in canvas)
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
-  for(let y = startY; y <= bottom + step; y += step){
-    if(Math.abs(y) < step * 0.01) continue;
-    ctx.strokeStyle = 'rgba(100,100,130,0.7)';
-    ctx.lineWidth = 1 / view.scale;
-    ctx.beginPath(); ctx.moveTo(-tickH, y); ctx.lineTo(tickH, y); ctx.stroke();
-    const label = (Math.abs(y/step - Math.round(y/step)) < 0.01) ? -Math.round(y/step) : -(y/step).toFixed(1);
-    ctx.fillText(String(label), -tickH - 3/view.scale, y);
-  }
-
-  // Origin label
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'top';
-  ctx.fillStyle = 'rgba(80,80,110,0.6)';
-  ctx.fillText('O', -4/view.scale, 4/view.scale);
-
-  ctx.restore();
-}
-
-/* ===================== SIMETRIA — REFLEXÃO EM RELAÇÃO A UMA RETA ===================== */
-
-/**
- * Reflexão de um ponto P em relação à reta definida pelos pontos A e B.
- *
- * Fórmula (projeção ortogonal):
- *   d = AB / |AB|  (vetor unitário da reta)
- *   t = (P - A) · d   (projeção escalar)
- *   F = A + t·d        (pé da perpendicular — ponto do eixo mais próximo de P)
- *   P' = 2F - P        (reflexão: o eixo biseta PP', PP' ⊥ eixo)
- */
-function reflectPointOverLine(p, a, b){
-  const dx = b.x - a.x, dy = b.y - a.y;
-  const len2 = dx*dx + dy*dy;
-  if(len2 === 0) return { ...p };
-  const t = ((p.x - a.x)*dx + (p.y - a.y)*dy) / len2;
-  const fx = a.x + t*dx;
-  const fy = a.y + t*dy;
-  return { x: 2*fx - p.x, y: 2*fy - p.y };
-}
-
-// Get the two defining world-points of a sym-axis shape (after its own transforms)
-function getAxisPoints(axisShape){
-  const pts = getTransformedPoints(axisShape);
-  if(pts.length < 2) return null;
-  return { a: pts[0], b: pts[1] };
-}
-
-function drawSymmetryImage(shape){
-  if(!shape.symmetryLineId) return;
-  const axisShape = shapes.find(s => s.id === shape.symmetryLineId);
-  if(!axisShape || !axisShape.isSymAxis) return;
-
-  // Use the FROZEN axis position (captured at link time).
-  // Moving the line after linking does NOT move the reflected image —
-  // only changing the original object does.
-  const axis = shape.frozenAxis || getAxisPoints(axisShape);
-  if(!axis) return;
-
-  const ext = Math.max(canvas.width, canvas.height) * 2 / view.scale;
-  const dx = axis.b.x - axis.a.x, dy = axis.b.y - axis.a.y;
-  const len = Math.hypot(dx, dy) || 1;
-  const ux = dx/len, uy = dy/len;
-
-  // (no extra axis line drawn here — the sym-axis shape itself is drawn by drawShape)
-
-  // Compute reflected points
-  let refPts;
-  if(shape.type === SHAPE_TYPES.CIRCLE){
-    const cx = shape.points[0].x + shape.tx;
-    const cy = shape.points[0].y + shape.ty;
-    const rc = reflectPointOverLine({ x: cx, y: cy }, axis.a, axis.b);
-    const r  = shape.radius * shape.scale;
-    ctx.save();
-    ctx.globalAlpha = 0.70;
-    ctx.fillStyle = shape.color + '28';
-    ctx.strokeStyle = shape.color;
-    ctx.lineWidth = 2 / view.scale;
-    ctx.setLineDash([5/view.scale, 4/view.scale]);
-    ctx.beginPath();
-    ctx.arc(rc.x, rc.y, r, 0, Math.PI * 2);
-    ctx.fill(); ctx.stroke();
-    ctx.restore();
-    drawReflectedLabels(shape, [rc], axis);
-    return;
-  }
-
-  const pts = getTransformedPoints(shape);
-  refPts = pts.map(p => reflectPointOverLine(p, axis.a, axis.b));
-
-  ctx.save();
-  ctx.globalAlpha = 0.70;
-  ctx.fillStyle = shape.color + '28';
-  ctx.strokeStyle = shape.color;
-  ctx.lineWidth = 2 / view.scale;
-  ctx.setLineDash([5/view.scale, 4/view.scale]);
-
-  if(shape.type === SHAPE_TYPES.POLYGON && shape.isClosed && refPts.length >= 2){
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x, refPts[0].y);
-    for(let i=1;i<refPts.length;i++) ctx.lineTo(refPts[i].x, refPts[i].y);
-    ctx.closePath();
-    ctx.fill(); ctx.stroke();
-
-  } else if(shape.type === SHAPE_TYPES.SEGMENT && refPts.length === 2){
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x, refPts[0].y); ctx.lineTo(refPts[1].x, refPts[1].y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    refPts.forEach(p => {
-      ctx.beginPath(); ctx.arc(p.x, p.y, 3/view.scale, 0, Math.PI*2);
-      ctx.fillStyle = shape.color; ctx.fill();
-    });
-
-  } else if(shape.type === SHAPE_TYPES.LINE && refPts.length === 2){
-    const rdx = refPts[1].x - refPts[0].x, rdy = refPts[1].y - refPts[0].y;
-    const rlen = Math.hypot(rdx, rdy) || 1;
-    const rux = rdx/rlen, ruy = rdy/rlen;
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x - rux*ext, refPts[0].y - ruy*ext);
-    ctx.lineTo(refPts[1].x + rux*ext, refPts[1].y + ruy*ext);
-    ctx.stroke();
-
-  } else if(shape.type === SHAPE_TYPES.POINT && refPts.length === 1){
-    const r = shape.pointRadius / view.scale;
-    ctx.setLineDash([]);
-    ctx.beginPath(); ctx.arc(refPts[0].x, refPts[0].y, r, 0, Math.PI*2);
-    ctx.fill(); ctx.stroke();
-
-  } else if(refPts.length >= 2){
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x, refPts[0].y);
-    for(let i=1;i<refPts.length;i++) ctx.lineTo(refPts[i].x, refPts[i].y);
-    if(shape.isClosed) ctx.closePath();
-    ctx.stroke();
-  }
-
-  ctx.restore();
-
-  // Draw A', B', C'... labels on reflected vertices
-  drawReflectedLabels(shape, refPts, axis);
-}
-
-function getTransformedPoints(shape){
-  if(shape.type === SHAPE_TYPES.CIRCLE){
-    const cx = shape.points[0].x + shape.tx;
-    const cy = shape.points[0].y + shape.ty;
-    return [{ x: cx, y: cy }];
-  }
-
-  const angle = shape.rotation * Math.PI / 180;
-  const cos = Math.cos(angle);
-  const sin = Math.sin(angle);
-  const ax = shape.anchor.x;
-  const ay = shape.anchor.y;
-  const sx = shape.reflectX ? -1 : 1;
-  const sy = shape.reflectY ? -1 : 1;
-  const scale = shape.scale;
-
-  return shape.points.map(p => {
-    let dx = p.x - ax;
-    let dy = p.y - ay;
-    dx *= scale * sx;
-    dy *= scale * sy;
-    const rx = dx * cos - dy * sin;
-    const ry = dx * sin + dy * cos;
-    return {
-      x: ax + rx + shape.tx,
-      y: ay + ry + shape.ty
-    };
-  });
-}
-
-/* ===================== RÓTULOS DOS VÉRTICES ===================== */
-
-function drawVertexLabels(shape, isReflected){
-  if(!shape.points || shape.points.length === 0) return;
-
-  // Build list of {x, y, label} using TRANSFORMED positions + original labels
-  let labeled = [];
-  if(shape.type === SHAPE_TYPES.CIRCLE){
-    const cx = shape.points[0].x + shape.tx;
-    const cy = shape.points[0].y + shape.ty;
-    labeled = [{ x: cx, y: cy, label: shape.points[0].label || '' }];
-  } else {
-    const transformed = getTransformedPoints(shape);
-    labeled = transformed.map((p, i) => ({
-      x: p.x,
-      y: p.y,
-      label: (shape.points[i] && shape.points[i].label) ? shape.points[i].label : ''
-    }));
-  }
-
-  ctx.save();
-  ctx.font = `bold ${13/view.scale}px Nunito, sans-serif`;
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'bottom';
-
-  labeled.forEach(p => {
-    if(!p.label) return;
-    const lbl = isReflected ? p.label + "'" : p.label;
-    const ox = 9 / view.scale;
-    const oy = -9 / view.scale;
-
-    // White halo for readability
-    ctx.strokeStyle = 'rgba(255,255,255,0.95)';
-    ctx.lineWidth = 4 / view.scale;
-    ctx.lineJoin = 'round';
-    ctx.strokeText(lbl, p.x + ox, p.y + oy);
-
-    ctx.fillStyle = isReflected ? shape.color + 'CC' : shape.color;
-    ctx.fillText(lbl, p.x + ox, p.y + oy);
-  });
-
-  ctx.restore();
-}
-
-function drawReflectedLabels(shape, refPts, axis){
-  if(!shape.points || shape.points.length === 0) return;
-  ctx.save();
-  ctx.font = `bold ${12/view.scale}px Nunito, sans-serif`;
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'bottom';
-
-  refPts.forEach((p, i) => {
-    const origLabel = shape.points[i] ? shape.points[i].label : '';
-    if(!origLabel) return;
-    const lbl = origLabel + "'";
-    const ox = 8 / view.scale;
-    const oy = -8 / view.scale;
-
-    ctx.fillStyle = 'white';
-    ctx.lineWidth = 3 / view.scale;
-    ctx.strokeStyle = 'white';
-    ctx.lineJoin = 'round';
-    ctx.strokeText(lbl, p.x + ox, p.y + oy);
-
-    ctx.fillStyle = shape.color + 'BB';
-    ctx.fillText(lbl, p.x + ox, p.y + oy);
-  });
-
-  ctx.restore();
-}
-
-/* ===================== REFLEXÃO EM PONTO ===================== */
-
-/**
- * Reflexão de P em relação ao ponto C:
- *   P' = 2C - P
- * O ponto C é o ponto médio do segmento PP'. P' fica do lado oposto de C.
- */
-function reflectPointOverPoint(p, c){
-  return { x: 2*c.x - p.x, y: 2*c.y - p.y };
-}
-
-function drawPointSymmetryImage(shape){
-  if(!shape.symmetryPointId) return;
-  const ptShape = shapes.find(s => s.id === shape.symmetryPointId);
-  if(!ptShape || !ptShape.isSymPoint) return;
-
-  // Use frozen center (captured when linked); moving the sym-point doesn't move the image
-  const center = shape.frozenSymPoint ||
-    (ptShape.points[0] ? { x: ptShape.points[0].x + (ptShape.tx||0), y: ptShape.points[0].y + (ptShape.ty||0) } : null);
-  if(!center) return;
-
-  // Draw a subtle cross-hair at the center of symmetry
-  const ext2 = 12 / view.scale;
-  ctx.save();
-  ctx.strokeStyle = '#9C3FA6';
-  ctx.lineWidth = 1.2 / view.scale;
-  ctx.setLineDash([4/view.scale, 3/view.scale]);
-  ctx.beginPath();
-  ctx.moveTo(center.x - ext2, center.y); ctx.lineTo(center.x + ext2, center.y);
-  ctx.moveTo(center.x, center.y - ext2); ctx.lineTo(center.x, center.y + ext2);
-  ctx.stroke();
-  ctx.restore();
-
-  let refPts;
-  if(shape.type === SHAPE_TYPES.CIRCLE){
-    const cx = shape.points[0].x + shape.tx;
-    const cy = shape.points[0].y + shape.ty;
-    const rc = reflectPointOverPoint({ x: cx, y: cy }, center);
-    const r  = shape.radius * shape.scale;
-    ctx.save();
-    ctx.globalAlpha = 0.70;
-    ctx.fillStyle = shape.color + '28';
-    ctx.strokeStyle = shape.color;
-    ctx.lineWidth = 2 / view.scale;
-    ctx.setLineDash([5/view.scale, 4/view.scale]);
-    ctx.beginPath();
-    ctx.arc(rc.x, rc.y, r, 0, Math.PI * 2);
-    ctx.fill(); ctx.stroke();
-    ctx.restore();
-    drawReflectedLabels(shape, [rc], null);
-    return;
-  }
-
-  const pts = getTransformedPoints(shape);
-  refPts = pts.map(p => reflectPointOverPoint(p, center));
-
-  const ext = Math.max(canvas.width, canvas.height) * 2 / view.scale;
-
-  ctx.save();
-  ctx.globalAlpha = 0.70;
-  ctx.fillStyle = shape.color + '28';
-  ctx.strokeStyle = shape.color;
-  ctx.lineWidth = 2 / view.scale;
-  ctx.setLineDash([5/view.scale, 4/view.scale]);
-
-  if(shape.type === SHAPE_TYPES.POLYGON && shape.isClosed && refPts.length >= 2){
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x, refPts[0].y);
-    for(let i=1;i<refPts.length;i++) ctx.lineTo(refPts[i].x, refPts[i].y);
-    ctx.closePath();
-    ctx.fill(); ctx.stroke();
-
-  } else if(shape.type === SHAPE_TYPES.SEGMENT && refPts.length === 2){
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x, refPts[0].y); ctx.lineTo(refPts[1].x, refPts[1].y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    refPts.forEach(p => {
-      ctx.beginPath(); ctx.arc(p.x, p.y, 3/view.scale, 0, Math.PI*2);
-      ctx.fillStyle = shape.color; ctx.fill();
-    });
-
-  } else if(shape.type === SHAPE_TYPES.LINE && refPts.length === 2){
-    const rdx = refPts[1].x - refPts[0].x, rdy = refPts[1].y - refPts[0].y;
-    const rlen = Math.hypot(rdx, rdy) || 1;
-    const rux = rdx/rlen, ruy = rdy/rlen;
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x - rux*ext, refPts[0].y - ruy*ext);
-    ctx.lineTo(refPts[1].x + rux*ext, refPts[1].y + ruy*ext);
-    ctx.stroke();
-
-  } else if(shape.type === SHAPE_TYPES.POINT && refPts.length === 1){
-    const r = shape.pointRadius / view.scale;
-    ctx.setLineDash([]);
-    ctx.beginPath(); ctx.arc(refPts[0].x, refPts[0].y, r, 0, Math.PI*2);
-    ctx.fill(); ctx.stroke();
-
-  } else if(refPts.length >= 2){
-    ctx.beginPath();
-    ctx.moveTo(refPts[0].x, refPts[0].y);
-    for(let i=1;i<refPts.length;i++) ctx.lineTo(refPts[i].x, refPts[i].y);
-    if(shape.isClosed) ctx.closePath();
-    ctx.stroke();
-  }
-
-  ctx.restore();
-  drawReflectedLabels(shape, refPts, null);
-}
-
-function drawSymPointShape(shape, isSelected){
-  if(!shape.points || shape.points.length === 0) return;
-  const p = { x: shape.points[0].x + (shape.tx||0), y: shape.points[0].y + (shape.ty||0) };
-  const r = (shape.pointRadius || 7) / view.scale;
-
-  ctx.save();
-
-  // Outer glow when selected
-  if(isSelected){
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, r * 2.2, 0, Math.PI*2);
-    ctx.fillStyle = '#CE82FF22';
-    ctx.fill();
-  }
-
-  // Main filled circle
-  ctx.beginPath();
-  ctx.arc(p.x, p.y, r, 0, Math.PI*2);
-  ctx.fillStyle = isSelected ? '#7B2FBE' : '#9C3FA6';
-  ctx.fill();
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 2 / view.scale;
-  ctx.setLineDash([]);
-  ctx.stroke();
-
-  // Cross inside
-  const arm = r * 0.7;
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 1.5 / view.scale;
-  ctx.beginPath();
-  ctx.moveTo(p.x - arm, p.y); ctx.lineTo(p.x + arm, p.y);
-  ctx.moveTo(p.x, p.y - arm); ctx.lineTo(p.x, p.y + arm);
-  ctx.stroke();
-
-  // Name label
-  ctx.font = `bold ${11/view.scale}px Nunito, sans-serif`;
-  ctx.fillStyle = '#9C3FA6';
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'bottom';
-  ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-  ctx.lineWidth = 3/view.scale;
-  ctx.lineJoin = 'round';
-  const lx = p.x + r + 4/view.scale;
-  const ly = p.y - r;
-  ctx.strokeText(shape.name, lx, ly);
-  ctx.fillText(shape.name, lx, ly);
-
-  ctx.restore();
-}
-
-function drawSymAxisLine(shape, isSelected){
-  if(shape.points.length < 2) return;
-  const pts = getTransformedPoints(shape);
-  const p1 = pts[0], p2 = pts[1];
-  const dx = p2.x - p1.x, dy = p2.y - p1.y;
-  const len = Math.hypot(dx, dy) || 1;
-  const ux = dx/len, uy = dy/len;
-  const ext = Math.max(canvas.width, canvas.height) * 2 / view.scale;
-
-  ctx.save();
-  ctx.strokeStyle = isSelected ? '#7B2FBE' : '#9C3FA6';
-  ctx.lineWidth = (isSelected ? 2.5 : 1.8) / view.scale;
-  ctx.setLineDash([14/view.scale, 7/view.scale]);
-  if(isSelected){ ctx.shadowColor = '#CE82FF'; ctx.shadowBlur = 10/view.scale; }
-  ctx.beginPath();
-  ctx.moveTo(p1.x - ux*ext, p1.y - uy*ext);
-  ctx.lineTo(p2.x + ux*ext, p2.y + uy*ext);
-  ctx.stroke();
-  ctx.restore();
-
-  // Label
-  ctx.save();
-  ctx.font = `bold ${13/view.scale}px Nunito,sans-serif`;
-  ctx.fillStyle = '#9C3FA6';
-  ctx.globalAlpha = 0.9;
-  const mx = (p1.x + p2.x)/2 + 10/view.scale;
-  const my = (p1.y + p2.y)/2 - 10/view.scale;
-  ctx.fillText(shape.name, mx, my);
-  ctx.restore();
-
-  // Draggable endpoint handles when selected
-  if(isSelected){
-    ctx.save();
-    [p1, p2].forEach((p, i) => {
-      const isD = (mode === 'DRAGGING_VERTEX' && draggingVertexIndex === i);
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, (isD ? 9 : 7)/view.scale, 0, Math.PI*2);
-      ctx.fillStyle = isD ? '#7B2FBE' : '#fff';
-      ctx.fill();
-      ctx.strokeStyle = '#9C3FA6';
-      ctx.lineWidth = 2/view.scale;
-      ctx.setLineDash([]);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 3/view.scale, 0, Math.PI*2);
-      ctx.fillStyle = '#9C3FA6';
-      ctx.fill();
-    });
-    ctx.restore();
-  }
-}
-
-function drawShape(shape, isGhost, isSelected){
-  // Sym-axis lines and sym-points get special rendering
-  if(shape.isSymAxis){
-    if(shape.isSymPoint){
-      drawSymPointShape(shape, isSelected);
-    } else {
-      drawSymAxisLine(shape, isSelected);
+    function entrarGeolab() {
+      const nome = document.getElementById('inputNome').value.trim();
+      const erro = document.getElementById('popupError');
+
+      if (!nome || !popupState.ano || !popupState.turma) {
+        erro.style.display = 'block';
+        const box = document.getElementById('popupBox');
+        box.style.animation = 'none';
+        box.offsetHeight;
+        box.style.animation = 'shake 0.4s ease';
+        return;
+      }
+
+      erro.style.display = 'none';
+
+      const identificacao = {
+        nome,
+        ano: popupState.ano,
+        turma: popupState.turma,
+        timestamp: new Date().toLocaleString('pt-BR')
+      };
+      sessionStorage.setItem('geolab_aluno', JSON.stringify(identificacao));
+
+      document.getElementById('badgeNome').textContent = nome;
+      document.getElementById('badgeInfo').textContent = `${popupState.ano} Ano | Turma ${popupState.turma}`;
+      const badge = document.getElementById('studentBadge');
+      badge.style.display = 'flex';
+
+      const overlay = document.getElementById('popupOverlay');
+      overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        // Show tutorial popups sequence
+        iniciarTutorial();
+      }, 400);
     }
-    return;
-  }
 
-  ctx.save();
+    function abrirAreaProfessor() {
+      document.getElementById('professorModal').classList.add('visible');
+      document.getElementById('inputSenhaProfessor').value = '';
+      document.getElementById('professorError').style.display = 'none';
+      setTimeout(() => document.getElementById('inputSenhaProfessor').focus(), 100);
+    }
 
-  const alpha = isGhost ? 0.3 : 1;
-  ctx.globalAlpha = alpha;
+    function fecharAreaProfessor() {
+      document.getElementById('professorModal').classList.remove('visible');
+    }
 
-  ctx.fillStyle = shape.color + '30';
-  ctx.strokeStyle = shape.color;
-  ctx.lineWidth = (isSelected ? 2.5 : 1.8) / view.scale;
-  ctx.setLineDash([]);
+    function verificarSenhaProfessor() {
+      const senha = document.getElementById('inputSenhaProfessor').value;
+      const SENHA_PROFESSOR = 'geolab2025';
 
-  if(isSelected){
-    ctx.shadowColor = shape.color;
-    ctx.shadowBlur = 8 / view.scale;
-  }
+      if (senha === SENHA_PROFESSOR) {
+        fecharAreaProfessor();
+        const overlay = document.getElementById('popupOverlay');
+        overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 400);
 
-  const pivotX = shape.anchor.x + shape.tx;
-  const pivotY = shape.anchor.y + shape.ty;
+        const badge = document.getElementById('studentBadge');
+        badge.style.display = 'flex';
+        document.getElementById('badgeNome').textContent = 'Professor';
+        document.getElementById('badgeInfo').textContent = 'Acesso Total';
+      } else {
+        const erro = document.getElementById('professorError');
+        erro.style.display = 'block';
+        document.getElementById('inputSenhaProfessor').style.borderColor = 'var(--red)';
+        setTimeout(() => {
+          document.getElementById('inputSenhaProfessor').style.borderColor = '';
+        }, 1500);
+      }
+    }
 
-  switch(shape.type){
-    case SHAPE_TYPES.POINT:
-      drawPoint(shape, isGhost, isSelected);
-      break;
-    case SHAPE_TYPES.SEGMENT:
-      drawSegment(shape);
-      break;
-    case SHAPE_TYPES.LINE:
-      drawLine(shape);
-      break;
-    case SHAPE_TYPES.CIRCLE:
-      drawCircle(shape);
-      break;
-    case SHAPE_TYPES.POLYGON:
-      drawPolygon(shape);
-      break;
-  }
-  
-  ctx.restore();
-  
-  if(isSelected && !isGhost && shape.type !== SHAPE_TYPES.POINT){
-    drawAnchor(pivotX, pivotY);
-  }
-
-  // Draw draggable vertex handles on selected, closed polygon
-  if(isSelected && !isGhost && shape.isClosed && 
-     (shape.type === SHAPE_TYPES.POLYGON || shape.type === SHAPE_TYPES.SEGMENT)){
-    drawVertexHandles(shape);
-  }
-}
-
-function drawVertexHandles(shape){
-  ctx.save();
-  const r = 6 / view.scale;
-  const transformed = getTransformedPoints(shape);
-  transformed.forEach((p, i) => {
-    const isBeingDragged = (mode === 'DRAGGING_VERTEX' && draggingVertexIndex === i);
-
-    // Outer ring
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, r * (isBeingDragged ? 1.4 : 1), 0, Math.PI * 2);
-    ctx.fillStyle = isBeingDragged ? shape.color : '#FFFFFF';
-    ctx.fill();
-    ctx.strokeStyle = shape.color;
-    ctx.lineWidth = 2 / view.scale;
-    ctx.stroke();
-
-    // Inner dot
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, r * 0.4, 0, Math.PI * 2);
-    ctx.fillStyle = shape.color;
-    ctx.fill();
-  });
-  ctx.restore();
-}
-
-function drawPoint(shape, isGhost, isSelected){
-  const p = shape.points[0];
-  const r = shape.pointRadius / view.scale;
-  
-  ctx.beginPath();
-  ctx.arc(p.x, p.y, r, 0, Math.PI*2);
-  ctx.fill();
-  ctx.stroke();
-  
-  if(isSelected && !isGhost){
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, r * 1.5, 0, Math.PI*2);
-    ctx.fillStyle = shape.color + "22";
-    ctx.fill();
-  }
-}
-
-function drawSegment(shape){
-  if(shape.points.length < 2) return;
-  const pts = getTransformedPoints(shape);
-  ctx.beginPath();
-  ctx.moveTo(pts[0].x, pts[0].y);
-  ctx.lineTo(pts[1].x, pts[1].y);
-  ctx.stroke();
-  
-  ctx.fillStyle = shape.color;
-  pts.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 3/view.scale, 0, Math.PI*2);
-    ctx.fill();
-  });
-}
-
-function drawLine(shape){
-  if(shape.points.length < 2) return;
-  const pts = getTransformedPoints(shape);
-  const p1 = pts[0];
-  const p2 = pts[1];
-  
-  const dx = p2.x - p1.x;
-  const dy = p2.y - p1.y;
-  const len = Math.hypot(dx, dy);
-  const unitX = dx / len;
-  const unitY = dy / len;
-  
-  const ext = shape.lineLength;
-  
-  ctx.beginPath();
-  ctx.moveTo(p1.x - unitX * ext, p1.y - unitY * ext);
-  ctx.lineTo(p2.x + unitX * ext, p2.y + unitY * ext);
-  ctx.stroke();
-  
-  ctx.fillStyle = shape.color;
-  pts.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 3/view.scale, 0, Math.PI*2);
-    ctx.fill();
-  });
-}
-
-function drawCircle(shape){
-  const center = shape.points[0];
-  const cx = center.x + shape.tx;
-  const cy = center.y + shape.ty;
-  const r = shape.radius * shape.scale;
-  
-  ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI*2);
-  ctx.fill();
-  ctx.stroke();
-  
-  ctx.beginPath();
-  ctx.arc(cx, cy, 3/view.scale, 0, Math.PI*2);
-  ctx.fillStyle = shape.color;
-  ctx.fill();
-}
-
-function drawPolygon(shape){
-  if(shape.points.length < 2) return;
-  const pts = getTransformedPoints(shape);
-  ctx.beginPath();
-  ctx.moveTo(pts[0].x, pts[0].y);
-  for(let i=1; i<pts.length; i++){
-    ctx.lineTo(pts[i].x, pts[i].y);
-  }
-  if(shape.isClosed) ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-
-  if(!shape.isClosed){
-    pts.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 4/view.scale, 0, Math.PI*2);
-      ctx.fillStyle = shape.color;
-      ctx.fill();
-    });
-  }
-}
-
-function drawAnchor(x, y){
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(x, y, 7/view.scale, 0, Math.PI*2);
-  ctx.fillStyle = '#FF9600';
-  ctx.fill();
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 2/view.scale;
-  ctx.stroke();
-  
-  ctx.beginPath();
-  ctx.moveTo(x - 10/view.scale, y);
-  ctx.lineTo(x + 10/view.scale, y);
-  ctx.moveTo(x, y - 10/view.scale);
-  ctx.lineTo(x, y + 10/view.scale);
-  ctx.strokeStyle = '#FF9600';
-  ctx.lineWidth = 1.5/view.scale;
-  ctx.stroke();
-  ctx.restore();
-}
-
-/* ===== LÓGICA DO POPUP DE IDENTIFICAÇÃO ===== */
-const popupState = { ano: null, turma: null };
-
-function selectChip(tipo, valor, el) {
-  popupState[tipo] = valor;
-  const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
-  grupo.querySelectorAll('.popup-chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function entrarGeolab() {
-  const nome = document.getElementById('inputNome').value.trim();
-  const erro = document.getElementById('popupError');
-  
-  if (!nome || !popupState.ano || !popupState.turma) {
-    erro.style.display = 'block';
-    const box = document.getElementById('popupBox');
-    box.style.animation = 'none';
-    box.offsetHeight;
-    box.style.animation = 'shake 0.4s ease';
-    return;
-  }
-  
-  erro.style.display = 'none';
-  
-  const identificacao = {
-    nome,
-    ano: popupState.ano,
-    turma: popupState.turma,
-    timestamp: new Date().toLocaleString('pt-BR')
-  };
-  sessionStorage.setItem('geolab_aluno', JSON.stringify(identificacao));
-  
-  document.getElementById('badgeNome').textContent = nome;
-  document.getElementById('badgeInfo').textContent = `${popupState.ano} Ano | Turma ${popupState.turma}`;
-  const badge = document.getElementById('studentBadge');
-  badge.style.display = 'flex';
-  
-  const overlay = document.getElementById('popupOverlay');
-  overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
-  setTimeout(() => {
-    overlay.style.display = 'none';
-  }, 400);
-}
-
-function abrirAreaProfessor() {
-  document.getElementById('professorModal').classList.add('visible');
-  document.getElementById('inputSenhaProfessor').value = '';
-  document.getElementById('professorError').style.display = 'none';
-  setTimeout(() => document.getElementById('inputSenhaProfessor').focus(), 100);
-}
-
-function fecharAreaProfessor() {
-  document.getElementById('professorModal').classList.remove('visible');
-}
-
-function verificarSenhaProfessor() {
-  const senha = document.getElementById('inputSenhaProfessor').value;
-  const SENHA_PROFESSOR = 'geolab2025';
-  
-  if (senha === SENHA_PROFESSOR) {
-    fecharAreaProfessor();
-    const overlay = document.getElementById('popupOverlay');
-    overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, 400);
-    
-    const badge = document.getElementById('studentBadge');
-    badge.style.display = 'flex';
-    document.getElementById('badgeNome').textContent = 'Professor';
-    document.getElementById('badgeInfo').textContent = 'Acesso Total';
-  } else {
-    const erro = document.getElementById('professorError');
-    erro.style.display = 'block';
-    document.getElementById('inputSenhaProfessor').style.borderColor = 'var(--red)';
-    setTimeout(() => {
-      document.getElementById('inputSenhaProfessor').style.borderColor = '';
-    }, 1500);
-  }
-}
-
-const extraStyles = document.createElement('style');
-extraStyles.textContent = `
+    const extraStyles = document.createElement('style');
+    extraStyles.textContent = `
   @keyframes fadeOutOverlay {
     from { opacity: 1; }
     to   { opacity: 0; }
@@ -3247,50 +3797,96 @@ extraStyles.textContent = `
     80%       { transform: translateX(8px); }
   }
 `;
-document.head.appendChild(extraStyles);
+    document.head.appendChild(extraStyles);
 
-window.addEventListener('DOMContentLoaded', () => {
-  // Wire all chips via pointerdown — works regardless of CSS transforms or hardenPage
-  document.querySelectorAll('.popup-chip').forEach(chip => {
-    chip.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();
-      const tipo = chip.dataset.tipo;
-      const valor = chip.dataset.valor;
-      selectChip(tipo, valor, chip);
-    });
-  });
+    /* ===== TUTORIAL POPUP SEQUENCE LOGIC ===== */
+    let tutorialStep = 0;
+    const TUTORIAL_TOTAL = 4;
 
-  // Wire enter buttons
-  document.getElementById('btnEntrar').addEventListener('click', entrarGeolab);
-  document.getElementById('btnProfessor').addEventListener('click', abrirAreaProfessor);
+    function iniciarTutorial() {
+      // Check if tutorial was already seen this session
+      if (sessionStorage.getItem('geolab_tutorial_done')) {
+        return;
+      }
+      tutorialStep = 0;
+      const overlay = document.getElementById('tutorialOverlay');
+      overlay.classList.add('visible');
+      showTutorialStep(0);
+    }
 
-  document.getElementById('inputNome').addEventListener('keydown', e => {
-    if (e.key === 'Enter') entrarGeolab();
-  });
-  document.getElementById('inputSenhaProfessor').addEventListener('keydown', e => {
-    if (e.key === 'Enter') verificarSenhaProfessor();
-  });
-
-  // Restore session
-  const saved = sessionStorage.getItem('geolab_aluno');
-  if (saved) {
-    try {
-      const id = JSON.parse(saved);
-      document.getElementById('inputNome').value = id.nome;
-      popupState.ano = id.ano;
-      popupState.turma = id.turma;
-      ['ano','turma'].forEach(tipo => {
-        const val = id[tipo];
-        const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
-        if (grupo) {
-          grupo.querySelectorAll('.popup-chip').forEach(c => {
-            if (c.dataset.valor === val) c.classList.add('selected');
-          });
-        }
+    function showTutorialStep(step) {
+      const popups = document.querySelectorAll('.tutorial-popup');
+      popups.forEach(p => {
+        p.classList.remove('active');
+        p.style.animation = 'none';
       });
-    } catch(e) {}
-  }
-});
-</script>
+      if (step < TUTORIAL_TOTAL) {
+        const current = popups[step];
+        current.offsetHeight; // force reflow
+        current.style.animation = 'popupIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        current.classList.add('active');
+      }
+    }
+
+    function nextTutorialStep() {
+      tutorialStep++;
+      if (tutorialStep >= TUTORIAL_TOTAL) {
+        // All done, close tutorial
+        sessionStorage.setItem('geolab_tutorial_done', 'true');
+        const overlay = document.getElementById('tutorialOverlay');
+        overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
+        setTimeout(() => {
+          overlay.classList.remove('visible');
+          overlay.style.animation = '';
+        }, 400);
+      } else {
+        showTutorialStep(tutorialStep);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Wire all chips via pointerdown — works regardless of CSS transforms or hardenPage
+      document.querySelectorAll('.popup-chip').forEach(chip => {
+        chip.addEventListener('pointerdown', (e) => {
+          e.stopPropagation();
+          const tipo = chip.dataset.tipo;
+          const valor = chip.dataset.valor;
+          selectChip(tipo, valor, chip);
+        });
+      });
+
+      // Wire enter buttons
+      document.getElementById('btnEntrar').addEventListener('click', entrarGeolab);
+      document.getElementById('btnProfessor').addEventListener('click', abrirAreaProfessor);
+
+      document.getElementById('inputNome').addEventListener('keydown', e => {
+        if (e.key === 'Enter') entrarGeolab();
+      });
+      document.getElementById('inputSenhaProfessor').addEventListener('keydown', e => {
+        if (e.key === 'Enter') verificarSenhaProfessor();
+      });
+
+      // Restore session
+      const saved = sessionStorage.getItem('geolab_aluno');
+      if (saved) {
+        try {
+          const id = JSON.parse(saved);
+          document.getElementById('inputNome').value = id.nome;
+          popupState.ano = id.ano;
+          popupState.turma = id.turma;
+          ['ano', 'turma'].forEach(tipo => {
+            const val = id[tipo];
+            const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
+            if (grupo) {
+              grupo.querySelectorAll('.popup-chip').forEach(c => {
+                if (c.dataset.valor === val) c.classList.add('selected');
+              });
+            }
+          });
+        } catch (e) { }
+      }
+    });
+  </script>
 </body>
+
 </html>
