@@ -401,7 +401,7 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      width: 200px;
+      width: 300px;
       background: var(--white);
       border: 2px solid var(--light-gray);
       border-radius: var(--border-radius-lg);
@@ -410,6 +410,23 @@
       max-height: 80vh;
       overflow-y: auto;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: max-height 0.4s ease;
+      scrollbar-width: thin;
+      scrollbar-color: var(--light-gray) transparent;
+    }
+
+    .floating-layers::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .floating-layers::-webkit-scrollbar-thumb {
+      background: var(--light-gray);
+      border-radius: 2px;
+    }
+
+    /* When quiz is active, limit layers panel height */
+    .floating-layers.quiz-compact {
+      max-height: 140px;
     }
 
     .layers-title {
@@ -1329,6 +1346,760 @@
       transform: translateY(5px);
     }
 
+    /* ===== ACTIVITY QUIZ POPUP ===== */
+    #activityPopupOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(12px);
+      z-index: 10002;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInOverlay 0.5s ease;
+    }
+
+    #activityPopupOverlay.visible {
+      display: flex;
+    }
+
+    .activity-popup-box {
+      width: 480px;
+      max-width: 95vw;
+      background: var(--white);
+      border: 3px solid var(--blue);
+      border-radius: 28px;
+      box-shadow: 0 8px 0 var(--blue-shadow), 0 24px 60px rgba(0, 0, 0, 0.25);
+      padding: 44px 40px 36px;
+      text-align: center;
+      animation: popupIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .activity-popup-box .activity-icon {
+      font-size: 4rem;
+      margin-bottom: 8px;
+      display: block;
+      animation: bounce 1.5s infinite;
+    }
+
+    .activity-popup-box .activity-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--blue);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .activity-popup-box .activity-desc {
+      font-size: 0.95rem;
+      color: var(--dark-gray);
+      font-weight: 700;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .activity-popup-box .activity-desc strong {
+      color: var(--text);
+    }
+
+    .btn-activity-start {
+      width: 100%;
+      padding: 18px;
+      border-radius: 16px;
+      background: var(--blue);
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 900;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: 0 5px 0 var(--blue-shadow);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.15s;
+      margin-bottom: 0;
+    }
+
+    .btn-activity-start:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 7px 0 var(--blue-shadow);
+    }
+
+    .btn-activity-start:active {
+      box-shadow: 0 0 0 var(--blue-shadow);
+      transform: translateY(5px);
+    }
+
+    /* ===== QUIZ PANEL (below floating-layers) ===== */
+    #quizPanel {
+      position: absolute;
+      right: 20px;
+      width: 300px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      background: var(--white);
+      border: 2px solid var(--light-gray);
+      border-radius: var(--border-radius-lg);
+      padding: 18px;
+      z-index: 29;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      display: none;
+      scrollbar-width: thin;
+      scrollbar-color: var(--light-gray) transparent;
+    }
+
+    #quizPanel::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    #quizPanel::-webkit-scrollbar-thumb {
+      background: var(--light-gray);
+      border-radius: 2px;
+    }
+
+    #quizPanel.visible {
+      display: block;
+      animation: quizSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes quizSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .quiz-header-icon {
+      font-size: 1.6rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .quiz-header-title {
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quiz-progress-bar {
+      width: 100%;
+      height: 10px;
+      background: var(--light-gray);
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 12px 0 16px;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green), #7AE72B);
+      border-radius: 5px;
+      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .quiz-progress-text {
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--medium-gray);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== QUESTION CARDS ===== */
+    .quiz-question-card {
+      background: var(--off-white);
+      border: 2px solid var(--light-gray);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 8px;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Collapsed state for answered questions */
+    .quiz-question-card.collapsed {
+      padding: 10px 14px;
+      cursor: pointer;
+      opacity: 0.85;
+    }
+
+    .quiz-question-card.collapsed .question-body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      padding: 0;
+      margin: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+    }
+
+    .quiz-question-card.collapsed .question-header {
+      margin-bottom: 0;
+    }
+
+    .quiz-question-card.collapsed .collapse-indicator {
+      display: inline-block;
+    }
+
+    .collapse-indicator {
+      display: none;
+      font-size: 0.7rem;
+      color: var(--medium-gray);
+      margin-left: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-question-card.collapsed .collapse-indicator {
+      transform: rotate(0deg);
+    }
+
+    .quiz-question-card.expanded .collapse-indicator {
+      display: inline-block;
+      transform: rotate(180deg);
+    }
+
+    .quiz-question-card.locked {
+      opacity: 0.7;
+      cursor: default;
+      user-select: none;
+    }
+
+    .quiz-question-card.active {
+      border-color: var(--green);
+      background: #EEFBE5;
+      box-shadow: 0 4px 0 var(--green-shadow), 0 0 20px rgba(88, 204, 2, 0.15);
+      opacity: 1;
+      animation: cardActivate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .quiz-question-card.completed {
+      border-color: var(--green);
+      background: #E8F9D9;
+      opacity: 0.85;
+    }
+
+    @keyframes cardActivate {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .question-lock-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .locked .question-lock-icon {
+      background: var(--light-gray);
+      color: var(--medium-gray);
+    }
+
+    .active .question-lock-icon {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 3px 0 var(--green-shadow);
+      animation: lockPulse 1.5s infinite;
+    }
+
+    .completed .question-lock-icon {
+      background: var(--green);
+      color: white;
+    }
+
+    @keyframes lockPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .question-number {
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .locked .question-number {
+      color: var(--medium-gray);
+    }
+
+    .active .question-number {
+      color: var(--green-dark);
+    }
+
+    .completed .question-number {
+      color: var(--green-dark);
+    }
+
+    .question-hidden-text {
+      font-size: 0.82rem;
+      color: var(--medium-gray);
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .question-body {
+      display: none;
+    }
+
+    .active .question-body,
+    .completed .question-body {
+      display: block;
+    }
+
+    .question-text {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .question-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .question-option {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--white);
+      border: 2px solid var(--light-gray);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+      box-shadow: 0 3px 0 var(--light-gray);
+      text-transform: none;
+      letter-spacing: 0;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .question-option:hover {
+      border-color: var(--blue);
+      color: var(--blue-dark);
+      box-shadow: 0 3px 0 var(--blue-shadow);
+      transform: translateY(-1px);
+    }
+
+    .question-option:active {
+      box-shadow: 0 0 0 var(--light-gray);
+      transform: translateY(3px);
+    }
+
+    .question-option.selected {
+      border-color: var(--blue);
+      background: #EBF7FF;
+      color: var(--blue-dark);
+      box-shadow: 0 3px 0 var(--blue-shadow);
+    }
+
+    .question-option.correct {
+      border-color: var(--green);
+      background: #E8F9D9;
+      color: var(--green-dark);
+      box-shadow: 0 3px 0 var(--green-shadow);
+      animation: optionCorrect 0.5s ease;
+    }
+
+    @keyframes optionCorrect {
+      0% {
+        transform: scale(1);
+      }
+
+      30% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .question-option.wrong {
+      border-color: var(--red);
+      background: #FFE5E5;
+      color: var(--red-dark);
+      box-shadow: 0 3px 0 var(--red-shadow);
+      animation: optionWrong 0.4s ease;
+    }
+
+    @keyframes optionWrong {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20% {
+        transform: translateX(-6px);
+      }
+
+      40% {
+        transform: translateX(6px);
+      }
+
+      60% {
+        transform: translateX(-4px);
+      }
+
+      80% {
+        transform: translateX(4px);
+      }
+    }
+
+    .option-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--off-white);
+      border: 2px solid var(--light-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--dark-gray);
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .question-option.selected .option-letter {
+      background: var(--blue);
+      border-color: var(--blue-dark);
+      color: white;
+    }
+
+    .question-option.correct .option-letter {
+      background: var(--green);
+      border-color: var(--green-dark);
+      color: white;
+    }
+
+    .question-option.wrong .option-letter {
+      background: var(--red);
+      border-color: var(--red-dark);
+      color: white;
+    }
+
+    .completed .question-option {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .btn-confirm-answer {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      background: var(--green);
+      border: none;
+      color: white;
+      font-size: 0.88rem;
+      font-weight: 900;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--green-shadow);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.15s;
+      margin-top: 12px;
+      margin-bottom: 0;
+      display: none;
+    }
+
+    .btn-confirm-answer.show {
+      display: block;
+      animation: cardActivate 0.3s ease;
+    }
+
+    .btn-confirm-answer:hover {
+      background: var(--green-dark);
+    }
+
+    .btn-confirm-answer:active {
+      box-shadow: 0 0 0 var(--green-shadow);
+      transform: translateY(4px);
+    }
+
+    .question-feedback {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-align: center;
+      display: none;
+    }
+
+    .question-feedback.show {
+      display: block;
+      animation: cardActivate 0.3s ease;
+    }
+
+    .question-feedback.correct {
+      background: #E8F9D9;
+      color: var(--green-dark);
+      border: 2px solid var(--green);
+    }
+
+    .question-feedback.wrong {
+      background: #FFE5E5;
+      color: var(--red-dark);
+      border: 2px solid var(--red);
+    }
+
+    /* Quiz completion celebration */
+    .quiz-complete-msg {
+      text-align: center;
+      padding: 20px;
+      display: none;
+    }
+
+    .quiz-complete-msg.show {
+      display: block;
+      animation: popupIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .quiz-complete-msg .complete-icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 8px;
+      animation: bounce 1.5s infinite;
+    }
+
+    .quiz-complete-msg .complete-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--green-dark);
+      margin-bottom: 4px;
+    }
+
+    .quiz-complete-msg .complete-score {
+      font-size: 0.88rem;
+      color: var(--dark-gray);
+      font-weight: 700;
+    }
+
+    /* ===== TEXT ANSWER INPUT ===== */
+    .question-text-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid var(--light-gray);
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.2s;
+      margin-bottom: 8px;
+    }
+
+    .question-text-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.15);
+    }
+
+    .question-text-input:disabled {
+      background: var(--off-white);
+      color: var(--medium-gray);
+      cursor: default;
+    }
+
+    /* ===== PRACTICAL ACTIVITY SECTION ===== */
+    .quiz-section-divider {
+      text-align: center;
+      padding: 14px 0 10px;
+      margin: 6px 0;
+      border-top: 2px solid var(--light-gray);
+    }
+
+    .quiz-section-divider .section-icon {
+      font-size: 1.4rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .quiz-section-divider .section-title {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--purple-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Purple practical activity cards */
+    .quiz-question-card.practical {
+      border-color: var(--purple);
+      background: #F5ECFF;
+    }
+
+    .quiz-question-card.practical.active {
+      border-color: var(--purple);
+      background: #F0E0FF;
+      box-shadow: 0 4px 0 var(--purple-dark), 0 0 20px rgba(206, 130, 255, 0.15);
+    }
+
+    .quiz-question-card.practical.completed {
+      border-color: var(--purple);
+      background: #F0E5FF;
+    }
+
+    .practical .question-number {
+      color: var(--purple-dark) !important;
+    }
+
+    .practical.active .question-lock-icon {
+      background: var(--purple);
+      box-shadow: 0 3px 0 var(--purple-dark);
+    }
+
+    .practical.completed .question-lock-icon {
+      background: var(--purple);
+    }
+
+    .practical-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-practical-done {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--purple);
+      border: none;
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 900;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--purple-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.15s;
+      margin-bottom: 0;
+    }
+
+    .btn-practical-done:hover {
+      background: #B566E8;
+    }
+
+    .btn-practical-done:active {
+      box-shadow: 0 0 0 var(--purple-dark);
+      transform: translateY(4px);
+    }
+
+    .btn-practical-skip {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--white);
+      border: 2px solid var(--light-gray);
+      color: var(--medium-gray);
+      font-size: 0.78rem;
+      font-weight: 800;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--light-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.15s;
+      margin-bottom: 0;
+    }
+
+    .btn-practical-skip:hover {
+      border-color: var(--red);
+      color: var(--red-dark);
+      box-shadow: 0 3px 0 var(--red-shadow);
+    }
+
+    .btn-practical-skip:active {
+      box-shadow: 0 0 0 var(--light-gray);
+      transform: translateY(3px);
+    }
+
+    .practical-feedback {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-align: center;
+      display: none;
+    }
+
+    .practical-feedback.show {
+      display: block;
+      animation: cardActivate 0.3s ease;
+    }
+
+    .practical-feedback.success {
+      background: #F0E5FF;
+      color: var(--purple-dark);
+      border: 2px solid var(--purple);
+    }
+
+    .practical-feedback.error {
+      background: #FFE5E5;
+      color: var(--red-dark);
+      border: 2px solid var(--red);
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .sidebar-left {
@@ -1343,7 +2114,7 @@
       }
 
       .floating-layers {
-        width: 170px;
+        width: 220px;
         right: 10px;
         top: 10px;
       }
@@ -1359,6 +2130,18 @@
       .tutorial-popup .tutorial-text {
         font-size: 0.95rem;
       }
+
+      #quizPanel {
+        width: 220px;
+        right: 10px;
+        max-height: 55vh;
+      }
+    }
+
+    /* When quiz is active, shift toolbar to the left */
+    .toolbar-quiz-shifted {
+      left: 35% !important;
+      transition: left 0.4s ease;
     }
   </style>
 </head>
@@ -1723,7 +2506,7 @@
     <div class="tooltip" id="tooltip"></div>
 
     <!-- Barra inferior de ferramentas -->
-    <div
+    <div id="toolbarWrapper"
       style="position:absolute; left:50%; bottom:24px; transform:translateX(-50%); z-index:25; display:flex; align-items:flex-end; gap:16px;">
 
       <!-- Ferramentas adicionais -->
@@ -1787,6 +2570,37 @@
       + Nova Figura
     </button>
     <div id="layersList"></div>
+  </div>
+
+  <!-- ===== ACTIVITY POPUP OVERLAY ===== -->
+  <div id="activityPopupOverlay">
+    <div class="activity-popup-box">
+      <span class="activity-icon">📝</span>
+      <div class="activity-title">Hora da Atividade!</div>
+      <div class="activity-desc">
+        <strong>Leia atentamente todas as questões.</strong><br>
+        O professor vai verificar cada resposta.
+      </div>
+      <button type="button" class="btn-activity-start" id="btnStartQuiz">Começar</button>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ PANEL (inside main area, to the left of floating-layers) ===== -->
+  <div id="quizPanel">
+    <div class="quiz-header">
+      <span class="quiz-header-icon">📐</span>
+      <div class="quiz-header-title">Atividade de Geometria</div>
+    </div>
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgressFill"></div>
+    </div>
+    <div class="quiz-progress-text" id="quizProgressText">0 de 10 concluídas</div>
+    <div id="quizQuestionsContainer"></div>
+    <div class="quiz-complete-msg" id="quizCompleteMsg">
+      <span class="complete-icon">🏆</span>
+      <div class="complete-title">Parabéns!</div>
+      <div class="complete-score" id="quizScoreText">Você completou todas as questões!</div>
+    </div>
   </div>
 
   <script>
@@ -3886,6 +4700,681 @@
         } catch (e) { }
       }
     });
+
+    /* ===== ACTIVITY QUIZ SYSTEM ===== */
+    const QUIZ_DELAY_MS = 10 * 1000; // 10 segundos
+    let quizTimer = null;
+    let quizActive = false;
+    let currentQuestion = 0;
+    let quizScore = 0;
+    let selectedAnswers = {};
+
+    const quizQuestions = [
+      {
+        question: "O que é uma transformação geométrica?",
+        type: "text"
+      },
+      {
+        question: "O que é uma translação?",
+        type: "text"
+      },
+      {
+        question: "O que é uma simetria?",
+        type: "text"
+      },
+      {
+        question: "Se girarmos um quadrado em torno de um ponto, qual transformação geométrica está ocorrendo?",
+        options: ["Rotação", "Giro", "Translação", "Simetria"],
+        correct: 0,
+        type: "choice"
+      },
+      {
+        question: "Quando uma figura apenas muda de lugar, sem girar ou mudar de tamanho, qual transformação ocorreu?",
+        options: ["Translação", "Rotação", "Simetria", "Ampliação"],
+        correct: 0,
+        type: "choice"
+      },
+      {
+        question: "Quando uma figura é refletida como se estivesse em um espelho, qual transformação geométrica acontece?",
+        options: ["Translação", "Simetria", "Rotação", "Redução"],
+        correct: 1,
+        type: "choice"
+      }
+    ];
+
+    const practicalTasks = [
+      {
+        task: "Crie duas figuras diferentes e aplique uma translação em cada uma.",
+        verify: function () {
+          // Check: at least 2 non-symAxis shapes with isClosed=true and (tx!=0 or ty!=0)
+          const valid = shapes.filter(s => !s.isSymAxis && s.isClosed && (Math.abs(s.tx) > 5 || Math.abs(s.ty) > 5));
+          return valid.length >= 2;
+        },
+        errorMsg: "Você precisa ter pelo menos 2 figuras com translação aplicada (mova no eixo X ou Y)."
+      },
+      {
+        task: "Faça duas figuras e faça uma rotação em cada uma.",
+        verify: function () {
+          const valid = shapes.filter(s => !s.isSymAxis && s.isClosed && Math.abs(s.rotation) > 5);
+          return valid.length >= 2;
+        },
+        errorMsg: "Você precisa ter pelo menos 2 figuras com rotação aplicada."
+      },
+      {
+        task: "Construa 3 figuras e faça uma simetria em cada uma.",
+        verify: function () {
+          const valid = shapes.filter(s => !s.isSymAxis && s.isClosed && (s.symmetryLineId || s.symmetryPointId));
+          return valid.length >= 3;
+        },
+        errorMsg: "Você precisa ter pelo menos 3 figuras com simetria aplicada (use uma reta ou ponto de simetria)."
+      },
+      {
+        task: "Faça uma nova figura e aplique as 3 transformações geométricas.",
+        verify: function () {
+          const valid = shapes.filter(s =>
+            !s.isSymAxis && s.isClosed &&
+            (Math.abs(s.tx) > 5 || Math.abs(s.ty) > 5) &&
+            Math.abs(s.rotation) > 5 &&
+            (s.symmetryLineId || s.symmetryPointId)
+          );
+          return valid.length >= 1;
+        },
+        errorMsg: "Você precisa ter pelo menos 1 figura com translação, rotação E simetria aplicadas ao mesmo tempo."
+      }
+    ];
+
+    function startQuizTimer() {
+      if (quizTimer || quizActive) return;
+      quizTimer = setTimeout(() => {
+        showActivityPopup();
+      }, QUIZ_DELAY_MS);
+    }
+
+    function showActivityPopup() {
+      const overlay = document.getElementById('activityPopupOverlay');
+      overlay.classList.add('visible');
+    }
+
+    // Fisher-Yates shuffle for randomizing questions
+    function shuffleQuestions() {
+      for (let i = quizQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [quizQuestions[i], quizQuestions[j]] = [quizQuestions[j], quizQuestions[i]];
+      }
+    }
+
+    // Clear all user-created figures
+    function clearAllFigures() {
+      shapes = [];
+      activeIndex = -1;
+      mode = 'IDLE';
+      nextVertexLetterCode = 65;
+      updateUI();
+      draw();
+    }
+
+    // Position quiz panel below floating-layers with spacing
+    function positionQuizPanel() {
+      const layers = document.querySelector('.floating-layers');
+      const panel = document.getElementById('quizPanel');
+      if (!layers || !panel) return;
+      const layersRect = layers.getBoundingClientRect();
+      const mainRect = document.getElementById('mainArea').getBoundingClientRect();
+      const topOffset = (layersRect.bottom - mainRect.top) + 40; // 40px gap
+      panel.style.top = topOffset + 'px';
+      panel.style.maxHeight = `calc(100vh - ${topOffset + 20}px)`;
+    }
+
+    let currentPractical = 0;
+
+    function startQuiz() {
+      const overlay = document.getElementById('activityPopupOverlay');
+      overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
+      setTimeout(() => {
+        overlay.classList.remove('visible');
+        overlay.style.animation = '';
+        overlay.style.display = 'none';
+      }, 400);
+
+      // Clear all existing figures when activity starts
+      clearAllFigures();
+
+      quizActive = true;
+      currentQuestion = 0;
+      quizScore = 0;
+      currentPractical = 0;
+      selectedAnswers = {};
+
+      // Randomize questions each time
+      shuffleQuestions();
+
+      buildQuizUI();
+
+      // Make floating-layers compact so it doesn't overlap quiz panel
+      const layers = document.querySelector('.floating-layers');
+      if (layers) layers.classList.add('quiz-compact');
+
+      // Shift bottom toolbar to the left to give more space for quiz
+      const toolbarWrapper = document.getElementById('toolbarWrapper');
+      if (toolbarWrapper) toolbarWrapper.classList.add('toolbar-quiz-shifted');
+
+      const panel = document.getElementById('quizPanel');
+      // Small delay to let floating-layers resize, then position quiz panel below it
+      setTimeout(() => {
+        positionQuizPanel();
+      }, 100);
+      panel.classList.add('visible');
+
+      // Scroll to the first question
+      setTimeout(() => {
+        const firstCard = panel.querySelector('.quiz-question-card');
+        if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 600);
+    }
+
+    function buildQuizUI() {
+      const container = document.getElementById('quizQuestionsContainer');
+      container.innerHTML = '';
+
+      // Build quiz question cards
+      quizQuestions.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = `quiz-question-card ${idx === 0 ? 'active' : 'locked'}`;
+        card.id = `quizCard${idx}`;
+
+        const letters = ['A', 'B', 'C', 'D'];
+        let bodyHTML = '';
+
+        if (q.type === 'text') {
+          bodyHTML = `
+            <div class="question-text">${q.question}</div>
+            <textarea class="question-text-input" id="textAnswer${idx}" placeholder="Digite sua resposta..."
+              ${idx !== 0 ? 'disabled' : ''}></textarea>
+            <div class="char-counter" id="charCounter${idx}" style="font-size:0.72rem;color:var(--medium-gray);font-weight:700;margin-bottom:6px;text-align:right;">0 / 10 letras</div>
+            <button type="button" class="btn-confirm-answer" id="btnConfirm${idx}"
+              onclick="confirmTextAnswer(${idx})">ENVIAR RESPOSTA</button>
+            <div class="question-feedback" id="feedback${idx}"></div>
+          `;
+        } else {
+          let optionsHTML = '';
+          q.options.forEach((opt, oi) => {
+            optionsHTML += `
+              <button type="button" class="question-option" data-q="${idx}" data-o="${oi}" onclick="selectQuizOption(${idx}, ${oi}, this)">
+                <span class="option-letter">${letters[oi]}</span>
+                <span>${opt}</span>
+              </button>`;
+          });
+          bodyHTML = `
+            <div class="question-text">${q.question}</div>
+            <div class="question-options">${optionsHTML}</div>
+            <button type="button" class="btn-confirm-answer" id="btnConfirm${idx}"
+              onclick="confirmQuizAnswer(${idx})">Confirmar</button>
+            <div class="question-feedback" id="feedback${idx}"></div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="question-header">
+            <div class="question-lock-icon">${idx === 0 ? '\u{1F513}' : '\u{1F512}'}</div>
+            <div>
+              <div class="question-number">Pergunta ${idx + 1}</div>
+              ${idx !== 0 ? '<div class="question-hidden-text">\u2022 \u2022 \u2022 \u2022 \u2022 \u2022</div>' : ''}
+            </div>
+          </div>
+          <div class="question-body">${bodyHTML}</div>
+        `;
+        container.appendChild(card);
+
+        // For text questions, add input listener to show confirm button and update counter
+        if (q.type === 'text') {
+          const ta = card.querySelector('.question-text-input');
+          if (ta) {
+            ta.addEventListener('input', function () {
+              const letterCount = (this.value.replace(/[^a-zA-Z\u00C0-\u00FF]/g, '')).length;
+              const counter = document.getElementById(`charCounter${idx}`);
+              if (counter) {
+                counter.textContent = `${letterCount} / 10 letras`;
+                counter.style.color = letterCount >= 10 ? 'var(--green)' : 'var(--medium-gray)';
+              }
+              const btn = document.getElementById(`btnConfirm${idx}`);
+              if (btn) {
+                if (letterCount >= 10) btn.classList.add('show');
+                else btn.classList.remove('show');
+              }
+            });
+          }
+        }
+
+        // Add collapse indicator
+        const collapseSpan = document.createElement('span');
+        collapseSpan.className = 'collapse-indicator';
+        collapseSpan.innerHTML = '&#9650;';
+        card.querySelector('.question-header').appendChild(collapseSpan);
+      });
+
+      // Add section divider for practical activities
+      const divider = document.createElement('div');
+      divider.className = 'quiz-section-divider';
+      divider.id = 'practicalDivider';
+      divider.style.display = 'none';
+      divider.innerHTML = `
+        <span class="section-icon">\u{1F6E0}\uFE0F</span>
+        <div class="section-title">Atividade Prática</div>
+      `;
+      container.appendChild(divider);
+
+      // Build practical activity cards
+      practicalTasks.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-question-card practical locked';
+        card.id = `practicalCard${idx}`;
+        card.style.display = 'none';
+
+        card.innerHTML = `
+          <div class="question-header">
+            <div class="question-lock-icon">\u{1F512}</div>
+            <div>
+              <div class="question-number">Prática ${idx + 1}</div>
+              <div class="question-hidden-text">\u2022 \u2022 \u2022 \u2022 \u2022 \u2022</div>
+            </div>
+          </div>
+          <div class="question-body">
+            <div class="question-text">${p.task}</div>
+            <div class="practical-buttons">
+              <button type="button" class="btn-practical-done" onclick="verifyPractical(${idx})">Feito!</button>
+              <button type="button" class="btn-practical-skip" onclick="skipPractical(${idx})">Não consegui!</button>
+            </div>
+            <div class="practical-feedback" id="practicalFeedback${idx}"></div>
+          </div>
+        `;
+        container.appendChild(card);
+
+        // Add collapse indicator
+        const collapseSpan = document.createElement('span');
+        collapseSpan.className = 'collapse-indicator';
+        collapseSpan.innerHTML = '&#9650;';
+        card.querySelector('.question-header').appendChild(collapseSpan);
+      });
+
+      updateQuizProgress();
+    }
+
+    function confirmTextAnswer(qIdx) {
+      const textarea = document.getElementById(`textAnswer${qIdx}`);
+      const text = textarea.value.trim();
+      const letterCount = (text.replace(/[^a-zA-Z\u00C0-\u024F]/g, '')).length;
+      const feedback = document.getElementById(`feedback${qIdx}`);
+
+      if (letterCount < 10) {
+        textarea.style.borderColor = 'var(--red)';
+        feedback.textContent = '\u274C Sua resposta deve ter pelo menos 10 letras.';
+        feedback.className = 'question-feedback show wrong';
+        setTimeout(() => {
+          textarea.style.borderColor = '';
+          feedback.className = 'question-feedback';
+        }, 3000);
+        return;
+      }
+
+      const card = document.getElementById(`quizCard${qIdx}`);
+      const confirmBtn = document.getElementById(`btnConfirm${qIdx}`);
+
+      // Disable textarea
+      textarea.disabled = true;
+      confirmBtn.classList.remove('show');
+
+      // Save answer to Firebase
+      saveAnswerToFirebase(qIdx, quizQuestions[qIdx].question, text);
+
+      // Show feedback
+      feedback.textContent = '\u2705 Resposta enviada com sucesso!';
+      feedback.className = 'question-feedback show correct';
+
+      quizScore++;
+      advanceToNextQuestion(card, qIdx);
+    }
+
+    /* ===== FIREBASE INTEGRATION ===== */
+    let geolabDb = null;
+    let geolabAlunoId = null;
+
+    function initGeolabFirebase() {
+      try {
+        const fbApp = firebase.initializeApp({
+          apiKey: "AIzaSyAKEQC9tEOEtEL6rmueYmHD20P7Gz3zjGs",
+          authDomain: "geolab-2cd42.firebaseapp.com",
+          databaseURL: "https://geolab-2cd42-default-rtdb.firebaseio.com",
+          projectId: "geolab-2cd42",
+          storageBucket: "geolab-2cd42.firebasestorage.app",
+          messagingSenderId: "22712172336",
+          appId: "1:22712172336:web:1c4951be9e677d0de252f5",
+          measurementId: "G-KX6H436G88"
+        }, 'geolab');
+        geolabDb = firebase.database(fbApp);
+      } catch (e) {
+        // App may already be initialized
+        try {
+          geolabDb = firebase.app('geolab').database();
+        } catch (e2) {
+          console.warn('Firebase GeoLab init error:', e2);
+        }
+      }
+    }
+
+    function getGeolabAlunoId() {
+      if (geolabAlunoId) return geolabAlunoId;
+      // Generate a unique ID for this student session
+      const saved = sessionStorage.getItem('geolab_aluno');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          // Create a unique key from name + timestamp
+          const safeName = (data.nome || 'aluno').replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20);
+          geolabAlunoId = safeName + '_' + Date.now();
+          sessionStorage.setItem('geolab_aluno_fb_id', geolabAlunoId);
+        } catch (e) {
+          geolabAlunoId = 'aluno_' + Date.now();
+        }
+      } else {
+        geolabAlunoId = 'aluno_' + Date.now();
+      }
+      return geolabAlunoId;
+    }
+
+    function saveAnswerToFirebase(qIdx, question, answer) {
+      if (!geolabDb) return;
+      try {
+        const alunoId = getGeolabAlunoId();
+        const saved = sessionStorage.getItem('geolab_aluno');
+        let alunoData = { nome: 'Aluno', ano: '', turma: '' };
+        if (saved) {
+          try { alunoData = JSON.parse(saved); } catch (e) { }
+        }
+
+        const alunoRef = geolabDb.ref('geolab_respostas/' + alunoId);
+
+        // Save student info + this answer
+        alunoRef.update({
+          nome: alunoData.nome,
+          ano: alunoData.ano,
+          turma: alunoData.turma,
+          serie: (alunoData.ano || '') + ' ' + (alunoData.turma || ''),
+          enviadoEm: Date.now()
+        });
+
+        alunoRef.child('respostas/pergunta_' + qIdx).set({
+          questao: question,
+          resposta: answer,
+          enviadoEm: Date.now()
+        });
+      } catch (e) {
+        console.warn('Erro ao salvar resposta:', e);
+      }
+    }
+
+    function selectQuizOption(qIdx, oIdx, el) {
+      if (qIdx !== currentQuestion) return;
+      const card = document.getElementById(`quizCard${qIdx}`);
+      if (card.classList.contains('completed')) return;
+
+      card.querySelectorAll('.question-option').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      el.classList.add('selected');
+      selectedAnswers[qIdx] = oIdx;
+
+      const confirmBtn = document.getElementById(`btnConfirm${qIdx}`);
+      confirmBtn.classList.add('show');
+    }
+
+    function confirmQuizAnswer(qIdx) {
+      if (selectedAnswers[qIdx] === undefined) return;
+
+      const card = document.getElementById(`quizCard${qIdx}`);
+      const feedback = document.getElementById(`feedback${qIdx}`);
+      const confirmBtn = document.getElementById(`btnConfirm${qIdx}`);
+      const q = quizQuestions[qIdx];
+      const selected = selectedAnswers[qIdx];
+      const isCorrect = selected === q.correct;
+
+      card.querySelectorAll('.question-option').forEach((btn, idx) => {
+        btn.style.pointerEvents = 'none';
+        if (idx === q.correct) btn.classList.add('correct');
+        if (idx === selected && !isCorrect) btn.classList.add('wrong');
+      });
+
+      confirmBtn.classList.remove('show');
+
+      if (isCorrect) {
+        quizScore++;
+        feedback.textContent = '\u2705 Resposta correta! Muito bem!';
+        feedback.className = 'question-feedback show correct';
+      } else {
+        const correctLetter = ['A', 'B', 'C', 'D'][q.correct];
+        feedback.textContent = '\u274C Resposta incorreta. A correta \u00e9 ' + correctLetter + '.';
+        feedback.className = 'question-feedback show wrong';
+      }
+
+      advanceToNextQuestion(card, qIdx);
+    }
+
+    function advanceToNextQuestion(card, qIdx) {
+      card.classList.remove('active');
+      card.classList.add('completed');
+      card.querySelector('.question-lock-icon').textContent = '\u2705';
+
+      // Collapse after delay
+      setTimeout(() => {
+        card.classList.add('collapsed');
+        card.addEventListener('click', function toggleCollapse(e) {
+          if (!card.classList.contains('completed')) return;
+          if (card.classList.contains('collapsed')) {
+            card.classList.remove('collapsed');
+            card.classList.add('expanded');
+          } else {
+            card.classList.remove('expanded');
+            card.classList.add('collapsed');
+          }
+        });
+      }, 1200);
+
+      currentQuestion++;
+      updateQuizProgress();
+
+      if (currentQuestion < quizQuestions.length) {
+        setTimeout(() => {
+          const nextCard = document.getElementById(`quizCard${currentQuestion}`);
+          nextCard.classList.remove('locked');
+          nextCard.classList.add('active');
+          nextCard.querySelector('.question-lock-icon').textContent = '\u{1F513}';
+          nextCard.querySelector('.question-hidden-text')?.remove();
+          // Enable textarea if it's a text question
+          const textarea = nextCard.querySelector('.question-text-input');
+          if (textarea) textarea.disabled = false;
+          setTimeout(() => {
+            nextCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 300);
+        }, 800);
+      } else {
+        // All quiz questions done - show practical activities section
+        setTimeout(() => {
+          showPracticalSection();
+        }, 1000);
+      }
+    }
+
+    function showPracticalSection() {
+      // Clear all figures when practical activities start
+      clearAllFigures();
+
+      const divider = document.getElementById('practicalDivider');
+      divider.style.display = 'block';
+      divider.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // Show all practical cards and unlock first one
+      practicalTasks.forEach((p, idx) => {
+        const card = document.getElementById(`practicalCard${idx}`);
+        card.style.display = 'block';
+      });
+
+      setTimeout(() => {
+        const firstPractical = document.getElementById('practicalCard0');
+        firstPractical.classList.remove('locked');
+        firstPractical.classList.add('active');
+        firstPractical.querySelector('.question-lock-icon').textContent = '\u{1F513}';
+        firstPractical.querySelector('.question-hidden-text')?.remove();
+        firstPractical.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 500);
+    }
+
+    function verifyPractical(pIdx) {
+      if (pIdx !== currentPractical) return;
+      const task = practicalTasks[pIdx];
+      const feedback = document.getElementById(`practicalFeedback${pIdx}`);
+      const card = document.getElementById(`practicalCard${pIdx}`);
+
+      if (task.verify()) {
+        // Success!
+        feedback.textContent = '\u2705 Muito bem! Atividade conclu\u00edda!';
+        feedback.className = 'practical-feedback show success';
+        completePractical(card, pIdx);
+      } else {
+        // Not done yet
+        feedback.textContent = '\u274C ' + task.errorMsg;
+        feedback.className = 'practical-feedback show error';
+        // Hide error after 4 seconds
+        setTimeout(() => {
+          feedback.className = 'practical-feedback';
+        }, 4000);
+      }
+    }
+
+    function skipPractical(pIdx) {
+      if (pIdx !== currentPractical) return;
+      const feedback = document.getElementById(`practicalFeedback${pIdx}`);
+      const card = document.getElementById(`practicalCard${pIdx}`);
+
+      feedback.textContent = 'Tudo bem! Voc\u00ea pode tentar de novo depois.';
+      feedback.className = 'practical-feedback show error';
+      completePractical(card, pIdx);
+    }
+
+    function completePractical(card, pIdx) {
+      card.classList.remove('active');
+      card.classList.add('completed');
+      card.querySelector('.question-lock-icon').textContent = '\u2705';
+
+      // Disable buttons
+      card.querySelectorAll('.btn-practical-done, .btn-practical-skip').forEach(btn => {
+        btn.style.pointerEvents = 'none';
+        btn.style.opacity = '0.6';
+      });
+
+      // Collapse after delay
+      setTimeout(() => {
+        card.classList.add('collapsed');
+        card.addEventListener('click', function toggleCollapse(e) {
+          if (!card.classList.contains('completed')) return;
+          if (card.classList.contains('collapsed')) {
+            card.classList.remove('collapsed');
+            card.classList.add('expanded');
+          } else {
+            card.classList.remove('expanded');
+            card.classList.add('collapsed');
+          }
+        });
+      }, 1200);
+
+      currentPractical++;
+
+      if (currentPractical < practicalTasks.length) {
+        setTimeout(() => {
+          const nextCard = document.getElementById(`practicalCard${currentPractical}`);
+          nextCard.classList.remove('locked');
+          nextCard.classList.add('active');
+          nextCard.querySelector('.question-lock-icon').textContent = '\u{1F513}';
+          nextCard.querySelector('.question-hidden-text')?.remove();
+          setTimeout(() => {
+            nextCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 300);
+        }, 800);
+      } else {
+        // All done!
+        setTimeout(() => {
+          const completeMsg = document.getElementById('quizCompleteMsg');
+          const scoreText = document.getElementById('quizScoreText');
+          scoreText.textContent = 'Voc\u00ea completou todas as quest\u00f5es e atividades pr\u00e1ticas!';
+          completeMsg.classList.add('show');
+          completeMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 1000);
+      }
+    }
+
+    function updateQuizProgress() {
+      const fill = document.getElementById('quizProgressFill');
+      const text = document.getElementById('quizProgressText');
+      const total = quizQuestions.length + practicalTasks.length;
+      const done = currentQuestion + currentPractical;
+      const pct = (done / total) * 100;
+      fill.style.width = pct + '%';
+      text.textContent = `${done} de ${total} conclu\u00eddas`;
+    }
+
+    // Wire the start quiz button
+    document.getElementById('btnStartQuiz').addEventListener('click', startQuiz);
+
+    // Move the quiz panel inside mainArea on DOM load so it's positioned relative to it
+    window.addEventListener('DOMContentLoaded', () => {
+      const quizPanel = document.getElementById('quizPanel');
+      const mainArea = document.getElementById('mainArea');
+      if (quizPanel && mainArea) {
+        mainArea.appendChild(quizPanel);
+      }
+
+      // Re-position quiz panel when window resizes
+      window.addEventListener('resize', () => {
+        if (quizPanel.classList.contains('visible')) positionQuizPanel();
+      });
+
+      // Start quiz timer when student enters successfully
+      const btnEntrar = document.getElementById('btnEntrar');
+      if (btnEntrar) {
+        btnEntrar.addEventListener('click', () => {
+          setTimeout(() => {
+            const saved = sessionStorage.getItem('geolab_aluno');
+            if (saved && !quizActive) {
+              startQuizTimer();
+            }
+          }, 500);
+        });
+      }
+    });
+
+    // If session was restored, start the timer
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = sessionStorage.getItem('geolab_aluno');
+      if (saved && !sessionStorage.getItem('geolab_quiz_done')) {
+        startQuizTimer();
+      }
+    });
+
+    // Load Firebase compat SDK and initialize
+    (function loadFirebaseSDK() {
+      const scripts = [
+        'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js',
+        'https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js'
+      ];
+      let loaded = 0;
+      scripts.forEach(src => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.onload = () => {
+          loaded++;
+          if (loaded === scripts.length) initGeolabFirebase();
+        };
+        document.head.appendChild(s);
+      });
+    })();
   </script>
 </body>
 
