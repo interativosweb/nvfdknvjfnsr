@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GeoLab Pro - Laboratório de Geometria</title>
+  <title>GeoLab - Laboratório de Geometria</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root {
+    :root {animation-name: ;
       --green: #58CC02;
       --green-dark: #46A302;
       --green-shadow: #3D8A00;
@@ -2152,7 +2152,7 @@
   <div id="popupOverlay">
     <div id="popupBox">
       <div class="popup-header">
-        <div class="popup-title">Geo<span>Lab</span> Pro</div>
+        <div class="popup-title">Geo<span>Lab</span></div>
         <div class="popup-tagline">Laboratório de Geometria Interativo</div>
       </div>
       <div class="popup-divider"></div>
@@ -2207,6 +2207,21 @@
       <button class="btn-popup-enter" onclick="verificarSenhaProfessor()" style="margin-top:16px">
         Acessar Painel
       </button>
+    </div>
+  </div>
+
+  <!-- Modal Senha para Classificações -->
+  <div id="classificacaoModal" style="position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);">
+    <div style="width:340px;max-width:92vw;background:var(--white);border:3px solid var(--light-gray);border-radius:24px;padding:36px 32px;box-shadow:0 8px 0 var(--light-gray),0 24px 60px rgba(0,0,0,0.1);animation:popupIn 0.35s cubic-bezier(0.34,1.56,0.64,1);position:relative;text-align:center;">
+      <button onclick="fecharClassificacaoModal()" style="position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--off-white);border:2px solid var(--light-gray);color:var(--medium-gray);font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin:0;box-shadow:0 3px 0 var(--light-gray);">✕</button>
+      <div style="font-size:1.5rem;margin-bottom:6px;">⚙</div>
+      <h3 style="font-size:1.1rem;font-weight:900;color:var(--text);margin-bottom:4px;">Acesso Restrito</h3>
+      <p style="font-size:0.82rem;color:var(--medium-gray);margin-bottom:20px;font-weight:700;">Digite a senha para continuar</p>
+      <div class="popup-field">
+        <input type="password" id="inputSenhaClassificacao" class="popup-input" placeholder="••••" style="text-align:center;" />
+      </div>
+      <div class="popup-error" id="classificacaoError">Senha incorreta.</div>
+      <button class="btn-popup-enter" onclick="verificarSenhaClassificacao()" style="margin-top:12px">Acessar</button>
     </div>
   </div>
 
@@ -2375,11 +2390,12 @@
   <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar-left">
     <div class="header-box">
-      <div class="logo-row">
+      <div class="logo-row" style="justify-content:space-between;">
         <div>
-          <h1>Geo<span>Lab</span> Pro</h1>
+          <h1>Geo<span>Lab</span></h1>
           <div class="subtitle">Laboratório de Geometria</div>
         </div>
+        <button id="btnGearSettings" onclick="abrirSenhaClassificacao()" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--medium-gray);opacity:0.5;transition:opacity 0.2s;padding:4px;margin:0;box-shadow:none;width:auto;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" title="Configurações">⚙</button>
       </div>
       <div id="studentBadge">
         <span id="badgeNome"></span> &bull; <span id="badgeInfo"></span>
@@ -2434,7 +2450,10 @@
         <div class="control-group">
           <h2>Rotação</h2>
           <label>Ângulo <span id="valRot" class="value-display">0°</span></label>
-          <input type="range" id="inputRot" min="0" max="360" value="0" oninput="updateShapeData()">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <input type="range" id="inputRot" min="0" max="360" value="0" oninput="updateShapeData()" style="flex:1;margin:0;">
+            <input type="number" id="inputRotNum" min="0" max="360" value="0" oninput="updateRotFromNumber()" style="width:64px;padding:8px 6px;border-radius:10px;border:2px solid var(--light-gray);font-family:var(--font);font-weight:800;font-size:0.82rem;color:var(--text);text-align:center;outline:none;background:var(--white);" placeholder="0°">
+          </div>
           <button class="btn-anim" id="animRotBtn" onclick="toggleAnim('rot')">
             Animar Rotação
           </button>
@@ -2447,14 +2466,14 @@
         </div>
 
         <div class="control-group">
-          <h2>Escala</h2>
+          <h2>Homotetia</h2>
           <label>Tamanho <span id="valScale" class="value-display">100%</span></label>
           <input type="range" id="inputScale" min="10" max="300" value="100" oninput="updateShapeData()">
           <button class="btn-toggle" onclick="resetScale()">Resetar Tamanho</button>
         </div>
 
         <div class="control-group" style="border: 2px solid var(--purple); background: #F9F0FF;">
-          <h2 style="color: var(--purple-dark);">Reflexão — Eixo (Reta)</h2>
+          <h2 style="color: var(--purple-dark);">Simetria em relação a uma reta</h2>
           <p style="font-size:0.75rem; color:var(--dark-gray); margin-bottom:10px; font-weight:700;">
             Selecione uma reta.
           </p>
@@ -2465,12 +2484,12 @@
           </select>
           <div id="symAxisInfo"
             style="display:none; margin-bottom:4px; background:var(--white); border:2px solid var(--purple); border-radius:10px; padding:7px 10px; font-size:0.73rem; font-weight:700; color:var(--purple-dark); text-align:center;">
-            ✦ Reflexão em reta ativa
+            ✦ Simetria em relação a uma reta ativa
           </div>
 
           <div style="height:1px; background:var(--light-gray); margin:12px 0;"></div>
 
-          <h2 style="color: var(--purple-dark);">Reflexão — Ponto</h2>
+          <h2 style="color: var(--purple-dark);">Reflexão em relação a um ponto</h2>
           <p style="font-size:0.75rem; color:var(--dark-gray); margin-bottom:10px; font-weight:700;">
             Selecione um ponto.
           </p>
@@ -2481,7 +2500,7 @@
           </select>
           <div id="symPointInfo"
             style="display:none; background:var(--white); border:2px solid var(--purple); border-radius:10px; padding:7px 10px; font-size:0.73rem; font-weight:700; color:var(--purple-dark); text-align:center;">
-            ✦ Reflexão em ponto ativa
+            ✦ Reflexão em relação a um ponto ativa
           </div>
         </div>
 
@@ -2567,7 +2586,7 @@
     <div class="layers-title">Figuras</div>
     <button class="btn-success" onclick="createNewLayer()"
       style="margin-bottom:10px; width:100%; padding:12px; font-size:0.82rem;">
-      + Nova Figura
+      + Novo polígono
     </button>
     <div id="layersList"></div>
   </div>
@@ -2618,7 +2637,7 @@
     })();
 
     /* =========================================================
-       APP GEOLAB PRO
+       APP GEOLAB
     ========================================================= */
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -2772,7 +2791,7 @@
     function createNewLayer() {
       const newShape = {
         id: Date.now(),
-        name: `Figura ${shapes.length + 1}`,
+        name: `Novo polígono ${shapes.length + 1}`,
         type: SHAPE_TYPES.POLYGON,
         points: [],
         color: colors[shapes.length % colors.length],
@@ -2801,6 +2820,8 @@
       updateUI();
       // Hide the welcome instruction permanently once user starts creating figures
       hideInstruction();
+      // Check if enough figures to start quiz
+      checkFigureCountForQuiz();
     }
 
     function selectLayer(index) {
@@ -2871,6 +2892,9 @@
         document.getElementById('inputTy').value = s.ty;
         document.getElementById('inputRot').value = s.rotation;
         document.getElementById('inputScale').value = Math.round(s.scale * 100);
+        // Sync numeric rotation input
+        const rotNumEl = document.getElementById('inputRotNum');
+        if (rotNumEl) rotNumEl.value = Math.round(s.rotation);
 
         document.getElementById('btnRefX').classList.toggle('active', s.reflectX);
         document.getElementById('btnRefY').classList.toggle('active', s.reflectY);
@@ -2938,6 +2962,9 @@
       if (scaleEl) scaleEl.textContent = Math.round(s.scale * 100) + '%';
       if (speedTransEl) speedTransEl.textContent = s.speed.trans + 'x';
       if (speedRotEl) speedRotEl.textContent = s.speed.rot + 'x';
+      // Sync numeric rotation input
+      const rotNumEl = document.getElementById('inputRotNum');
+      if (rotNumEl) rotNumEl.value = Math.round(s.rotation);
     }
 
     /* ===================== CONTROLES DE FORMA ===================== */
@@ -2948,6 +2975,20 @@
       s.ty = parseFloat(document.getElementById('inputTy').value);
       s.rotation = parseFloat(document.getElementById('inputRot').value);
       s.scale = parseFloat(document.getElementById('inputScale').value) / 100;
+      // Sync numeric rotation input
+      const numInput = document.getElementById('inputRotNum');
+      if (numInput) numInput.value = Math.round(s.rotation);
+      updateLabelValues();
+      draw();
+    }
+
+    function updateRotFromNumber() {
+      if (activeIndex === -1) return;
+      const numInput = document.getElementById('inputRotNum');
+      let val = parseInt(numInput.value) || 0;
+      val = Math.max(0, Math.min(360, val));
+      shapes[activeIndex].rotation = val;
+      document.getElementById('inputRot').value = val;
       updateLabelValues();
       draw();
     }
@@ -2979,7 +3020,9 @@
       s.type = SHAPE_TYPES.LINE;
       s.isSymAxis = true;
       s.isSymPoint = false;
-      s.name = `Eixo ${shapes.filter(x => x.isSymAxis && !x.isSymPoint).length}`;
+      const axisLetters = ['r','s','t','u','v','w','x','y','z'];
+      const axisCount = shapes.filter(x => x.isSymAxis && !x.isSymPoint).length - 1;
+      s.name = axisLetters[axisCount % axisLetters.length] || `r${axisCount}`;
       s.color = '#9C3FA6';
       s.points = [{ x: -120, y: -80 }, { x: 120, y: 80 }];
       s.isClosed = true;
@@ -3246,6 +3289,8 @@
       updateUI();
       draw();
       bottomToolbar.classList.remove('open');
+      // Check if enough figures to start quiz
+      checkFigureCountForQuiz();
     }
 
     /* ===================== EVENTOS DO CANVAS ===================== */
@@ -3429,6 +3474,7 @@
             };
             updateUI();
             draw();
+            checkFigureCountForQuiz();
             return;
           }
         }
@@ -4560,6 +4606,39 @@
       }, 400);
     }
 
+    function abrirSenhaClassificacao() {
+      const modal = document.getElementById('classificacaoModal');
+      modal.style.display = 'flex';
+      modal.style.animation = 'fadeInOverlay 0.3s ease';
+      document.getElementById('inputSenhaClassificacao').value = '';
+      document.getElementById('classificacaoError').style.display = 'none';
+      setTimeout(() => document.getElementById('inputSenhaClassificacao').focus(), 100);
+    }
+
+    function fecharClassificacaoModal() {
+      document.getElementById('classificacaoModal').style.display = 'none';
+    }
+
+    function verificarSenhaClassificacao() {
+      const senha = document.getElementById('inputSenhaClassificacao').value;
+      if (senha === '4241') {
+        fecharClassificacaoModal();
+        window.location.href = 'classificacao.html';
+      } else {
+        document.getElementById('classificacaoError').style.display = 'block';
+        document.getElementById('inputSenhaClassificacao').style.borderColor = 'var(--red)';
+        setTimeout(() => {
+          document.getElementById('inputSenhaClassificacao').style.borderColor = '';
+        }, 1500);
+      }
+    }
+
+    // Wire Enter key for classificacao password
+    document.addEventListener('DOMContentLoaded', () => {
+      const inp = document.getElementById('inputSenhaClassificacao');
+      if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') verificarSenhaClassificacao(); });
+    });
+
     function abrirAreaProfessor() {
       document.getElementById('professorModal').classList.add('visible');
       document.getElementById('inputSenhaProfessor').value = '';
@@ -4702,7 +4781,7 @@
     });
 
     /* ===== ACTIVITY QUIZ SYSTEM ===== */
-    const QUIZ_DELAY_MS = 10 * 1000; // 10 segundos
+    const MIN_FIGURES_FOR_QUIZ = 10; // mínimo de figuras para iniciar a atividade
     let quizTimer = null;
     let quizActive = false;
     let currentQuestion = 0;
@@ -4784,10 +4863,17 @@
     ];
 
     function startQuizTimer() {
-      if (quizTimer || quizActive) return;
-      quizTimer = setTimeout(() => {
+      // No-op: quiz is now triggered by figure count, not a timer
+    }
+
+    function checkFigureCountForQuiz() {
+      if (quizActive) return;
+      const saved = sessionStorage.getItem('geolab_aluno');
+      if (!saved) return;
+      const closedFigures = shapes.filter(s => !s.isSymAxis && s.isClosed).length;
+      if (closedFigures >= MIN_FIGURES_FOR_QUIZ) {
         showActivityPopup();
-      }, QUIZ_DELAY_MS);
+      }
     }
 
     function showActivityPopup() {
