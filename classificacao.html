@@ -11,90 +11,105 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-page: #f5f5f7;
-            --card-bg: #ffffff;
-            --text-main: #1d1d1f;
-            --text-light: #86868b;
-            --accent: #58CC02;
-            --accent-dark: #3D8A00;
+            --green: #58CC02;
+            --green-dark: #46A302;
+            --green-shadow: #3D8A00;
+            --blue: #1CB0F6;
+            --blue-dark: #0F8EC4;
+            --blue-shadow: #0A6FA0;
+            --red: #FF4B4B;
+            --red-dark: #EA2B2B;
+            --red-shadow: #C41E1E;
+            --orange: #FF9600;
+            --orange-dark: #D07B00;
             --purple: #CE82FF;
             --purple-dark: #9C3FA6;
-            --blue: #1CB0F6;
-            --blue-dark: #0A6FA0;
-            --success: #34c759;
-            --warning: #ffcc00;
-            --error: #ff3b30;
-            --radius: 16px;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            --border-light: #e5e5ea;
+            --yellow: #FFC800;
+            --white: #FFFFFF;
+            --off-white: #F7F7F7;
+            --light-gray: #E5E5E5;
+            --medium-gray: #AFAFAF;
+            --dark-gray: #777777;
+            --text: #3C3C3C;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --font: 'Nunito', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            background-color: var(--bg-page);
-            color: var(--text-main);
+            background-color: var(--off-white);
+            color: var(--text);
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 28px 20px;
             padding-bottom: 100px;
             overflow-x: hidden;
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
+            font-family: var(--font);
         }
 
         .container {
-            max-width: 1140px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        /* Header */
+        /* ===== HEADER ===== */
         header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
         }
 
         .titulo-container {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-        }
-
-        .titulo-pagina {
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-        }
-
-        .titulo-pagina span {
-            color: var(--accent);
+            gap: 4px;
         }
 
         .btn-voltar {
             text-decoration: none;
-            color: var(--accent);
-            font-weight: 700;
+            color: var(--green);
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: opacity 0.2s;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
+            transition: all 0.2s;
+            font-size: 0.82rem;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-voltar:hover {
             opacity: 0.7;
         }
 
+        .titulo-pagina {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .titulo-pagina span {
+            color: var(--green);
+        }
+
         .filtro-data-container {
-            background: white;
-            padding: 10px 20px;
+            background: var(--white);
+            padding: 10px 18px;
             border-radius: 50px;
-            box-shadow: var(--shadow);
+            border: 2px solid var(--light-gray);
+            box-shadow: 0 3px 0 var(--light-gray);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -104,21 +119,21 @@
         .input-data {
             border: none;
             background: transparent;
-            font-size: 1rem;
-            color: var(--accent);
-            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--green);
+            font-weight: 800;
             cursor: pointer;
             outline: none;
             font-family: inherit;
         }
 
-        /* Filtros */
+        /* ===== FILTROS ===== */
         .area-filtros-topo {
             display: flex;
             justify-content: flex-start;
             align-items: stretch;
-            gap: 14px;
-            margin-bottom: 36px;
+            gap: 10px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
 
@@ -128,45 +143,54 @@
         }
 
         .btn-filtro-trigger {
-            background-color: white;
-            color: var(--text-main);
-            padding: 12px 22px;
-            border-radius: 50px;
-            border: none;
-            font-size: 1rem;
-            font-weight: 700;
+            background-color: var(--white);
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 2px solid var(--light-gray);
+            font-size: 0.88rem;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 0 var(--light-gray);
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: all 0.3s ease;
-            min-width: 190px;
+            transition: all 0.1s;
+            min-width: 180px;
             min-height: 48px;
             justify-content: space-between;
             font-family: inherit;
+            text-transform: none;
+            letter-spacing: 0;
         }
 
         .btn-filtro-trigger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+            border-color: var(--green);
+            color: var(--green-dark);
+            box-shadow: 0 3px 0 var(--green-shadow);
+        }
+
+        .btn-filtro-trigger:active {
+            box-shadow: 0 0 0 var(--light-gray);
+            transform: translateY(3px);
         }
 
         .btn-filtro-trigger.ativo {
-            border: 2px solid var(--accent);
-            color: var(--accent);
+            border: 2px solid var(--green);
+            color: var(--green-dark);
+            background: #E8F9D9;
         }
 
         .seta-dropdown {
             width: 14px;
             height: 14px;
-            fill: var(--text-light);
+            fill: var(--medium-gray);
             transition: transform 0.3s;
         }
 
         .dropdown-wrapper.aberto .seta-dropdown {
             transform: rotate(180deg);
-            fill: var(--accent);
+            fill: var(--green);
         }
 
         .dropdown-menu {
@@ -175,10 +199,11 @@
             left: 0;
             width: 100%;
             min-width: 200px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            padding: 10px;
+            background-color: var(--white);
+            border-radius: 16px;
+            border: 2px solid var(--light-gray);
+            box-shadow: 0 8px 0 var(--light-gray), 0 16px 40px rgba(0, 0, 0, 0.1);
+            padding: 8px;
             z-index: 100;
             opacity: 0;
             visibility: hidden;
@@ -196,70 +221,78 @@
             display: block;
             width: 100%;
             text-align: left;
-            padding: 10px 15px;
+            padding: 10px 14px;
             background: none;
             border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: var(--text-main);
+            border-radius: 10px;
+            font-size: 0.88rem;
+            color: var(--text);
             cursor: pointer;
-            font-weight: 600;
-            transition: background 0.2s;
+            font-weight: 700;
+            transition: background 0.15s;
             font-family: inherit;
         }
 
         .opcao-item:hover {
-            background-color: #EEFBE5;
-            color: var(--accent-dark);
+            background-color: #E8F9D9;
+            color: var(--green-dark);
         }
 
         .opcao-item.selecionado {
-            background-color: var(--accent);
+            background-color: var(--green);
             color: white;
+            box-shadow: 0 2px 0 var(--green-shadow);
         }
 
-        /* Cards Resumo */
+        /* ===== CARDS RESUMO ===== */
         .grid-resumo {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 12px;
-            margin-bottom: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .card-resumo {
-            background: var(--card-bg);
-            padding: 14px 16px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            background: var(--white);
+            padding: 16px 18px;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--light-gray);
+            box-shadow: 0 3px 0 var(--light-gray);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             justify-content: center;
-            min-height: 86px;
+            min-height: 80px;
+            transition: border-color 0.15s;
+        }
+
+        .card-resumo:hover {
+            border-color: var(--green);
         }
 
         .card-titulo {
-            font-size: 0.75rem;
-            color: var(--text-light);
+            font-size: 0.68rem;
+            color: var(--medium-gray);
             text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-weight: 800;
+            letter-spacing: 1px;
             margin-bottom: 4px;
         }
 
         .card-valor {
-            font-size: 1.65rem;
+            font-size: 1.6rem;
             font-weight: 900;
-            color: var(--text-main);
+            color: var(--text);
             letter-spacing: -0.5px;
             line-height: 1.1;
         }
 
-        /* Tabela */
+        /* ===== TABELA RANKING ===== */
         .painel-ranking {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            border: 2px solid var(--light-gray);
+            box-shadow: 0 4px 0 var(--light-gray);
             overflow: hidden;
             min-height: 300px;
         }
@@ -268,12 +301,12 @@
             display: grid;
             grid-template-columns: 56px 2fr 1.2fr 1fr 1fr;
             padding: 12px 18px;
-            background-color: rgba(0, 0, 0, 0.02);
-            border-bottom: 1px solid #e5e5ea;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-light);
+            border-bottom: 2px solid var(--light-gray);
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: var(--medium-gray);
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .tabela-header>div,
@@ -311,8 +344,8 @@
             grid-template-columns: 56px 2fr 1.2fr 1fr 1fr;
             padding: 14px 18px;
             align-items: center;
-            border-bottom: 1px solid #f5f5f7;
-            transition: background 0.2s;
+            border-bottom: 2px solid var(--off-white);
+            transition: all 0.15s;
             cursor: pointer;
         }
 
@@ -321,16 +354,17 @@
         }
 
         .item-aluno:hover {
-            background-color: #EEFBE5;
+            background-color: #E8F9D9;
+            border-color: var(--green);
         }
 
         .posicao {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            color: var(--text-main);
-            font-size: 1.05rem;
+            font-weight: 900;
+            color: var(--text);
+            font-size: 1rem;
         }
 
         .medalha {
@@ -342,259 +376,330 @@
         }
 
         .info-nome {
-            font-weight: 700;
-            font-size: 1.05rem;
+            font-weight: 800;
+            font-size: 0.95rem;
             gap: 8px;
         }
 
         .info-serie {
             display: inline-block;
             padding: 4px 12px;
-            border-radius: 20px;
-            background-color: #f2f2f7;
-            color: var(--text-light);
-            font-size: 0.8rem;
-            font-weight: 700;
+            border-radius: 8px;
+            background-color: var(--off-white);
+            border: 2px solid var(--light-gray);
+            color: var(--dark-gray);
+            font-size: 0.75rem;
+            font-weight: 800;
             white-space: nowrap;
         }
 
         .info-respostas {
-            font-weight: 800;
-            color: var(--accent);
+            font-weight: 900;
+            color: var(--green);
         }
 
         .info-horario {
-            font-size: 0.9rem;
-            color: var(--text-light);
+            font-size: 0.85rem;
+            color: var(--medium-gray);
             text-align: center;
+            font-weight: 700;
         }
 
-        /* Rodapé */
+        /* ===== RODAPÉ ===== */
         .rodape-gestao {
-            margin-top: 50px;
+            margin-top: 40px;
             text-align: center;
-            border-top: 1px solid #e5e5ea;
-            padding-top: 30px;
+            border-top: 2px solid var(--light-gray);
+            padding-top: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .btn-acao-rodape {
-            background-color: #8e8e93;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 700;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            border: 2px solid var(--light-gray);
+            padding: 13px 28px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
             cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.1s;
+            box-shadow: 0 4px 0 var(--light-gray);
             font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-acao-rodape:hover {
-            background-color: var(--error);
-            transform: scale(1.02);
+            background: #FFE5E5;
+            border-color: var(--red);
+            color: var(--red-dark);
+            box-shadow: 0 4px 0 var(--red-shadow);
+        }
+
+        .btn-acao-rodape:active {
+            box-shadow: 0 0 0 var(--light-gray);
+            transform: translateY(4px);
         }
 
         .texto-creditos {
-            font-size: 0.8rem;
-            color: var(--text-light);
+            font-size: 0.72rem;
+            color: var(--medium-gray);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Modal Overlay */
+        /* ===== MODAL OVERLAY ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            animation: fadeIn 0.3s ease;
+            animation: fadeInOverlay 0.4s ease;
         }
 
         .modal-overlay.visivel {
             display: flex;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        @keyframes popIn {
-            from {
-                transform: scale(0.95);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+        @keyframes popupIn {
+            from { opacity: 0; transform: scale(0.85) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Modal Aluno */
+        /* ===== MODAL ALUNO ===== */
         .modal-box-aluno {
-            background: white;
-            padding: 30px;
-            border-radius: 24px;
+            background: var(--white);
+            padding: 36px 32px 28px;
+            border-radius: var(--border-radius-lg);
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--light-gray);
+            box-shadow: 0 8px 0 var(--light-gray), 0 24px 60px rgba(0, 0, 0, 0.12);
             position: relative;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            width: 520px;
+            animation: popupIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 540px;
             max-width: 95vw;
             max-height: 90vh;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--light-gray) transparent;
+        }
+
+        .modal-box-aluno::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal-box-aluno::-webkit-scrollbar-thumb {
+            background: var(--light-gray);
+            border-radius: 2px;
         }
 
         .modal-titulo {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 900;
-            margin-bottom: 5px;
-            color: #1d1d1f;
+            margin-bottom: 4px;
+            color: var(--text);
             letter-spacing: -0.5px;
         }
 
         .modal-sub {
-            font-size: 0.95rem;
-            color: #86868b;
-            margin-bottom: 20px;
-            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--medium-gray);
+            margin-bottom: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .modal-close-abs {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #f5f5f7;
-            border: none;
+            top: 14px;
+            right: 14px;
+            background: var(--off-white);
+            border: 2px solid var(--light-gray);
             width: 32px;
             height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            color: #86868b;
-            font-size: 1.1rem;
+            color: var(--medium-gray);
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            transition: all 0.15s;
             font-family: inherit;
+            box-shadow: 0 3px 0 var(--light-gray);
+            padding: 0;
+            margin: 0;
         }
 
         .modal-close-abs:hover {
-            background: #e5e5ea;
-            color: #1d1d1f;
+            background: #FFE5E5;
+            border-color: var(--red);
+            color: var(--red);
+            box-shadow: 0 3px 0 var(--red-shadow);
+        }
+
+        .modal-close-abs:active {
+            box-shadow: 0 0 0 var(--light-gray);
+            transform: translateY(3px);
         }
 
         .modal-divisor {
-            height: 1px;
-            background-color: #f0f0f5;
+            height: 2px;
+            background-color: var(--light-gray);
+            border-radius: 1px;
             width: 100%;
-            margin: 20px 0;
+            margin: 16px 0;
         }
 
-        /* Respostas no modal */
+        /* ===== RESPOSTAS NO MODAL ===== */
         .resposta-item {
-            background: #f9f9fb;
-            border: 1px solid #e5e5ea;
+            background: var(--off-white);
+            border: 2px solid var(--light-gray);
             border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
             text-align: left;
+            transition: border-color 0.15s;
+        }
+
+        .resposta-item:hover {
+            border-color: var(--green);
+        }
+
+        .resposta-item.sem-resposta {
+            opacity: 0.6;
+        }
+
+        .resposta-item.sem-resposta:hover {
+            border-color: var(--light-gray);
         }
 
         .resposta-pergunta {
-            font-size: 0.78rem;
-            font-weight: 800;
+            font-size: 0.72rem;
+            font-weight: 900;
             text-transform: uppercase;
-            color: var(--purple-dark);
-            margin-bottom: 8px;
+            color: var(--blue-dark);
+            margin-bottom: 6px;
             letter-spacing: 0.5px;
         }
 
-        .resposta-texto {
-            font-size: 0.95rem;
-            color: var(--text-main);
-            line-height: 1.5;
-            font-weight: 600;
+        .resposta-questao-texto {
+            font-size: 0.85rem;
+            color: var(--text);
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
-        /* Modal Admin (Reset) */
+        .resposta-texto {
+            font-size: 0.88rem;
+            color: var(--green-dark);
+            line-height: 1.5;
+            font-weight: 800;
+            background: #E8F9D9;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 2px solid var(--green);
+        }
+
+        .resposta-texto.vazia {
+            color: var(--medium-gray);
+            background: var(--off-white);
+            border-color: var(--light-gray);
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        /* ===== MODAL ADMIN (Reset) ===== */
         .modal-box-admin {
-            background: white;
-            padding: 30px;
-            border-radius: 24px;
+            background: var(--white);
+            padding: 32px;
+            border-radius: var(--border-radius-lg);
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--light-gray);
+            box-shadow: 0 8px 0 var(--light-gray), 0 24px 60px rgba(0, 0, 0, 0.12);
             width: 90%;
             max-width: 400px;
-            animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: popupIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .modal-desc {
-            font-size: 0.95rem;
-            color: #86868b;
+            font-size: 0.88rem;
+            color: var(--medium-gray);
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .input-senha {
             width: 100%;
-            padding: 15px;
-            border: 1px solid #d2d2d7;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            padding: 14px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 14px;
+            font-size: 1rem;
+            margin-bottom: 16px;
             outline: none;
             text-align: center;
-            background-color: #fafafa;
+            background-color: var(--off-white);
             font-family: inherit;
+            font-weight: 700;
+            transition: all 0.2s;
             box-sizing: border-box;
         }
 
         .input-senha:focus {
-            border-color: var(--accent);
-            background: white;
+            border-color: var(--green);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.15);
         }
 
         .btn-reset-opcao {
-            padding: 15px;
-            border-radius: 14px;
-            border: none;
-            font-size: 1rem;
-            font-weight: 700;
+            padding: 13px;
+            border-radius: 12px;
+            border: 2px solid var(--light-gray);
+            font-size: 0.88rem;
+            font-weight: 800;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
-            background-color: #f5f5f7;
-            color: #1d1d1f;
+            transition: all 0.1s;
+            background-color: var(--white);
+            color: var(--text);
             margin-bottom: 8px;
             width: 100%;
             font-family: inherit;
+            box-shadow: 0 3px 0 var(--light-gray);
         }
 
         .btn-reset-opcao:hover {
-            background-color: #e5e5ea;
+            background-color: #E8F9D9;
+            border-color: var(--green);
+            color: var(--green-dark);
+            box-shadow: 0 3px 0 var(--green-shadow);
+        }
+
+        .btn-reset-opcao:active {
+            box-shadow: 0 0 0 var(--light-gray);
+            transform: translateY(3px);
         }
 
         .botoes-confirmacao {
@@ -604,30 +709,53 @@
         }
 
         .btn-conf-sim {
-            background-color: var(--error);
+            background-color: var(--red);
             color: white;
             flex: 1;
-            padding: 12px;
+            padding: 13px;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 800;
             font-family: inherit;
+            box-shadow: 0 4px 0 var(--red-shadow);
+            transition: all 0.1s;
+        }
+
+        .btn-conf-sim:hover {
+            background-color: var(--red-dark);
+        }
+
+        .btn-conf-sim:active {
+            box-shadow: 0 0 0 var(--red-shadow);
+            transform: translateY(4px);
         }
 
         .btn-conf-nao {
-            background-color: #f5f5f7;
-            color: #1d1d1f;
+            background-color: var(--white);
+            color: var(--text);
             flex: 1;
-            padding: 12px;
-            border: none;
+            padding: 13px;
+            border: 2px solid var(--light-gray);
             border-radius: 12px;
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 800;
             font-family: inherit;
+            box-shadow: 0 3px 0 var(--light-gray);
+            transition: all 0.1s;
         }
 
-        /* Toast Notifications */
+        .btn-conf-nao:hover {
+            border-color: var(--green);
+            box-shadow: 0 3px 0 var(--green-shadow);
+        }
+
+        .btn-conf-nao:active {
+            box-shadow: 0 0 0 var(--light-gray);
+            transform: translateY(3px);
+        }
+
+        /* ===== TOAST ===== */
         .notificacao-container {
             position: fixed;
             top: 20px;
@@ -640,13 +768,13 @@
         }
 
         .toast {
-            background-color: var(--success);
+            background-color: var(--green);
             color: white;
             padding: 12px 20px;
             border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            font-size: 0.9rem;
-            font-weight: 700;
+            box-shadow: 0 4px 0 var(--green-shadow);
+            font-size: 0.82rem;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -655,22 +783,16 @@
         }
 
         .toast.alerta {
-            background-color: var(--error);
+            background-color: var(--red);
+            box-shadow: 0 4px 0 var(--red-shadow);
         }
 
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        /* Responsividade */
+        /* ===== RESPONSIVO ===== */
         @media (max-width: 700px) {
             .tabela-header {
                 display: none;
@@ -683,32 +805,14 @@
                 padding: 15px;
             }
 
-            .posicao {
-                grid-area: pos;
-                align-self: center;
-            }
-
-            .info-nome {
-                grid-area: nome;
-            }
-
-            .info-respostas {
-                grid-area: respostas;
-                text-align: right;
-            }
-
-            .info-serie-wrap {
-                grid-area: serie;
-            }
-
-            .info-horario {
-                grid-area: horario;
-                text-align: right;
-                font-size: 0.8rem;
-            }
+            .posicao { grid-area: pos; align-self: center; }
+            .info-nome { grid-area: nome; }
+            .info-respostas { grid-area: respostas; text-align: right; }
+            .info-serie-wrap { grid-area: serie; }
+            .info-horario { grid-area: horario; text-align: right; font-size: 0.8rem; }
 
             .area-filtros-topo {
-                gap: 10px;
+                gap: 8px;
                 justify-content: center;
             }
 
@@ -727,7 +831,7 @@
         <header>
             <div class="titulo-container">
                 <a href="index.html" class="btn-voltar">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M15 18l-6-6 6-6" />
                     </svg>
                     Voltar para GeoLab
@@ -736,7 +840,7 @@
             </div>
 
             <div class="filtro-data-container">
-                <span style="font-size:0.8rem; color:var(--text-light); font-weight:700;">Data:</span>
+                <span style="font-size:0.72rem; color:var(--medium-gray); font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Data:</span>
                 <input type="date" id="filtroData" class="input-data">
             </div>
         </header>
@@ -783,7 +887,7 @@
             </div>
             <div class="card-resumo">
                 <span class="card-titulo">Respostas Completas</span>
-                <span class="card-valor" id="respostasCompletas" style="color: var(--accent)">0</span>
+                <span class="card-valor" id="respostasCompletas" style="color: var(--green)">0</span>
             </div>
             <div class="card-resumo">
                 <span class="card-titulo">Respostas Parciais</span>
@@ -800,16 +904,16 @@
                 <div class="col-horario">Horário</div>
             </div>
             <ul id="listaAlunos" class="lista-alunos">
-                <li style="padding:40px; text-align:center; color:var(--text-light); font-weight:600;">Carregando
+                <li style="padding:40px; text-align:center; color:var(--medium-gray); font-weight:700;">Carregando
                     dados...</li>
             </ul>
         </div>
 
         <div class="rodape-gestao">
             <button class="btn-acao-rodape" onclick="abrirModalReset()">Gerenciar Histórico</button>
-            <div style="display:flex; flex-direction:column; gap:5px;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
                 <span class="texto-creditos">Área restrita ao professor</span>
-                <span class="texto-creditos" style="font-weight:800; color:var(--text-main)">Desenvolvido por Gilberto
+                <span class="texto-creditos" style="font-weight:900; color:var(--text)">Desenvolvido por Gilberto
                     Fernandes</span>
             </div>
         </div>
@@ -829,11 +933,11 @@
     <!-- Modal: Reset -->
     <div id="modalReset" class="modal-overlay">
         <div class="modal-box-admin">
-            <div class="modal-titulo">Limpar Dados</div>
+            <div class="modal-titulo" style="margin-bottom:4px;">Limpar Dados</div>
             <div class="modal-desc">Selecione o período para apagar.</div>
             <button class="btn-reset-opcao" onclick="prepararReset('hoje')">Limpar registros de <b>Hoje</b></button>
             <button class="btn-reset-opcao" onclick="prepararReset('mes')">Limpar registros do <b>Mês</b></button>
-            <button class="btn-reset-opcao" style="color:var(--error)" onclick="prepararReset('tudo')">🗑️ Resetar
+            <button class="btn-reset-opcao" style="color:var(--red);border-color:var(--red);" onclick="prepararReset('tudo')">🗑️ Resetar
                 <b>Tudo</b></button>
             <button class="btn-reset-opcao btn-conf-nao" style="margin-top:10px;"
                 onclick="fecharModalReset()">Cancelar</button>
@@ -843,12 +947,12 @@
     <!-- Modal: Senha para confirmar reset -->
     <div id="modalSenhaAction" class="modal-overlay">
         <div class="modal-box-admin">
-            <div class="modal-titulo">Confirmar</div>
+            <div class="modal-titulo" style="margin-bottom:4px;">Confirmar</div>
             <div class="modal-desc" id="descSenhaAction">Digite a senha para confirmar.</div>
             <input type="password" id="inputSenhaAction" class="input-senha" placeholder="Senha do Professor">
             <div class="botoes-confirmacao">
-                <button class="btn-reset-opcao btn-conf-nao" onclick="fecharModalSenhaAction()">Cancelar</button>
-                <button class="btn-reset-opcao btn-conf-sim" onclick="executarResetConfirmado()">Confirmar</button>
+                <button class="btn-conf-nao" onclick="fecharModalSenhaAction()">Cancelar</button>
+                <button class="btn-conf-sim" onclick="executarResetConfirmado()">Confirmar</button>
             </div>
         </div>
     </div>
@@ -870,6 +974,20 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
+        /* --- All quiz questions (must match index.html) --- */
+        const allQuestions = [
+            { question: "O que é uma transformação geométrica?", type: "text" },
+            { question: "O que é uma translação?", type: "text" },
+            { question: "O que é uma simetria?", type: "text" },
+            { question: "Se girarmos um quadrado em torno de um ponto, qual transformação geométrica está ocorrendo?", type: "choice", options: ["Rotação", "Giro", "Translação", "Simetria"] },
+            { question: "Quando uma figura apenas muda de lugar, sem girar ou mudar de tamanho, qual transformação ocorreu?", type: "choice", options: ["Translação", "Rotação", "Simetria", "Ampliação"] },
+            { question: "Quando uma figura é refletida como se estivesse em um espelho, qual transformação geométrica acontece?", type: "choice", options: ["Translação", "Simetria", "Rotação", "Redução"] },
+            { question: "Crie duas figuras diferentes e aplique uma translação em cada uma.", type: "practical" },
+            { question: "Faça duas figuras e faça uma rotação em cada uma.", type: "practical" },
+            { question: "Construa 3 figuras e faça uma simetria em cada uma.", type: "practical" },
+            { question: "Faça uma nova figura e aplique as 3 transformações geométricas.", type: "practical" }
+        ];
 
         /* --- Helpers --- */
         function toISODate(v) {
@@ -941,13 +1059,11 @@
                 const bateTurma = filtroTurmaAtual === 'todas' ? true : (item.turma || '') === filtroTurmaAtual;
                 return bateData && bateAno && bateTurma;
             });
-            // Sort by number of answers (descending), then by name
             filtrados.sort((a, b) => {
                 if (b.numRespostas !== a.numRespostas) return b.numRespostas - a.numRespostas;
                 return (a.nome || '').localeCompare(b.nome || '');
             });
 
-            // Update cards
             document.getElementById('totalAlunos').innerText = filtrados.length;
             const completas = filtrados.filter(a => a.numRespostas >= TOTAL_PERGUNTAS_TEXTO).length;
             const parciais = filtrados.filter(a => a.numRespostas > 0 && a.numRespostas < TOTAL_PERGUNTAS_TEXTO).length;
@@ -956,7 +1072,7 @@
 
             listaEl.innerHTML = "";
             if (filtrados.length === 0) {
-                listaEl.innerHTML = `<li style="padding:40px; text-align:center; color:var(--text-light); font-weight:600;">Aguardando dados...</li>`;
+                listaEl.innerHTML = `<li style="padding:40px; text-align:center; color:var(--medium-gray); font-weight:700;">Aguardando dados...</li>`;
                 return;
             }
 
@@ -967,7 +1083,7 @@
                 else if (pos === 2) medalha = "🥈";
                 else if (pos === 3) medalha = "🥉";
 
-                const statusColor = aluno.numRespostas >= TOTAL_PERGUNTAS_TEXTO ? 'var(--accent)' : 'var(--purple)';
+                const statusColor = aluno.numRespostas >= TOTAL_PERGUNTAS_TEXTO ? 'var(--green)' : 'var(--purple)';
                 const statusText = `${aluno.numRespostas}/${TOTAL_PERGUNTAS_TEXTO}`;
 
                 const li = document.createElement('li');
@@ -1000,22 +1116,25 @@
             container.innerHTML = '';
 
             const respostas = aluno.respostas || {};
-            const keys = Object.keys(respostas).sort();
 
-            if (keys.length === 0) {
-                container.innerHTML = '<div style="padding:16px; color:#86868b; text-align:center; font-weight:600;">Nenhuma resposta registrada.</div>';
-            } else {
-                keys.forEach((key, i) => {
-                    const r = respostas[key];
-                    const item = document.createElement('div');
-                    item.className = 'resposta-item';
-                    item.innerHTML = `
-                        <div class="resposta-pergunta">Pergunta ${i + 1}: ${r.questao || ''}</div>
-                        <div class="resposta-texto">${r.resposta || ''}</div>
-                    `;
-                    container.appendChild(item);
-                });
-            }
+            // Show ALL questions with responses
+            allQuestions.forEach((q, i) => {
+                const key = `pergunta_${i}`;
+                const r = respostas[key];
+                const temResposta = r && r.resposta;
+
+                const item = document.createElement('div');
+                item.className = `resposta-item ${temResposta ? '' : 'sem-resposta'}`;
+
+                const tipoLabel = q.type === 'text' ? 'Pergunta' : q.type === 'choice' ? 'Múltipla Escolha' : 'Prática';
+
+                item.innerHTML = `
+                    <div class="resposta-pergunta">${tipoLabel} ${i + 1}</div>
+                    <div class="resposta-questao-texto">${q.question}</div>
+                    <div class="resposta-texto ${temResposta ? '' : 'vazia'}">${temResposta ? r.resposta : 'Sem resposta'}</div>
+                `;
+                container.appendChild(item);
+            });
 
             toggleModal('modalAluno', true);
         };
