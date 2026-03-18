@@ -4590,6 +4590,9 @@
       };
       localStorage.setItem('geolab_aluno', JSON.stringify(identificacao));
 
+      // Register student in Firebase immediately at login
+      registrarAlunoFirebase(identificacao);
+
       document.getElementById('badgeNome').textContent = nome;
       document.getElementById('badgeInfo').textContent = `${popupState.ano} Ano | Turma ${popupState.turma}`;
       const badge = document.getElementById('studentBadge');
@@ -5147,22 +5150,52 @@
 
     function getGeolabAlunoId() {
       if (geolabAlunoId) return geolabAlunoId;
-      // Generate a unique ID for this student session
+      // Reuse existing Firebase ID from localStorage if available
+      const existingId = localStorage.getItem('geolab_aluno_fb_id');
+      if (existingId) {
+        geolabAlunoId = existingId;
+        return geolabAlunoId;
+      }
+      // Generate a new unique ID for this student session
       const saved = localStorage.getItem('geolab_aluno');
       if (saved) {
         try {
           const data = JSON.parse(saved);
-          // Create a unique key from name + timestamp
           const safeName = (data.nome || 'aluno').replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20);
           geolabAlunoId = safeName + '_' + Date.now();
           localStorage.setItem('geolab_aluno_fb_id', geolabAlunoId);
         } catch (e) {
           geolabAlunoId = 'aluno_' + Date.now();
+          localStorage.setItem('geolab_aluno_fb_id', geolabAlunoId);
         }
       } else {
         geolabAlunoId = 'aluno_' + Date.now();
+        localStorage.setItem('geolab_aluno_fb_id', geolabAlunoId);
       }
       return geolabAlunoId;
+    }
+
+    // Register student in Firebase at login time (so they appear in classificacao immediately)
+    function registrarAlunoFirebase(identificacao) {
+      if (!geolabDb) {
+        // Firebase may not be loaded yet — retry after a short delay
+        setTimeout(() => registrarAlunoFirebase(identificacao), 500);
+        return;
+      }
+      try {
+        const alunoId = getGeolabAlunoId();
+        const alunoRef = geolabDb.ref('geolab_respostas/' + alunoId);
+        alunoRef.update({
+          nome: identificacao.nome,
+          ano: identificacao.ano,
+          turma: identificacao.turma,
+          serie: (identificacao.ano || '') + ' ' + (identificacao.turma || ''),
+          entradaEm: Date.now(),
+          enviadoEm: Date.now()
+        });
+      } catch (e) {
+        console.warn('Erro ao registrar aluno no Firebase:', e);
+      }
     }
 
     function saveAnswerToFirebase(qIdx, question, answer, extraData) {
