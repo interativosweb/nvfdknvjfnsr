@@ -993,13 +993,18 @@
         function toISODate(v) {
             if (!v) return "";
             try {
-                if (typeof v === "number") return new Date(v).toISOString().slice(0, 10);
-                if (typeof v === "string") {
-                    if (/^\d+$/.test(v)) return new Date(Number(v)).toISOString().slice(0, 10);
-                    const d = new Date(v);
-                    if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
-                    return "";
+                let d;
+                if (typeof v === "number") d = new Date(v);
+                else if (typeof v === "string") {
+                    if (/^\d+$/.test(v)) d = new Date(Number(v));
+                    else d = new Date(v);
                 }
+                if (!d || isNaN(d.getTime())) return "";
+                // Use LOCAL date (not UTC) to match the date picker which also uses local time
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
             } catch (e) { }
             return "";
         }
@@ -1015,7 +1020,7 @@
         let filtroAnoAtual = "todas";
         let filtroTurmaAtual = "todas";
         let tipoResetPendente = null;
-        const TOTAL_PERGUNTAS_TEXTO = 3; // 3 perguntas de texto no quiz
+        const TOTAL_PERGUNTAS = 10; // 6 quiz + 4 practical activities
 
         /* --- Firebase Listener --- */
         const respostasRef = ref(db, 'geolab_respostas');
@@ -1027,6 +1032,17 @@
                     const aluno = dados[key];
                     const respostas = aluno.respostas || {};
                     const numRespostas = Object.keys(respostas).length;
+                    // Count correct answers for choice questions
+                    let acertos = 0;
+                    let erros = 0;
+                    Object.values(respostas).forEach(r => {
+                        if (r && r.tipo === 'choice') {
+                            if (r.acertou) acertos++;
+                            else erros++;
+                        }
+                    });
+                    // Use entradaEm (login time) for date/time, fallback to enviadoEm
+                    const timestamp = aluno.entradaEm || aluno.enviadoEm || 0;
 
                     todosRegistros.push({
                         id: key,
@@ -1035,10 +1051,12 @@
                         turma: aluno.turma || '',
                         serie: aluno.serie || ((aluno.ano || '') + ' ' + (aluno.turma || '')),
                         numRespostas: numRespostas,
+                        acertos: acertos,
+                        erros: erros,
                         respostas: respostas,
-                        data: toISODate(aluno.enviadoEm),
-                        hora: formatHora(aluno.enviadoEm),
-                        timestamp: aluno.enviadoEm || 0
+                        data: toISODate(timestamp),
+                        hora: formatHora(timestamp),
+                        timestamp: timestamp
                     });
                 });
             }
@@ -1065,14 +1083,14 @@
             });
 
             document.getElementById('totalAlunos').innerText = filtrados.length;
-            const completas = filtrados.filter(a => a.numRespostas >= TOTAL_PERGUNTAS_TEXTO).length;
-            const parciais = filtrados.filter(a => a.numRespostas > 0 && a.numRespostas < TOTAL_PERGUNTAS_TEXTO).length;
+            const completas = filtrados.filter(a => a.numRespostas >= TOTAL_PERGUNTAS).length;
+            const parciais = filtrados.filter(a => a.numRespostas > 0 && a.numRespostas < TOTAL_PERGUNTAS).length;
             document.getElementById('respostasCompletas').innerText = completas;
             document.getElementById('respostasParciais').innerText = parciais;
 
             listaEl.innerHTML = "";
             if (filtrados.length === 0) {
-                listaEl.innerHTML = `<li style="padding:40px; text-align:center; color:var(--medium-gray); font-weight:700;">Aguardando dados...</li>`;
+                listaEl.innerHTML = `<li style="padding:40px; text-align:center; color:var(--medium-gray); font-weight:700;">Nenhum aluno encontrado nesta data.</li>`;
                 return;
             }
 
@@ -1083,8 +1101,9 @@
                 else if (pos === 2) medalha = "🥈";
                 else if (pos === 3) medalha = "🥉";
 
-                const statusColor = aluno.numRespostas >= TOTAL_PERGUNTAS_TEXTO ? 'var(--green)' : 'var(--purple)';
-                const statusText = `${aluno.numRespostas}/${TOTAL_PERGUNTAS_TEXTO}`;
+                const statusColor = aluno.numRespostas >= TOTAL_PERGUNTAS ? 'var(--green)' :
+                                    aluno.numRespostas > 0 ? 'var(--purple)' : 'var(--medium-gray)';
+                const statusText = `${aluno.numRespostas}/${TOTAL_PERGUNTAS}`;
 
                 const li = document.createElement('li');
                 li.className = 'item-aluno';
@@ -1110,7 +1129,7 @@
 
         window.abrirModalAluno = (aluno) => {
             document.getElementById('alunoModalNome').textContent = aluno.nome;
-            document.getElementById('alunoModalInfo').textContent = aluno.serie || 'Série n/a';
+            document.getElementById('alunoModalInfo').textContent = (aluno.serie || 'Série n/a') + ' • Entrada: ' + aluno.hora;
 
             const container = document.getElementById('alunoRespostas');
             container.innerHTML = '';
@@ -1118,8 +1137,39 @@
             const respostas = aluno.respostas || {};
             const keys = Object.keys(respostas).sort();
 
+            // Show summary stats
+            const totalResp = keys.length;
+            let acertosCount = 0;
+            let errosCount = 0;
+            keys.forEach(key => {
+                const r = respostas[key];
+                if (r && r.tipo === 'choice') {
+                    if (r.acertou) acertosCount++;
+                    else errosCount++;
+                }
+            });
+
+            // Summary card at top
+            const summaryDiv = document.createElement('div');
+            summaryDiv.style.cssText = 'display:flex;gap:10px;margin-bottom:16px;justify-content:center;';
+            summaryDiv.innerHTML = `
+                <div style="flex:1;background:#E8F9D9;border:2px solid var(--green);border-radius:12px;padding:10px;text-align:center;">
+                    <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--green-dark);margin-bottom:2px;">Respostas</div>
+                    <div style="font-size:1.3rem;font-weight:900;color:var(--green-dark);">${totalResp}/${TOTAL_PERGUNTAS}</div>
+                </div>
+                <div style="flex:1;background:#E8F9D9;border:2px solid var(--green);border-radius:12px;padding:10px;text-align:center;">
+                    <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--green-dark);margin-bottom:2px;">Acertos</div>
+                    <div style="font-size:1.3rem;font-weight:900;color:var(--green-dark);">✅ ${acertosCount}</div>
+                </div>
+                <div style="flex:1;background:#FDE8E8;border:2px solid var(--red);border-radius:12px;padding:10px;text-align:center;">
+                    <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--red-dark);margin-bottom:2px;">Erros</div>
+                    <div style="font-size:1.3rem;font-weight:900;color:var(--red-dark);">❌ ${errosCount}</div>
+                </div>
+            `;
+            container.appendChild(summaryDiv);
+
             if (keys.length === 0) {
-                container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--medium-gray);font-weight:700;">Nenhuma resposta enviada.</div>';
+                container.innerHTML += '<div style="padding:20px;text-align:center;color:var(--medium-gray);font-weight:700;">Nenhuma resposta enviada ainda. O aluno entrou mas ainda não respondeu.</div>';
                 toggleModal('modalAluno', true);
                 return;
             }
