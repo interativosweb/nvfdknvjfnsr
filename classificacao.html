@@ -1116,22 +1116,63 @@
             container.innerHTML = '';
 
             const respostas = aluno.respostas || {};
+            const keys = Object.keys(respostas).sort();
 
-            // Show ALL questions with responses
-            allQuestions.forEach((q, i) => {
-                const key = `pergunta_${i}`;
+            if (keys.length === 0) {
+                container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--medium-gray);font-weight:700;">Nenhuma resposta enviada.</div>';
+                toggleModal('modalAluno', true);
+                return;
+            }
+
+            // Render each answer using the question text from Firebase
+            keys.forEach((key, i) => {
                 const r = respostas[key];
-                const temResposta = r && r.resposta;
+                if (!r) return;
 
                 const item = document.createElement('div');
-                item.className = `resposta-item ${temResposta ? '' : 'sem-resposta'}`;
+                item.className = 'resposta-item';
 
-                const tipoLabel = q.type === 'text' ? 'Pergunta' : q.type === 'choice' ? 'Múltipla Escolha' : 'Prática';
+                // Use question text from Firebase (fixes shuffled order issue)
+                const questionText = r.questao || `Pergunta ${i + 1}`;
+                const isChoice = r.tipo === 'choice';
+                const tipoLabel = isChoice ? 'Múltipla Escolha' : 'Pergunta';
+
+                let answerHTML = '';
+                if (isChoice && r.opcoes) {
+                    // Render multiple choice with visual indicators
+                    const letters = ['A', 'B', 'C', 'D'];
+                    const opcoes = r.opcoes;
+                    const escolhida = r.opcaoEscolhida;
+                    const correta = r.opcaoCorreta;
+                    const acertou = r.acertou;
+
+                    answerHTML = '<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">';
+                    opcoes.forEach((opt, oi) => {
+                        const isEscolhida = oi === escolhida;
+                        const isCorreta = oi === correta;
+                        let bg = 'transparent';
+                        let border = '2px solid var(--light-gray)';
+                        let icon = '';
+                        if (isCorreta) { bg = '#E8F9D9'; border = '2px solid var(--green)'; icon = '✅'; }
+                        if (isEscolhida && !acertou) { bg = '#FDE8E8'; border = '2px solid var(--red)'; icon = '❌'; }
+                        if (isEscolhida && acertou) { icon = '✅'; }
+
+                        answerHTML += `<div style="padding:8px 12px;border-radius:10px;background:${bg};border:${border};font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:8px;">
+                            <span style="font-weight:900;color:var(--dark-gray);min-width:18px;">${letters[oi]}.</span>
+                            <span style="flex:1;">${opt}</span>
+                            ${icon ? `<span>${icon}</span>` : ''}
+                        </div>`;
+                    });
+                    answerHTML += '</div>';
+                    answerHTML += `<div style="margin-top:6px;font-size:0.78rem;font-weight:800;color:${acertou ? 'var(--green-dark)' : 'var(--red)'};">${acertou ? '✓ Acertou' : '✗ Errou'}</div>`;
+                } else {
+                    answerHTML = `<div class="resposta-texto">${r.resposta || 'Sem resposta'}</div>`;
+                }
 
                 item.innerHTML = `
                     <div class="resposta-pergunta">${tipoLabel} ${i + 1}</div>
-                    <div class="resposta-questao-texto">${q.question}</div>
-                    <div class="resposta-texto ${temResposta ? '' : 'vazia'}">${temResposta ? r.resposta : 'Sem resposta'}</div>
+                    <div class="resposta-questao-texto">${questionText}</div>
+                    ${answerHTML}
                 `;
                 container.appendChild(item);
             });
