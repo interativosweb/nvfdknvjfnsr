@@ -2164,8 +2164,10 @@
       <div class="popup-actions">
         <button type="button" class="btn-popup-enter" id="btnEntrar">COMEÇAR</button>
       </div>
-      <div class="popup-actions" style="margin-top:8px">
+      <div class="popup-actions" style="margin-top:8px; gap:8px;">
         <button type="button" class="btn-popup-teacher" id="btnProfessor">ÁREA DO PROFESSOR</button>
+        <button type="button" onclick="finalizarAtividadeProfessor()" style="flex:1;width:100%;padding:12px;border-radius:14px;background:var(--red);border:none;color:white;font-size:0.72rem;font-weight:800;font-family:var(--font);cursor:pointer;box-shadow:0 4px 0 var(--red-shadow);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.1s;">⏸ FINALIZAR</button>
+        <button type="button" onclick="liberarAtividadeProfessor()" style="flex:1;width:100%;padding:12px;border-radius:14px;background:var(--green);border:none;color:white;font-size:0.72rem;font-weight:800;font-family:var(--font);cursor:pointer;box-shadow:0 4px 0 var(--green-shadow);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.1s;">▶ LIBERAR</button>
       </div>
     </div>
   </div>
@@ -2507,6 +2509,13 @@
         </div>
       </div><!-- end bottomToolbar -->
     </div><!-- end toolbar wrapper -->
+
+    <!-- Overlay de atividade pausada pelo professor -->
+    <div id="pauseOverlay" style="position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);backdrop-filter:blur(16px);flex-direction:column;gap:16px;">
+      <div style="font-size:4rem;animation:bounce 2s infinite;">⏸️</div>
+      <div style="font-size:1.8rem;font-weight:900;color:white;font-family:'Nunito',sans-serif;text-align:center;">Atividade Pausada</div>
+      <div style="font-size:1rem;font-weight:700;color:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;text-align:center;">O professor pausou a atividade.<br>Aguarde a liberação para continuar.</div>
+    </div>
   </main>
 
   <!-- ===== FLOATING LAYERS ===== -->
@@ -4324,9 +4333,9 @@
         const cy = shape.points[0].y;
         const r = shape.radius || 80;
         ctx.save();
-        ctx.globalAlpha = 0.25;
-        ctx.fillStyle = '#D0D0D018';
-        ctx.strokeStyle = '#B0B0B0';
+        ctx.globalAlpha = 0.5;
+        ctx.fillStyle = '#90909040';
+        ctx.strokeStyle = '#707070';
         ctx.lineWidth = 1.5 / view.scale;
         ctx.setLineDash([5 / view.scale, 4 / view.scale]);
         ctx.beginPath();
@@ -4337,9 +4346,9 @@
       }
       if (!shape.points || shape.points.length < 2) return;
       ctx.save();
-      ctx.globalAlpha = 0.25;
-      ctx.fillStyle = '#D0D0D018';
-      ctx.strokeStyle = '#B0B0B0';
+      ctx.globalAlpha = 0.5;
+      ctx.fillStyle = '#90909040';
+      ctx.strokeStyle = '#707070';
       ctx.lineWidth = 1.5 / view.scale;
       ctx.setLineDash([5 / view.scale, 4 / view.scale]);
       ctx.beginPath();
@@ -4624,7 +4633,7 @@
       const senha = document.getElementById('inputSenhaClassificacao').value;
       if (senha === '4241') {
         fecharClassificacaoModal();
-        window.location.href = 'classificacao.html';
+        window.open('classificacao.html', '_blank');
       } else {
         document.getElementById('classificacaoError').style.display = 'block';
         document.getElementById('inputSenhaClassificacao').style.borderColor = 'var(--red)';
@@ -4657,16 +4666,7 @@
 
       if (senha === SENHA_PROFESSOR) {
         fecharAreaProfessor();
-        const overlay = document.getElementById('popupOverlay');
-        overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
-        setTimeout(() => {
-          overlay.style.display = 'none';
-        }, 400);
-
-        const badge = document.getElementById('studentBadge');
-        badge.style.display = 'flex';
-        document.getElementById('badgeNome').textContent = 'Professor';
-        document.getElementById('badgeInfo').textContent = 'Acesso Total';
+        window.open('classificacao.html', '_blank');
       } else {
         const erro = document.getElementById('professorError');
         erro.style.display = 'block';
@@ -4751,7 +4751,7 @@
 
       // Wire enter buttons
       document.getElementById('btnEntrar').addEventListener('click', entrarGeolab);
-      document.getElementById('btnProfessor').addEventListener('click', abrirSenhaClassificacao);
+      document.getElementById('btnProfessor').addEventListener('click', abrirAreaProfessor);
 
       document.getElementById('inputNome').addEventListener('keydown', e => {
         if (e.key === 'Enter') entrarGeolab();
@@ -5489,6 +5489,34 @@
       }
     });
 
+    /* ===== FINALIZAR / LIBERAR ATIVIDADE (Professor) ===== */
+    function finalizarAtividadeProfessor() {
+      if (!geolabDb) { alert('Firebase ainda não carregou. Tente novamente.'); return; }
+      geolabDb.ref('geolab_controle/atividadePausada').set(true);
+      alert('Atividade finalizada! Todos os alunos foram pausados.');
+    }
+
+    function liberarAtividadeProfessor() {
+      if (!geolabDb) { alert('Firebase ainda não carregou. Tente novamente.'); return; }
+      geolabDb.ref('geolab_controle/atividadePausada').set(false);
+      alert('Atividade liberada! Os alunos podem continuar.');
+    }
+
+    // Listen for pause/resume in real-time (student side)
+    function iniciarListenerPausa() {
+      if (!geolabDb) return;
+      geolabDb.ref('geolab_controle/atividadePausada').on('value', (snapshot) => {
+        const pausada = snapshot.val();
+        const overlay = document.getElementById('pauseOverlay');
+        if (!overlay) return;
+        if (pausada === true) {
+          overlay.style.display = 'flex';
+        } else {
+          overlay.style.display = 'none';
+        }
+      });
+    }
+
     // Load Firebase compat SDK and initialize
     (function loadFirebaseSDK() {
       const scripts = [
@@ -5501,7 +5529,11 @@
         s.src = src;
         s.onload = () => {
           loaded++;
-          if (loaded === scripts.length) initGeolabFirebase();
+          if (loaded === scripts.length) {
+            initGeolabFirebase();
+            // Start listening for pause/resume after Firebase is ready
+            setTimeout(iniciarListenerPausa, 500);
+          }
         };
         document.head.appendChild(s);
       });
