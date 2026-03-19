@@ -2834,9 +2834,9 @@
 
         const s = shapes[activeIndex];
         document.getElementById('inputTx').value = Math.round(s.tx / GRID_UNIT);
-        document.getElementById('inputTy').value = Math.round(s.ty / GRID_UNIT);
+        document.getElementById('inputTy').value = -Math.round(s.ty / GRID_UNIT);
         const txNumE = document.getElementById('inputTxNum'); if (txNumE) txNumE.value = Math.round(s.tx / GRID_UNIT);
-        const tyNumE = document.getElementById('inputTyNum'); if (tyNumE) tyNumE.value = Math.round(s.ty / GRID_UNIT);
+        const tyNumE = document.getElementById('inputTyNum'); if (tyNumE) tyNumE.value = -Math.round(s.ty / GRID_UNIT);
         document.getElementById('inputRot').value = s.rotation;
         // Sync numeric rotation input
         const rotNumEl = document.getElementById('inputRotNum');
@@ -2903,10 +2903,10 @@
       const speedRotEl = document.getElementById('speedRotDisplay');
 
       if (txEl) txEl.textContent = Math.round(s.tx / GRID_UNIT);
-      if (tyEl) tyEl.textContent = Math.round(s.ty / GRID_UNIT);
+      if (tyEl) tyEl.textContent = -Math.round(s.ty / GRID_UNIT);
       if (rotEl) rotEl.textContent = Math.round(s.rotation) + '°';
       const txNumEl = document.getElementById('inputTxNum'); if (txNumEl) txNumEl.value = Math.round(s.tx / GRID_UNIT);
-      const tyNumEl = document.getElementById('inputTyNum'); if (tyNumEl) tyNumEl.value = Math.round(s.ty / GRID_UNIT);
+      const tyNumEl = document.getElementById('inputTyNum'); if (tyNumEl) tyNumEl.value = -Math.round(s.ty / GRID_UNIT);
       if (speedTransEl) speedTransEl.textContent = s.speed.trans + 'x';
       if (speedRotEl) speedRotEl.textContent = s.speed.rot + 'x';
       // Sync numeric rotation input
@@ -2919,13 +2919,14 @@
       if (activeIndex === -1) return;
       const s = shapes[activeIndex];
       s.tx = parseInt(document.getElementById('inputTx').value) * GRID_UNIT;
-      s.ty = parseInt(document.getElementById('inputTy').value) * GRID_UNIT;
+      // Y-axis: user sees Cartesian (positive=up), but canvas Y is inverted
+      s.ty = -parseInt(document.getElementById('inputTy').value) * GRID_UNIT;
       s.rotation = parseFloat(document.getElementById('inputRot').value);
       // Sync numeric inputs
       const numInput = document.getElementById('inputRotNum');
       if (numInput) numInput.value = Math.round(s.rotation);
       const txN = document.getElementById('inputTxNum'); if (txN) txN.value = Math.round(s.tx / GRID_UNIT);
-      const tyN = document.getElementById('inputTyNum'); if (tyN) tyN.value = Math.round(s.ty / GRID_UNIT);
+      const tyN = document.getElementById('inputTyNum'); if (tyN) tyN.value = -Math.round(s.ty / GRID_UNIT);
       updateLabelValues();
       draw();
     }
@@ -2933,6 +2934,8 @@
     function updateTxFromNumber() {
       if (activeIndex === -1) return;
       const n = document.getElementById('inputTxNum');
+      // Allow typing minus sign without immediately clearing
+      if (n.value === '' || n.value === '-') return;
       let val = parseInt(n.value) || 0;
       val = Math.max(-20, Math.min(20, val));
       shapes[activeIndex].tx = val * GRID_UNIT;
@@ -2942,9 +2945,12 @@
     function updateTyFromNumber() {
       if (activeIndex === -1) return;
       const n = document.getElementById('inputTyNum');
+      // Allow typing minus sign without immediately clearing
+      if (n.value === '' || n.value === '-') return;
       let val = parseInt(n.value) || 0;
       val = Math.max(-20, Math.min(20, val));
-      shapes[activeIndex].ty = val * GRID_UNIT;
+      // Negate: user sees Cartesian Y (positive=up), internal ty uses canvas Y (positive=down)
+      shapes[activeIndex].ty = -val * GRID_UNIT;
       document.getElementById('inputTy').value = val;
       updateLabelValues(); draw();
     }
@@ -2952,6 +2958,8 @@
     function updateRotFromNumber() {
       if (activeIndex === -1) return;
       const numInput = document.getElementById('inputRotNum');
+      // Allow typing minus sign without immediately clearing
+      if (numInput.value === '' || numInput.value === '-') return;
       let val = parseInt(numInput.value) || 0;
       val = Math.max(-360, Math.min(360, val));
       shapes[activeIndex].rotation = val;
@@ -3158,7 +3166,7 @@
           if (s.ty > boundsY) { s.anim.dirY = -1; }
           else if (s.ty < -boundsY) { s.anim.dirY = 1; }
           const el = document.getElementById('inputTy');
-          if (el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.ty / GRID_UNIT);
+          if (el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = -Math.round(s.ty / GRID_UNIT);
         }
         if (s.anim.rot) {
           s.rotation = (s.rotation + rotSpd * dt) % 360;
@@ -3596,17 +3604,12 @@
         const s = shapes[activeIndex];
         const dx = mouseWorld.x - dragStartWorld.x;
         const dy = mouseWorld.y - dragStartWorld.y;
+        // Free dragging — no grid snapping, shape follows mouse exactly
         s.tx += dx;
         s.ty += dy;
-        // Snap translation to nearest grid unit
-        s.tx = Math.round(s.tx / GRID_UNIT) * GRID_UNIT;
-        s.ty = Math.round(s.ty / GRID_UNIT) * GRID_UNIT;
-        // Show snap indicator at each vertex snapped position
-        const snappedAnchor = { x: s.anchor.x + s.tx, y: s.anchor.y + s.ty };
-        snapIndicator = { x: snappedAnchor.x, y: snappedAnchor.y };
         dragStartWorld = { ...mouseWorld };
         if (!s.anim.x) document.getElementById('inputTx').value = Math.round(s.tx / GRID_UNIT);
-        if (!s.anim.y) document.getElementById('inputTy').value = Math.round(s.ty / GRID_UNIT);
+        if (!s.anim.y) document.getElementById('inputTy').value = -Math.round(s.ty / GRID_UNIT);
         updateLabelValues();
         draw();
         return;
