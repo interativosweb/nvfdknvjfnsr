@@ -2166,8 +2166,6 @@
       </div>
       <div class="popup-actions" style="margin-top:8px; gap:8px;">
         <button type="button" class="btn-popup-teacher" id="btnProfessor">ÁREA DO PROFESSOR</button>
-        <button type="button" onclick="finalizarAtividadeProfessor()" style="flex:1;width:100%;padding:12px;border-radius:14px;background:var(--red);border:none;color:white;font-size:0.72rem;font-weight:800;font-family:var(--font);cursor:pointer;box-shadow:0 4px 0 var(--red-shadow);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.1s;">⏸ FINALIZAR</button>
-        <button type="button" onclick="liberarAtividadeProfessor()" style="flex:1;width:100%;padding:12px;border-radius:14px;background:var(--green);border:none;color:white;font-size:0.72rem;font-weight:800;font-family:var(--font);cursor:pointer;box-shadow:0 4px 0 var(--green-shadow);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.1s;">▶ LIBERAR</button>
       </div>
     </div>
   </div>
@@ -2388,8 +2386,8 @@
           <h2>Rotação</h2>
           <label>Ângulo <span id="valRot" class="value-display">0°</span></label>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-            <input type="range" id="inputRot" min="0" max="360" value="0" oninput="updateShapeData()" style="flex:1;margin:0;">
-            <input type="number" id="inputRotNum" min="0" max="360" value="0" oninput="updateRotFromNumber()" style="width:64px;padding:8px 6px;border-radius:10px;border:2px solid var(--light-gray);font-family:var(--font);font-weight:800;font-size:0.82rem;color:var(--text);text-align:center;outline:none;background:var(--white);" placeholder="0°">
+            <input type="range" id="inputRot" min="-360" max="360" value="0" oninput="updateShapeData()" style="flex:1;margin:0;">
+            <input type="number" id="inputRotNum" min="-360" max="360" value="0" oninput="updateRotFromNumber()" style="width:64px;padding:8px 6px;border-radius:10px;border:2px solid var(--light-gray);font-family:var(--font);font-weight:800;font-size:0.82rem;color:var(--text);text-align:center;outline:none;background:var(--white);" placeholder="0°">
           </div>
           <button class="btn-anim" id="animRotBtn" onclick="toggleAnim('rot')">
             Animar Rotação
@@ -2449,7 +2447,7 @@
   <!-- ===== CANVAS PRINCIPAL ===== -->
   <main class="main-content" id="mainArea">
     <div class="instruction" id="instructionText">
-      Clique em "NOVA FIGURA" para começar
+      Clique em "NOVO POLÍGONO" para começar
     </div>
     <canvas id="canvas"></canvas>
     <div class="tooltip" id="tooltip"></div>
@@ -2955,7 +2953,7 @@
       if (activeIndex === -1) return;
       const numInput = document.getElementById('inputRotNum');
       let val = parseInt(numInput.value) || 0;
-      val = Math.max(0, Math.min(360, val));
+      val = Math.max(-360, Math.min(360, val));
       shapes[activeIndex].rotation = val;
       document.getElementById('inputRot').value = val;
       updateLabelValues();
@@ -3600,6 +3598,12 @@
         const dy = mouseWorld.y - dragStartWorld.y;
         s.tx += dx;
         s.ty += dy;
+        // Snap translation to nearest grid unit
+        s.tx = Math.round(s.tx / GRID_UNIT) * GRID_UNIT;
+        s.ty = Math.round(s.ty / GRID_UNIT) * GRID_UNIT;
+        // Show snap indicator at each vertex snapped position
+        const snappedAnchor = { x: s.anchor.x + s.tx, y: s.anchor.y + s.ty };
+        snapIndicator = { x: snappedAnchor.x, y: snappedAnchor.y };
         dragStartWorld = { ...mouseWorld };
         if (!s.anim.x) document.getElementById('inputTx').value = Math.round(s.tx / GRID_UNIT);
         if (!s.anim.y) document.getElementById('inputTy').value = Math.round(s.ty / GRID_UNIT);
@@ -3711,7 +3715,7 @@
       }
 
       // Snap indicator — blue ring at grid intersection when snapping
-      if (snapIndicator && (mode === 'DRAWING' || mode === 'DRAGGING_VERTEX')) {
+      if (snapIndicator && (mode === 'DRAWING' || mode === 'DRAGGING_VERTEX' || mode === 'DRAGGING_SHAPE')) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(snapIndicator.x, snapIndicator.y, 6 / view.scale, 0, Math.PI * 2);
@@ -4662,7 +4666,7 @@
 
     function verificarSenhaProfessor() {
       const senha = document.getElementById('inputSenhaProfessor').value;
-      const SENHA_PROFESSOR = 'geolab2025';
+      const SENHA_PROFESSOR = '4241';
 
       if (senha === SENHA_PROFESSOR) {
         fecharAreaProfessor();
