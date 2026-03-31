@@ -1524,6 +1524,7 @@
       padding: 0;
       margin: 0;
       transition: max-height 0.4s ease, opacity 0.3s ease;
+      display: none;
     }
 
     .quiz-question-card.collapsed .question-header {
@@ -2456,6 +2457,7 @@
     <div id="toolbarWrapper"
       style="position:absolute; left:50%; bottom:24px; transform:translateX(-50%); z-index:25; display:flex; align-items:flex-end; gap:16px;">
 
+
       <!-- Ferramentas adicionais -->
       <div class="bottom-toolbar" id="additionalToolbar"
         style="position:relative; transform:none; left:auto; bottom:auto;">
@@ -2467,6 +2469,10 @@
         </button>
 
         <div class="geo-menu" id="addToolMenu">
+          <button class="geo-item" onclick="addSegmentShape(); additionalToolbar.classList.remove('open');"
+            style="border-color:var(--blue); color:var(--blue-dark); background:#E6F6FF; box-shadow:0 3px 0 var(--blue-dark);">
+            <span class="left">━ Segmento</span>
+          </button>
           <button class="geo-item" onclick="addSymmetryAxis(); additionalToolbar.classList.remove('open');"
             style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
             <span class="left">↔ Reta</span>
@@ -2774,10 +2780,7 @@
         activeIndex = -1;
         mode = 'IDLE';
       } else {
-        if (activeIndex !== -1 && !shapes[activeIndex].isClosed && shapes[activeIndex].type !== SHAPE_TYPES.POINT) {
-          alert("Feche a forma atual antes de trocar.");
-          return;
-        }
+        // Auto-close is handled by the patched selectLayer wrapper
         activeIndex = index;
         const shape = shapes[index];
         mode = shape.isClosed ? 'IDLE' : 'DRAWING';
@@ -3145,26 +3148,35 @@
       const dt = Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
 
-      // Bounce bounds: 1 full canvas-width beyond each side in world units,
-      // so shapes travel well off-screen before returning (natural bounce animation).
-      const boundsX = canvas.width / view.scale;
-      const boundsY = canvas.height / view.scale;
-
       shapes.forEach(s => {
         const spd = s.speed.trans * 60;
         const rotSpd = s.speed.rot * 60;
 
+        // Calculate shape bounding box size for max travel distance (4x shape size)
+        let shapeW = 160, shapeH = 160; // defaults
+        if (s.points && s.points.length > 0) {
+          const xs = s.points.map(p => p.x);
+          const ys = s.points.map(p => p.y);
+          shapeW = Math.max(40, (Math.max(...xs) - Math.min(...xs)) * s.scale);
+          shapeH = Math.max(40, (Math.max(...ys) - Math.min(...ys)) * s.scale);
+        }
+        if (s.type === SHAPE_TYPES.CIRCLE) {
+          shapeW = shapeH = (s.radius || 80) * s.scale * 2;
+        }
+        const maxTravelX = shapeW * 4;
+        const maxTravelY = shapeH * 4;
+
         if (s.anim.x) {
           s.tx += spd * s.anim.dirX * dt;
-          if (s.tx > boundsX) { s.anim.dirX = -1; }
-          else if (s.tx < -boundsX) { s.anim.dirX = 1; }
+          if (s.tx > maxTravelX) { s.anim.dirX = -1; }
+          else if (s.tx < -maxTravelX) { s.anim.dirX = 1; }
           const el = document.getElementById('inputTx');
           if (el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = Math.round(s.tx / GRID_UNIT);
         }
         if (s.anim.y) {
           s.ty += spd * s.anim.dirY * dt;
-          if (s.ty > boundsY) { s.anim.dirY = -1; }
-          else if (s.ty < -boundsY) { s.anim.dirY = 1; }
+          if (s.ty > maxTravelY) { s.anim.dirY = -1; }
+          else if (s.ty < -maxTravelY) { s.anim.dirY = 1; }
           const el = document.getElementById('inputTy');
           if (el && activeIndex !== -1 && shapes[activeIndex] === s) el.value = -Math.round(s.ty / GRID_UNIT);
         }
@@ -3432,7 +3444,23 @@
         if (hitShape) {
           mode = 'DRAGGING_SHAPE';
           dragStartWorld = { ...mouseWorld };
+        } else {
+          // Nothing hit — auto-pan (mãozinha behavior)
+          isPanning = true;
+          panStart = { x: sx, y: sy };
+          panStartOffset = { x: view.offsetX, y: view.offsetY };
+          canvas.style.cursor = 'grabbing';
+          return;
         }
+      }
+
+      // If IDLE with no active shape, auto-pan on empty space
+      if (mode === 'IDLE' && activeIndex === -1 && e.button === 0) {
+        isPanning = true;
+        panStart = { x: sx, y: sy };
+        panStartOffset = { x: view.offsetX, y: view.offsetY };
+        canvas.style.cursor = 'grabbing';
+        return;
       }
 
       if (mode === 'DRAWING' && activeIndex !== -1) {
@@ -3540,7 +3568,7 @@
               }
               overShape = inside;
             }
-            canvas.style.cursor = overShape ? 'move' : 'default';
+            canvas.style.cursor = overShape ? 'move' : 'grab';
           }
         }
       } else if (mode === 'DRAWING') {
@@ -3621,7 +3649,7 @@
     canvas.addEventListener('mouseup', (e) => {
       if (isPanning) {
         isPanning = false;
-        canvas.style.cursor = mode === 'DRAWING' ? 'crosshair' : 'default';
+        canvas.style.cursor = mode === 'DRAWING' ? 'crosshair' : 'grab';
       }
       if (mode === 'DRAGGING_VERTEX') {
         mode = 'IDLE';
@@ -4984,7 +5012,7 @@
             <div class="question-text">${q.question}</div>
             <textarea class="question-text-input" id="textAnswer${idx}" placeholder="Digite sua resposta..."
               ${idx !== 0 ? 'disabled' : ''}></textarea>
-            <div class="char-counter" id="charCounter${idx}" style="font-size:0.72rem;color:var(--medium-gray);font-weight:700;margin-bottom:6px;text-align:right;">0 / 10 letras</div>
+            <div class="char-counter" id="charCounter${idx}" style="font-size:0.72rem;color:var(--medium-gray);font-weight:700;margin-bottom:6px;text-align:right;display:none;"></div>
             <button type="button" class="btn-confirm-answer" id="btnConfirm${idx}"
               onclick="confirmTextAnswer(${idx})">ENVIAR RESPOSTA</button>
             <div class="question-feedback" id="feedback${idx}"></div>
@@ -5024,15 +5052,10 @@
           const ta = card.querySelector('.question-text-input');
           if (ta) {
             ta.addEventListener('input', function () {
-              const letterCount = (this.value.replace(/[^a-zA-Z\u00C0-\u00FF]/g, '')).length;
-              const counter = document.getElementById(`charCounter${idx}`);
-              if (counter) {
-                counter.textContent = `${letterCount} / 10 letras`;
-                counter.style.color = letterCount >= 10 ? 'var(--green)' : 'var(--medium-gray)';
-              }
+              const charCountNoSpaces = this.value.replace(/\s/g, '').length;
               const btn = document.getElementById(`btnConfirm${idx}`);
               if (btn) {
-                if (letterCount >= 10) btn.classList.add('show');
+                if (charCountNoSpaces >= 40) btn.classList.add('show');
                 else btn.classList.remove('show');
               }
             });
@@ -5096,12 +5119,12 @@
     function confirmTextAnswer(qIdx) {
       const textarea = document.getElementById(`textAnswer${qIdx}`);
       const text = textarea.value.trim();
-      const letterCount = (text.replace(/[^a-zA-Z\u00C0-\u024F]/g, '')).length;
+      const charCountNoSpaces = text.replace(/\s/g, '').length;
       const feedback = document.getElementById(`feedback${qIdx}`);
 
-      if (letterCount < 10) {
+      if (charCountNoSpaces < 40) {
         textarea.style.borderColor = 'var(--red)';
-        feedback.textContent = '\u274C Sua resposta deve ter pelo menos 10 letras.';
+        feedback.textContent = '\u274C Sua resposta precisa ser mais completa.';
         feedback.className = 'question-feedback show wrong';
         setTimeout(() => {
           textarea.style.borderColor = '';
@@ -5301,20 +5324,16 @@
       card.classList.add('completed');
       card.querySelector('.question-lock-icon').textContent = '\u2705';
 
-      // Collapse after delay
+      // Collapse after delay — permanently (student cannot review)
       setTimeout(() => {
         card.classList.add('collapsed');
-        card.addEventListener('click', function toggleCollapse(e) {
-          if (!card.classList.contains('completed')) return;
-          if (card.classList.contains('collapsed')) {
-            card.classList.remove('collapsed');
-            card.classList.add('expanded');
-          } else {
-            card.classList.remove('expanded');
-            card.classList.add('collapsed');
-          }
-        });
       }, 1200);
+
+      // Save canvas snapshot before clearing
+      saveCanvasSnapshotToFirebase('pergunta_' + qIdx);
+
+      // Clear all figures for the next question
+      clearAllFigures();
 
       currentQuestion++;
       updateQuizProgress();
@@ -5408,20 +5427,16 @@
         btn.style.opacity = '0.6';
       });
 
-      // Collapse after delay
+      // Collapse after delay — permanently (student cannot review)
       setTimeout(() => {
         card.classList.add('collapsed');
-        card.addEventListener('click', function toggleCollapse(e) {
-          if (!card.classList.contains('completed')) return;
-          if (card.classList.contains('collapsed')) {
-            card.classList.remove('collapsed');
-            card.classList.add('expanded');
-          } else {
-            card.classList.remove('expanded');
-            card.classList.add('collapsed');
-          }
-        });
       }, 1200);
+
+      // Save canvas snapshot before clearing
+      saveCanvasSnapshotToFirebase('pratica_' + pIdx);
+
+      // Clear all figures for the next practical question
+      clearAllFigures();
 
       currentPractical++;
 
@@ -5523,6 +5538,194 @@
         }
       });
     }
+
+    /* ===== SEGMENT CREATION ===== */
+    function addSegmentShape() {
+      createNewLayer();
+      const s = shapes[shapes.length - 1];
+      s.type = SHAPE_TYPES.SEGMENT;
+      s.name = `Segmento ${shapes.filter(x => x.type === SHAPE_TYPES.SEGMENT && !x.isSymAxis).length}`;
+      mode = 'DRAWING';
+      currentTool = 'segment';
+      updateUI();
+      draw();
+      showInstruction('Clique em 2 pontos no plano para criar o segmento.');
+      setTimeout(hideInstruction, 3000);
+    }
+
+    /* ===== SAVE CANVAS SNAPSHOT TO FIREBASE ===== */
+    function saveCanvasSnapshotToFirebase(questionKey) {
+      if (!geolabDb) return;
+      try {
+        const alunoId = getGeolabAlunoId();
+        // Serialize current shapes (only non-sym-axis, user-created figures)
+        const figuresData = shapes.filter(s => !s.isSymAxis).map(s => ({
+          name: s.name,
+          type: s.type,
+          points: s.points.map(p => ({ x: Math.round(p.x), y: Math.round(p.y), label: p.label || '' })),
+          color: s.color,
+          isClosed: s.isClosed,
+          tx: Math.round(s.tx),
+          ty: Math.round(s.ty),
+          rotation: Math.round(s.rotation),
+          scale: s.scale,
+          reflectX: s.reflectX || false,
+          reflectY: s.reflectY || false,
+          radius: s.radius || 0
+        }));
+        
+        // Also save a canvas image as base64 (small size)
+        let canvasImage = '';
+        try {
+          // Create a temporary smaller canvas for the snapshot
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = 400;
+          tempCanvas.height = 300;
+          const tempCtx = tempCanvas.getContext('2d');
+          tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 400, 300);
+          canvasImage = tempCanvas.toDataURL('image/webp', 0.6);
+        } catch(e) {
+          console.warn('Could not create canvas image:', e);
+        }
+        
+        const snapshotData = {
+          figuras: figuresData,
+          totalFiguras: figuresData.length,
+          timestamp: Date.now()
+        };
+        if (canvasImage) snapshotData.canvasImage = canvasImage;
+        
+        geolabDb.ref('geolab_respostas/' + alunoId + '/snapshots/' + questionKey).set(snapshotData);
+      } catch (e) {
+        console.warn('Erro ao salvar snapshot:', e);
+      }
+    }
+
+    /* ===== AUTO-CLOSE FIGURE HELPER ===== */
+    function autoCloseCurrentFigure() {
+      if (activeIndex === -1) return;
+      const s = shapes[activeIndex];
+      if (s.isClosed) return;
+      if (s.type === SHAPE_TYPES.POLYGON && s.points.length >= 2) {
+        s.isClosed = true;
+        mode = 'IDLE';
+        s.anchor = {
+          x: s.points.reduce((a, p) => a + p.x, 0) / s.points.length,
+          y: s.points.reduce((a, p) => a + p.y, 0) / s.points.length
+        };
+        updateUI();
+        draw();
+      } else if (s.points.length < 2) {
+        // Too few points, just remove the incomplete shape
+        shapes.splice(activeIndex, 1);
+        activeIndex = -1;
+        mode = 'IDLE';
+        updateUI();
+        draw();
+      }
+    }
+
+    /* ===== ESC KEY TO CLOSE FIGURE ===== */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (mode === 'DRAWING' && activeIndex !== -1) {
+          autoCloseCurrentFigure();
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
+    });
+
+    /* ===== PATCH: Auto-close when creating new figure ===== */
+    const _originalCreateNewLayer = createNewLayer;
+    createNewLayer = function() {
+      // If there's an unclosed figure, close it first
+      if (activeIndex !== -1 && !shapes[activeIndex].isClosed) {
+        autoCloseCurrentFigure();
+      }
+      _originalCreateNewLayer();
+    };
+
+    /* ===== PATCH: Auto-close when selecting a layer ===== */
+    const _originalSelectLayer = selectLayer;
+    selectLayer = function(index) {
+      // If there's an unclosed figure, close it first
+      if (activeIndex !== -1 && activeIndex !== index && !shapes[activeIndex].isClosed) {
+        autoCloseCurrentFigure();
+      }
+      _originalSelectLayer(index);
+    };
+
+    /* ===== PATCH: Auto-close when clicking sidebar controls (Atividade, etc.) ===== */
+    document.querySelector('.scroll-area')?.addEventListener('click', () => {
+      if (activeIndex !== -1 && !shapes[activeIndex].isClosed) {
+        autoCloseCurrentFigure();
+      }
+    });
+
+    /* ===== PATCH: Auto-close when clicking quiz panel ===== */
+    document.getElementById('quizPanel')?.addEventListener('click', () => {
+      if (activeIndex !== -1 && !shapes[activeIndex].isClosed) {
+        autoCloseCurrentFigure();
+      }
+    });
+
+    /* ===== DOUBLE-CLICK TO RENAME LAYERS (max 20 chars) ===== */
+    // We need to patch updateUI to add dblclick handlers
+    const _originalUpdateUI = updateUI;
+    updateUI = function() {
+      _originalUpdateUI();
+      // Add double-click rename to all layer items
+      const layersList = document.getElementById('layersList');
+      const items = layersList.querySelectorAll('.layer-item');
+      items.forEach((div, idx) => {
+        div.addEventListener('dblclick', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          const shape = shapes[idx];
+          if (!shape) return;
+
+          // Get the name span
+          const nameSpan = div.querySelector('span > span:last-child') || div.querySelector('span');
+          if (!nameSpan) return;
+
+          // Create input
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = shape.name;
+          input.maxLength = 20;
+          input.style.cssText = 'width:100%;padding:4px 8px;border:2px solid var(--green);border-radius:8px;font-family:var(--font);font-size:0.82rem;font-weight:700;outline:none;background:var(--white);';
+          
+          // Replace content
+          const originalHTML = div.innerHTML;
+          div.innerHTML = '';
+          div.appendChild(input);
+          input.focus();
+          input.select();
+
+          function saveRename() {
+            const newName = input.value.trim().substring(0, 20);
+            if (newName) {
+              shape.name = newName;
+            }
+            updateUI(); // Rebuild the UI
+          }
+
+          input.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+              ev.preventDefault();
+              saveRename();
+            }
+            if (ev.key === 'Escape') {
+              ev.preventDefault();
+              updateUI(); // Cancel, restore original
+            }
+          });
+
+          input.addEventListener('blur', saveRename);
+        });
+      });
+    };
 
     // Load Firebase compat SDK and initialize
     (function loadFirebaseSDK() {
