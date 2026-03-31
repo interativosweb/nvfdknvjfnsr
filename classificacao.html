@@ -898,9 +898,9 @@
         <div class="painel-ranking">
             <div class="tabela-header">
                 <div class="col-pos">#</div>
-                <div class="col-aluno">Aluno</div>
+                <div class="col-aluno" style="gap:8px;">Aluno <button id="btnToggleNomes" onclick="toggleNomes()" style="background:none;border:none;cursor:pointer;font-size:1rem;padding:2px 4px;margin:0;box-shadow:none;width:auto;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" title="Esconder/Mostrar nomes">👁</button></div>
                 <div class="col-serie">Série</div>
-                <div class="col-respostas">Respostas</div>
+                <div class="col-respostas">Acertos</div>
                 <div class="col-horario">Horário</div>
             </div>
             <ul id="listaAlunos" class="lista-alunos">
@@ -1021,6 +1021,7 @@
         let filtroTurmaAtual = "todas";
         let tipoResetPendente = null;
         const TOTAL_PERGUNTAS = 10; // 6 quiz + 4 practical activities
+        let nomesOcultos = false;
 
         /* --- Firebase Listener --- */
         const respostasRef = ref(db, 'geolab_respostas');
@@ -1032,13 +1033,18 @@
                     const aluno = dados[key];
                     const respostas = aluno.respostas || {};
                     const numRespostas = Object.keys(respostas).length;
-                    // Count correct answers for choice questions
+                    // Count correct answers — dissertative answers always count as correct
                     let acertos = 0;
                     let erros = 0;
+                    let totalChars = 0;
                     Object.values(respostas).forEach(r => {
                         if (r && r.tipo === 'choice') {
                             if (r.acertou) acertos++;
                             else erros++;
+                        } else if (r && r.resposta) {
+                            // Dissertative answers count as correct
+                            acertos++;
+                            totalChars += (r.resposta || '').replace(/\s/g, '').length;
                         }
                     });
                     // Use entradaEm (login time) for date/time, fallback to enviadoEm
@@ -1053,7 +1059,9 @@
                         numRespostas: numRespostas,
                         acertos: acertos,
                         erros: erros,
+                        totalChars: totalChars,
                         respostas: respostas,
+                        snapshots: aluno.snapshots || {},
                         data: toISODate(timestamp),
                         hora: formatHora(timestamp),
                         timestamp: timestamp
@@ -1078,8 +1086,12 @@
                 return bateData && bateAno && bateTurma;
             });
             filtrados.sort((a, b) => {
-                if (b.numRespostas !== a.numRespostas) return b.numRespostas - a.numRespostas;
-                return (a.nome || '').localeCompare(b.nome || '');
+                // Primary: more acertos = higher rank
+                if (b.acertos !== a.acertos) return b.acertos - a.acertos;
+                // Secondary: more chars in dissertative = better
+                if ((b.totalChars || 0) !== (a.totalChars || 0)) return (b.totalChars || 0) - (a.totalChars || 0);
+                // Tertiary: earlier timestamp = higher rank (faster student)
+                return (a.timestamp || 0) - (b.timestamp || 0);
             });
 
             document.getElementById('totalAlunos').innerText = filtrados.length;
@@ -1101,15 +1113,15 @@
                 else if (pos === 2) medalha = "🥈";
                 else if (pos === 3) medalha = "🥉";
 
-                const statusColor = aluno.numRespostas >= TOTAL_PERGUNTAS ? 'var(--green)' :
-                                    aluno.numRespostas > 0 ? 'var(--purple)' : 'var(--medium-gray)';
-                const statusText = `${aluno.numRespostas}/${TOTAL_PERGUNTAS}`;
+                const statusColor = aluno.acertos >= TOTAL_PERGUNTAS ? 'var(--green)' :
+                                    aluno.acertos > 0 ? 'var(--green-dark)' : 'var(--medium-gray)';
+                const statusText = `${aluno.acertos}/${TOTAL_PERGUNTAS}`;
 
                 const li = document.createElement('li');
                 li.className = 'item-aluno';
                 li.innerHTML = `
                     <div class="posicao col-pos">${pos}</div>
-                    <div class="info-nome col-aluno">${medalha ? `<span class="medalha">${medalha}</span>` : `<span class="medalha"></span>`}${aluno.nome}</div>
+                    <div class="info-nome col-aluno">${medalha ? `<span class="medalha">${medalha}</span>` : `<span class="medalha"></span>`}${nomesOcultos ? 'Aluno ' + (index + 1) : aluno.nome}</div>
                     <div class="col-serie"><span class="info-serie">${aluno.serie || '-'}</span></div>
                     <div class="info-respostas col-respostas" style="color:${statusColor}">${statusText}</div>
                     <div class="info-horario col-horario">${aluno.hora}</div>
@@ -1135,6 +1147,7 @@
             container.innerHTML = '';
 
             const respostas = aluno.respostas || {};
+            const snapshots = aluno.snapshots || {};
             const keys = Object.keys(respostas).sort();
 
             // Show summary stats
@@ -1146,6 +1159,8 @@
                 if (r && r.tipo === 'choice') {
                     if (r.acertou) acertosCount++;
                     else errosCount++;
+                } else if (r && r.resposta) {
+                    acertosCount++; // Dissertative = correct
                 }
             });
 
@@ -1185,7 +1200,7 @@
                 // Use question text from Firebase (fixes shuffled order issue)
                 const questionText = r.questao || `Pergunta ${i + 1}`;
                 const isChoice = r.tipo === 'choice';
-                const tipoLabel = isChoice ? 'Múltipla Escolha' : 'Pergunta';
+                const tipoLabel = isChoice ? 'Múltipla Escolha' : 'Dissertativa';
 
                 let answerHTML = '';
                 if (isChoice && r.opcoes) {
@@ -1216,13 +1231,38 @@
                     answerHTML += '</div>';
                     answerHTML += `<div style="margin-top:6px;font-size:0.78rem;font-weight:800;color:${acertou ? 'var(--green-dark)' : 'var(--red)'};">${acertou ? '✓ Acertou' : '✗ Errou'}</div>`;
                 } else {
+                    // Dissertative — show as correct
+                    const charCount = (r.resposta || '').replace(/\s/g, '').length;
                     answerHTML = `<div class="resposta-texto">${r.resposta || 'Sem resposta'}</div>`;
+                    answerHTML += `<div style="margin-top:6px;font-size:0.78rem;font-weight:800;color:var(--green-dark);">✅ Respondida (${charCount} caracteres)</div>`;
+                }
+
+                // Check for canvas snapshot for this question
+                const snapshot = snapshots[key];
+                let snapshotHTML = '';
+                if (snapshot && snapshot.canvasImage) {
+                    snapshotHTML = `
+                        <div style="margin-top:10px;border:2px solid var(--light-gray);border-radius:12px;overflow:hidden;">
+                            <div style="padding:6px 10px;background:#f0f4f8;font-size:0.7rem;font-weight:800;color:var(--dark-gray);text-transform:uppercase;letter-spacing:0.5px;">
+                                🎨 Criação do Aluno (${snapshot.totalFiguras || 0} figuras)
+                            </div>
+                            <img src="${snapshot.canvasImage}" style="width:100%;display:block;cursor:pointer;" 
+                                onclick="window.open(this.src,'_blank')" title="Clique para ampliar"/>
+                        </div>
+                    `;
+                } else if (snapshot && snapshot.totalFiguras > 0) {
+                    snapshotHTML = `
+                        <div style="margin-top:10px;padding:8px 12px;background:#f0f4f8;border:2px solid var(--light-gray);border-radius:10px;font-size:0.75rem;font-weight:700;color:var(--dark-gray);">
+                            🎨 ${snapshot.totalFiguras} figuras criadas nesta pergunta
+                        </div>
+                    `;
                 }
 
                 item.innerHTML = `
                     <div class="resposta-pergunta">${tipoLabel} ${i + 1}</div>
                     <div class="resposta-questao-texto">${questionText}</div>
                     ${answerHTML}
+                    ${snapshotHTML}
                 `;
                 container.appendChild(item);
             });
@@ -1311,6 +1351,17 @@
             container.appendChild(toast);
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 3000);
         }
+
+        /* --- Toggle nomes dos alunos --- */
+        window.toggleNomes = () => {
+            nomesOcultos = !nomesOcultos;
+            const btn = document.getElementById('btnToggleNomes');
+            if (btn) {
+                btn.textContent = nomesOcultos ? '🙈' : '👁';
+                btn.title = nomesOcultos ? 'Mostrar nomes' : 'Esconder nomes';
+            }
+            renderizarLista();
+        };
     </script>
 </body>
 
