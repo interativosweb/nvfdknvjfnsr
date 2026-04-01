@@ -2481,6 +2481,10 @@
             style="border-color:var(--purple); color:var(--purple-dark); background:#F9F0FF; box-shadow:0 3px 0 var(--purple-dark);">
             <span class="left">• Ponto</span>
           </button>
+          <button class="geo-item" id="btnOcultarSombra" onclick="toggleGhostVisibility(); additionalToolbar.classList.remove('open');"
+            style="border-color:var(--light-gray); color:var(--dark-gray); background:var(--off-white); box-shadow:0 3px 0 var(--light-gray);">
+            <span class="left">Ocultar sombra</span>
+          </button>
         </div>
       </div>
 
@@ -3152,7 +3156,7 @@
         const spd = s.speed.trans * 60;
         const rotSpd = s.speed.rot * 60;
 
-        // Calculate shape bounding box size for max travel distance (4x shape size)
+        // Calculate shape bounding box size for max travel distance (2x shape size)
         let shapeW = 160, shapeH = 160; // defaults
         if (s.points && s.points.length > 0) {
           const xs = s.points.map(p => p.x);
@@ -3163,8 +3167,8 @@
         if (s.type === SHAPE_TYPES.CIRCLE) {
           shapeW = shapeH = (s.radius || 80) * s.scale * 2;
         }
-        const maxTravelX = shapeW * 4;
-        const maxTravelY = shapeH * 4;
+        const maxTravelX = shapeW * 2;
+        const maxTravelY = shapeH * 2;
 
         if (s.anim.x) {
           s.tx += spd * s.anim.dirX * dt;
@@ -3502,6 +3506,10 @@
               y: (s.points[0].y + s.points[1].y) / 2
             };
             updateUI();
+            // Try to connect loose points into a polygon
+            if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis) {
+              tryConnectPointsIntoPolygon(s);
+            }
           }
         } else {
           s.points.push(worldPt);
@@ -3696,8 +3704,8 @@
 
       shapes.forEach((shape, idx) => {
         const isSelected = idx === activeIndex;
-        // Ghost: draw original position when transformations are applied
-        if (!shape.isSymAxis && shape.isClosed && (Math.abs(shape.tx) > 0.5 || Math.abs(shape.ty) > 0.5 || Math.abs(shape.rotation) > 0.5)) {
+        // Ghost: draw original position when transformations are applied (translation or rotation)
+        if (!ghostHidden && !shape.isSymAxis && shape.isClosed && (Math.abs(shape.tx) > 0.5 || Math.abs(shape.ty) > 0.5 || Math.abs(shape.rotation) > 0.5)) {
           drawGhostShape(shape);
         }
         drawShape(shape, false, isSelected);
@@ -5329,8 +5337,7 @@
         card.classList.add('collapsed');
       }, 1200);
 
-      // Save canvas snapshot before clearing
-      saveCanvasSnapshotToFirebase('pergunta_' + qIdx);
+      // Do NOT save canvas snapshot for quiz questions (only practical activities save)
 
       // Clear all figures for the next question
       clearAllFigures();
@@ -5391,7 +5398,8 @@
       const card = document.getElementById(`practicalCard${pIdx}`);
 
       if (task.verify()) {
-        // Success!
+        // Success! Save canvas snapshot ONLY for practical activities when student clicks "Feito!"
+        saveCanvasSnapshotToFirebase('pratica_' + pIdx);
         feedback.textContent = '\u2705 Muito bem! Atividade conclu\u00edda!';
         feedback.className = 'practical-feedback show success';
         completePractical(card, pIdx);
@@ -5432,8 +5440,7 @@
         card.classList.add('collapsed');
       }, 1200);
 
-      // Save canvas snapshot before clearing
-      saveCanvasSnapshotToFirebase('pratica_' + pIdx);
+      // Snapshot already saved from verifyPractical (on "Feito!" click), no need to save again here
 
       // Clear all figures for the next practical question
       clearAllFigures();
@@ -5539,6 +5546,27 @@
       });
     }
 
+    /* ===== GHOST VISIBILITY TOGGLE ===== */
+    let ghostHidden = false;
+    function toggleGhostVisibility() {
+      ghostHidden = !ghostHidden;
+      const btn = document.getElementById('btnOcultarSombra');
+      if (btn) {
+        const label = btn.querySelector('.left');
+        if (label) label.textContent = ghostHidden ? 'Mostrar sombra' : 'Ocultar sombra';
+        if (ghostHidden) {
+          btn.style.borderColor = 'var(--red)';
+          btn.style.color = 'var(--red-dark)';
+          btn.style.background = '#FFE5E5';
+        } else {
+          btn.style.borderColor = 'var(--light-gray)';
+          btn.style.color = 'var(--dark-gray)';
+          btn.style.background = 'var(--off-white)';
+        }
+      }
+      draw();
+    }
+
     /* ===== SEGMENT CREATION ===== */
     function addSegmentShape() {
       createNewLayer();
@@ -5549,8 +5577,135 @@
       currentTool = 'segment';
       updateUI();
       draw();
-      showInstruction('Clique em 2 pontos no plano para criar o segmento.');
+      showInstruction('Clique em 2 pontos no plano para criar o segmento. Clique em pontos existentes para conectá-los.');
+      setTimeout(hideInstruction, 4000);
+    }
+
+    /* ===== CONNECT LOOSE POINTS WITH SEGMENTS TO FORM A FIGURE ===== */
+    /**
+     * When creating a segment, check if the two endpoints match existing loose points.
+     * If connecting points forms a closed loop, merge all connected segments and points
+     * into a single polygon figure.
+     */
+    function tryConnectPointsIntoPolygon(newSegment) {
+      // Build adjacency from all segments (not sym-axis)
+      const segments = shapes.filter(s => s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis && s.isClosed && s.points.length === 2);
+      const CLOSE_THRESHOLD = 15; // world units to consider points as "same"
+
+      // Normalize points: build a list of unique vertices connected by segments
+      function ptKey(p) { return Math.round(p.x) + ',' + Math.round(p.y); }
+      function ptsClose(a, b) { return Math.hypot(a.x - b.x, a.y - b.y) < CLOSE_THRESHOLD; }
+
+      // Build adjacency graph
+      const adj = new Map();
+      const pointMap = new Map(); // key -> actual point
+
+      segments.forEach(seg => {
+        const p1 = seg.points[0];
+        const p2 = seg.points[1];
+        const k1 = ptKey(p1);
+        const k2 = ptKey(p2);
+        if (!adj.has(k1)) adj.set(k1, []);
+        if (!adj.has(k2)) adj.set(k2, []);
+        adj.get(k1).push(k2);
+        adj.get(k2).push(k1);
+        if (!pointMap.has(k1)) pointMap.set(k1, { x: p1.x, y: p1.y, label: p1.label || '' });
+        if (!pointMap.has(k2)) pointMap.set(k2, { x: p2.x, y: p2.y, label: p2.label || '' });
+      });
+
+      // Check if there's a cycle — find all nodes with exactly 2 connections
+      // Try to trace a cycle starting from any node
+      const startKey = ptKey(newSegment.points[0]);
+      if (!adj.has(startKey)) return false;
+
+      // DFS to find a cycle
+      function findCycle(start) {
+        const visited = new Set();
+        const path = [start];
+        visited.add(start);
+
+        function dfs(current) {
+          const neighbors = adj.get(current) || [];
+          for (const next of neighbors) {
+            if (next === start && path.length >= 3) {
+              return [...path]; // Found cycle!
+            }
+            if (!visited.has(next)) {
+              visited.add(next);
+              path.push(next);
+              const result = dfs(next);
+              if (result) return result;
+              path.pop();
+              visited.delete(next);
+            }
+          }
+          return null;
+        }
+
+        return dfs(start);
+      }
+
+      const cycle = findCycle(startKey);
+      if (!cycle || cycle.length < 3) return false;
+
+      // We found a closed cycle! Create a polygon from these points
+      const cyclePoints = cycle.map(k => ({ ...pointMap.get(k) }));
+
+      // Remove all segments that are part of this cycle
+      const cycleSet = new Set(cycle);
+      const segmentsToRemove = [];
+      shapes.forEach((s, idx) => {
+        if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis && s.isClosed && s.points.length === 2) {
+          const k1 = ptKey(s.points[0]);
+          const k2 = ptKey(s.points[1]);
+          if (cycleSet.has(k1) && cycleSet.has(k2)) {
+            segmentsToRemove.push(idx);
+          }
+        }
+      });
+
+      // Remove segments from highest index to lowest to preserve indices
+      segmentsToRemove.sort((a, b) => b - a);
+      segmentsToRemove.forEach(idx => {
+        shapes.splice(idx, 1);
+      });
+
+      // Create new polygon
+      const newPoly = {
+        id: Date.now(),
+        name: `Polígono ${shapes.filter(s => s.type === SHAPE_TYPES.POLYGON).length + 1}`,
+        type: SHAPE_TYPES.POLYGON,
+        points: cyclePoints,
+        color: colors[shapes.length % colors.length],
+        isClosed: true,
+        tx: 0, ty: 0, rotation: 0,
+        scale: 1.0,
+        reflectX: false, reflectY: false,
+        symmetryAxis: 'none',
+        symmetry: { x: false, y: false },
+        symmetryLineId: null,
+        symmetryPointId: null,
+        isSymAxis: false,
+        isSymPoint: false,
+        anchor: {
+          x: cyclePoints.reduce((a, p) => a + p.x, 0) / cyclePoints.length,
+          y: cyclePoints.reduce((a, p) => a + p.y, 0) / cyclePoints.length
+        },
+        anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
+        speed: { trans: 1.0, rot: 1.0 },
+        pointRadius: 5,
+        lineLength: 1000,
+        showExtension: true
+      };
+
+      shapes.push(newPoly);
+      activeIndex = shapes.length - 1;
+      mode = 'IDLE';
+      updateUI();
+      draw();
+      showInstruction('Figura fechada! Os segmentos foram unidos em um polígono.');
       setTimeout(hideInstruction, 3000);
+      return true;
     }
 
     /* ===== SAVE CANVAS SNAPSHOT TO FIREBASE ===== */
