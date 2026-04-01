@@ -1079,7 +1079,9 @@
         /* --- Render --- */
         const listaEl = document.getElementById('listaAlunos');
         const filtroData = document.getElementById('filtroData');
-        filtroData.valueAsDate = new Date();
+        // Use local date string to avoid UTC offset issues (e.g. Brazil UTC-3 after 9PM would show next day)
+        const hoje = new Date();
+        filtroData.value = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0') + '-' + String(hoje.getDate()).padStart(2, '0');
         filtroData.addEventListener('change', () => renderizarLista());
 
         function renderizarLista() {
