@@ -3486,6 +3486,33 @@
           }
         }
 
+        // SEGMENT: check if clicking first point to close into polygon
+        if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis && s.points.length >= 3) {
+          const first = worldToScreen(s.points[0].x, s.points[0].y);
+          const dist = Math.hypot(sx - first.x, sy - first.y);
+          if (dist < 20) {
+            s.type = SHAPE_TYPES.POLYGON;
+            s.name = `Polígono ${shapes.filter(x => x.type === SHAPE_TYPES.POLYGON).length}`;
+            s.isClosed = true;
+            mode = 'IDLE';
+            s.anchor = {
+              x: s.points.reduce((a, p) => a + p.x, 0) / s.points.length,
+              y: s.points.reduce((a, p) => a + p.y, 0) / s.points.length
+            };
+            if (s._consumedPoints && s._consumedPoints.length > 0) {
+              const toRemove = [...s._consumedPoints].sort((a, b) => b - a);
+              toRemove.forEach(idx => shapes.splice(idx, 1));
+              activeIndex = shapes.indexOf(s);
+              delete s._consumedPoints;
+            }
+            updateSymSelectOptions();
+            updateUI();
+            draw();
+            checkFigureCountForQuiz();
+            return;
+          }
+        }
+
         const rawPt = screenToWorld(sx, sy);
         const snapped = snapToGrid(rawPt.x, rawPt.y);
         const worldPt = { x: snapped.x, y: snapped.y };
@@ -3497,10 +3524,22 @@
           s.anchor = { ...worldPt };
           updateUI();
         } else if (s.type === SHAPE_TYPES.SEGMENT || s.type === SHAPE_TYPES.LINE) {
-          let usePt = worldPt;
-          let consumedIdx = -1;
-          // Snap to existing points when creating a segment
-          if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis) {
+          if (s.type === SHAPE_TYPES.LINE || s.isSymAxis) {
+            // LINE and sym-axis: original 2-point behavior
+            s.points.push(worldPt);
+            if (s.points.length >= 2) {
+              s.isClosed = true;
+              mode = 'IDLE';
+              s.anchor = {
+                x: (s.points[0].x + s.points[1].x) / 2,
+                y: (s.points[0].y + s.points[1].y) / 2
+              };
+              updateUI();
+            }
+          } else {
+            // SEGMENT: continuous polyline drawing with snap to existing points
+            let usePt = worldPt;
+            let consumedIdx = -1;
             const segIdx = shapes.indexOf(s);
             const SNAP_PX = 20;
             for (let pi = 0; pi < shapes.length; pi++) {
@@ -3518,32 +3557,16 @@
                 }
               }
             }
-          }
-          s.points.push(usePt);
-          if (consumedIdx >= 0) {
-            if (!s._consumedPoints) s._consumedPoints = [];
-            s._consumedPoints.push(consumedIdx);
-          }
-          if (s.points.length >= 2) {
-            s.isClosed = true;
-            mode = 'IDLE';
+            s.points.push(usePt);
+            if (consumedIdx >= 0) {
+              if (!s._consumedPoints) s._consumedPoints = [];
+              s._consumedPoints.push(consumedIdx);
+            }
             s.anchor = {
-              x: (s.points[0].x + s.points[1].x) / 2,
-              y: (s.points[0].y + s.points[1].y) / 2
+              x: s.points.reduce((a, p) => a + p.x, 0) / s.points.length,
+              y: s.points.reduce((a, p) => a + p.y, 0) / s.points.length
             };
-            // Remove consumed point shapes and merge into segment layer
-            if (s._consumedPoints && s._consumedPoints.length > 0) {
-              const toRemove = [...s._consumedPoints].sort((a, b) => b - a);
-              toRemove.forEach(idx => shapes.splice(idx, 1));
-              activeIndex = shapes.indexOf(s);
-              delete s._consumedPoints;
-              updateSymSelectOptions();
-            }
-            updateUI();
-            // Try to connect loose points into a polygon
-            if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis) {
-              tryConnectPointsIntoPolygon(s);
-            }
+            // Stay in DRAWING mode — continuous polyline
           }
         } else {
           s.points.push(worldPt);
@@ -3756,7 +3779,7 @@
 
       if (mode === 'DRAWING' && activeIndex !== -1) {
         const s = shapes[activeIndex];
-        if (s.points.length > 0 && s.type === SHAPE_TYPES.POLYGON) {
+        if (s.points.length > 0 && (s.type === SHAPE_TYPES.POLYGON || (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis))) {
           ctx.save();
           ctx.strokeStyle = s.color + '88';
           ctx.lineWidth = 1.5 / view.scale;
@@ -4052,9 +4075,10 @@
         ctx.closePath();
         ctx.fill(); ctx.stroke();
 
-      } else if (shape.type === SHAPE_TYPES.SEGMENT && refPts.length === 2) {
+      } else if (shape.type === SHAPE_TYPES.SEGMENT && refPts.length >= 2) {
         ctx.beginPath();
-        ctx.moveTo(refPts[0].x, refPts[0].y); ctx.lineTo(refPts[1].x, refPts[1].y);
+        ctx.moveTo(refPts[0].x, refPts[0].y);
+        for (let i = 1; i < refPts.length; i++) ctx.lineTo(refPts[i].x, refPts[i].y);
         ctx.stroke();
         ctx.setLineDash([]);
         refPts.forEach(p => {
@@ -4264,9 +4288,10 @@
         ctx.closePath();
         ctx.fill(); ctx.stroke();
 
-      } else if (shape.type === SHAPE_TYPES.SEGMENT && refPts.length === 2) {
+      } else if (shape.type === SHAPE_TYPES.SEGMENT && refPts.length >= 2) {
         ctx.beginPath();
-        ctx.moveTo(refPts[0].x, refPts[0].y); ctx.lineTo(refPts[1].x, refPts[1].y);
+        ctx.moveTo(refPts[0].x, refPts[0].y);
+        for (let i = 1; i < refPts.length; i++) ctx.lineTo(refPts[i].x, refPts[i].y);
         ctx.stroke();
         ctx.setLineDash([]);
         refPts.forEach(p => {
@@ -4545,7 +4570,7 @@
       const pts = getTransformedPoints(shape);
       ctx.beginPath();
       ctx.moveTo(pts[0].x, pts[0].y);
-      ctx.lineTo(pts[1].x, pts[1].y);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
       ctx.stroke();
 
       ctx.fillStyle = shape.color;
@@ -5615,7 +5640,7 @@
       currentTool = 'segment';
       updateUI();
       draw();
-      showInstruction('Clique em 2 pontos no plano para criar o segmento. Clique em pontos existentes para conectá-los.');
+      showInstruction('Clique para adicionar pontos em sequência. Clique no primeiro ponto para fechar. Esc para finalizar.');
       setTimeout(hideInstruction, 4000);
     }
 
@@ -5806,6 +5831,22 @@
           x: s.points.reduce((a, p) => a + p.x, 0) / s.points.length,
           y: s.points.reduce((a, p) => a + p.y, 0) / s.points.length
         };
+        updateUI();
+        draw();
+      } else if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis && s.points.length >= 2) {
+        s.isClosed = true;
+        mode = 'IDLE';
+        s.anchor = {
+          x: s.points.reduce((a, p) => a + p.x, 0) / s.points.length,
+          y: s.points.reduce((a, p) => a + p.y, 0) / s.points.length
+        };
+        if (s._consumedPoints && s._consumedPoints.length > 0) {
+          const toRemove = [...s._consumedPoints].sort((a, b) => b - a);
+          toRemove.forEach(idx => shapes.splice(idx, 1));
+          activeIndex = shapes.indexOf(s);
+          delete s._consumedPoints;
+          updateSymSelectOptions();
+        }
         updateUI();
         draw();
       } else if (s.points.length < 2) {
