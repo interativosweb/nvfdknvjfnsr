@@ -3497,7 +3497,33 @@
           s.anchor = { ...worldPt };
           updateUI();
         } else if (s.type === SHAPE_TYPES.SEGMENT || s.type === SHAPE_TYPES.LINE) {
-          s.points.push(worldPt);
+          let usePt = worldPt;
+          let consumedIdx = -1;
+          // Snap to existing points when creating a segment
+          if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis) {
+            const segIdx = shapes.indexOf(s);
+            const SNAP_PX = 20;
+            for (let pi = 0; pi < shapes.length; pi++) {
+              if (pi === segIdx) continue;
+              const ps = shapes[pi];
+              if (ps.type === SHAPE_TYPES.POINT && ps.isClosed) {
+                const tp = getTransformedPoints(ps);
+                if (tp.length > 0) {
+                  const sp = worldToScreen(tp[0].x, tp[0].y);
+                  if (Math.hypot(sp.x - sx, sp.y - sy) < SNAP_PX) {
+                    usePt = { x: tp[0].x, y: tp[0].y, label: worldPt.label };
+                    consumedIdx = pi;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          s.points.push(usePt);
+          if (consumedIdx >= 0) {
+            if (!s._consumedPoints) s._consumedPoints = [];
+            s._consumedPoints.push(consumedIdx);
+          }
           if (s.points.length >= 2) {
             s.isClosed = true;
             mode = 'IDLE';
@@ -3505,6 +3531,14 @@
               x: (s.points[0].x + s.points[1].x) / 2,
               y: (s.points[0].y + s.points[1].y) / 2
             };
+            // Remove consumed point shapes and merge into segment layer
+            if (s._consumedPoints && s._consumedPoints.length > 0) {
+              const toRemove = [...s._consumedPoints].sort((a, b) => b - a);
+              toRemove.forEach(idx => shapes.splice(idx, 1));
+              activeIndex = shapes.indexOf(s);
+              delete s._consumedPoints;
+              updateSymSelectOptions();
+            }
             updateUI();
             // Try to connect loose points into a polygon
             if (s.type === SHAPE_TYPES.SEGMENT && !s.isSymAxis) {
@@ -5398,8 +5432,9 @@
       const card = document.getElementById(`practicalCard${pIdx}`);
 
       if (task.verify()) {
-        // Success! Save canvas snapshot ONLY for practical activities when student clicks "Feito!"
-        saveCanvasSnapshotToFirebase('pratica_' + pIdx);
+        // Save canvas snapshot and answer for practical activities
+        saveCanvasSnapshotToFirebase('pergunta_' + (quizQuestions.length + pIdx));
+        saveAnswerToFirebase(quizQuestions.length + pIdx, task.task, 'Concluída', { tipo: 'practical', concluida: true });
         feedback.textContent = '\u2705 Muito bem! Atividade conclu\u00edda!';
         feedback.className = 'practical-feedback show success';
         completePractical(card, pIdx);
@@ -5419,6 +5454,9 @@
       const feedback = document.getElementById(`practicalFeedback${pIdx}`);
       const card = document.getElementById(`practicalCard${pIdx}`);
 
+      // Save snapshot and answer even when skipped
+      saveCanvasSnapshotToFirebase('pergunta_' + (quizQuestions.length + pIdx));
+      saveAnswerToFirebase(quizQuestions.length + pIdx, practicalTasks[pIdx].task, 'Não concluída', { tipo: 'practical', concluida: false });
       feedback.textContent = 'Tudo bem! Voc\u00ea pode tentar de novo depois.';
       feedback.className = 'practical-feedback show error';
       completePractical(card, pIdx);
