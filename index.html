@@ -5398,9 +5398,8 @@
       const card = document.getElementById(`practicalCard${pIdx}`);
 
       if (task.verify()) {
-        // Save canvas snapshot and answer for practical activities
-        saveCanvasSnapshotToFirebase('pergunta_' + (quizQuestions.length + pIdx));
-        saveAnswerToFirebase(quizQuestions.length + pIdx, task.task, 'Concluída', { tipo: 'practical', concluida: true });
+        // Success! Save canvas snapshot ONLY for practical activities when student clicks "Feito!"
+        saveCanvasSnapshotToFirebase('pratica_' + pIdx);
         feedback.textContent = '\u2705 Muito bem! Atividade conclu\u00edda!';
         feedback.className = 'practical-feedback show success';
         completePractical(card, pIdx);
@@ -5420,8 +5419,6 @@
       const feedback = document.getElementById(`practicalFeedback${pIdx}`);
       const card = document.getElementById(`practicalCard${pIdx}`);
 
-      saveCanvasSnapshotToFirebase('pergunta_' + (quizQuestions.length + pIdx));
-      saveAnswerToFirebase(quizQuestions.length + pIdx, practicalTasks[pIdx].task, 'Não concluída', { tipo: 'practical', concluida: false });
       feedback.textContent = 'Tudo bem! Voc\u00ea pode tentar de novo depois.';
       feedback.className = 'practical-feedback show error';
       completePractical(card, pIdx);
