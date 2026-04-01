@@ -1033,17 +1033,20 @@
                     const aluno = dados[key];
                     const respostas = aluno.respostas || {};
                     const numRespostas = Object.keys(respostas).length;
-                    // Count correct answers — dissertative answers always count as correct
-                    let acertos = 0;
+                    // Count correct answers — separate MC from dissertative
+                    let acertos = 0;         // total (MC + dissertative)
+                    let acertosMC = 0;       // only multiple choice correct
                     let erros = 0;
                     let totalChars = 0;
+                    let dissertativasRespondidas = 0;
                     Object.values(respostas).forEach(r => {
                         if (r && r.tipo === 'choice') {
-                            if (r.acertou) acertos++;
+                            if (r.acertou) { acertos++; acertosMC++; }
                             else erros++;
                         } else if (r && r.resposta) {
                             // Dissertative answers count as correct
                             acertos++;
+                            dissertativasRespondidas++;
                             totalChars += (r.resposta || '').replace(/\s/g, '').length;
                         }
                     });
@@ -1058,8 +1061,10 @@
                         serie: aluno.serie || ((aluno.ano || '') + ' ' + (aluno.turma || '')),
                         numRespostas: numRespostas,
                         acertos: acertos,
+                        acertosMC: acertosMC,
                         erros: erros,
                         totalChars: totalChars,
+                        dissertativasRespondidas: dissertativasRespondidas,
                         respostas: respostas,
                         snapshots: aluno.snapshots || {},
                         data: toISODate(timestamp),
@@ -1086,11 +1091,11 @@
                 return bateData && bateAno && bateTurma;
             });
             filtrados.sort((a, b) => {
-                // Primary: more acertos = higher rank
-                if (b.acertos !== a.acertos) return b.acertos - a.acertos;
-                // Secondary: more chars in dissertative = better
+                // Primary: multiple choice accuracy (more MC correct = higher rank)
+                if ((b.acertosMC || 0) !== (a.acertosMC || 0)) return (b.acertosMC || 0) - (a.acertosMC || 0);
+                // Secondary: dissertative quality (more chars = better detail)
                 if ((b.totalChars || 0) !== (a.totalChars || 0)) return (b.totalChars || 0) - (a.totalChars || 0);
-                // Tertiary: earlier timestamp = higher rank (faster student)
+                // Tertiary: time to complete (earlier timestamp = faster student = higher rank)
                 return (a.timestamp || 0) - (b.timestamp || 0);
             });
 
