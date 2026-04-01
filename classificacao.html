@@ -1043,6 +1043,9 @@
                         if (r && r.tipo === 'choice') {
                             if (r.acertou) { acertos++; acertosMC++; }
                             else erros++;
+                        } else if (r && r.tipo === 'practical') {
+                            // Practical activities: only count as correct if concluded
+                            if (r.concluida === true) acertos++;
                         } else if (r && r.resposta) {
                             // Dissertative answers count as correct
                             acertos++;
@@ -1166,6 +1169,8 @@
                 if (r && r.tipo === 'choice') {
                     if (r.acertou) acertosCount++;
                     else errosCount++;
+                } else if (r && r.tipo === 'practical') {
+                    if (r.concluida === true) acertosCount++;
                 } else if (r && r.resposta) {
                     acertosCount++; // Dissertative = correct
                 }
@@ -1207,10 +1212,14 @@
                 // Use question text from Firebase (fixes shuffled order issue)
                 const questionText = r.questao || `Pergunta ${i + 1}`;
                 const isChoice = r.tipo === 'choice';
-                const tipoLabel = isChoice ? 'Múltipla Escolha' : 'Dissertativa';
+                const isPractical = r.tipo === 'practical';
+                const tipoLabel = isChoice ? 'Múltipla Escolha' : isPractical ? 'Atividade Prática' : 'Dissertativa';
 
                 let answerHTML = '';
-                if (isChoice && r.opcoes) {
+                if (isPractical) {
+                    const concluida = r.concluida === true;
+                    answerHTML = `<div style="margin-top:6px;font-size:0.78rem;font-weight:800;color:${concluida ? 'var(--green-dark)' : 'var(--red)'};">${concluida ? '✅ Atividade concluída' : '❌ Não concluída'}</div>`;
+                } else if (isChoice && r.opcoes) {
                     // Render multiple choice with visual indicators
                     const letters = ['A', 'B', 'C', 'D'];
                     const opcoes = r.opcoes;
