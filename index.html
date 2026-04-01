@@ -2925,6 +2925,7 @@
     function updateShapeData() {
       if (activeIndex === -1) return;
       const s = shapes[activeIndex];
+      s.usedControls = true;
       s.tx = parseInt(document.getElementById('inputTx').value) * GRID_UNIT;
       // Y-axis: user sees Cartesian (positive=up), but canvas Y is inverted
       s.ty = -parseInt(document.getElementById('inputTy').value) * GRID_UNIT;
@@ -2945,6 +2946,7 @@
       if (n.value === '' || n.value === '-') return;
       let val = parseInt(n.value) || 0;
       val = Math.max(-20, Math.min(20, val));
+      shapes[activeIndex].usedControls = true;
       shapes[activeIndex].tx = val * GRID_UNIT;
       document.getElementById('inputTx').value = val;
       updateLabelValues(); draw();
@@ -2956,6 +2958,7 @@
       if (n.value === '' || n.value === '-') return;
       let val = parseInt(n.value) || 0;
       val = Math.max(-20, Math.min(20, val));
+      shapes[activeIndex].usedControls = true;
       // Negate: user sees Cartesian Y (positive=up), internal ty uses canvas Y (positive=down)
       shapes[activeIndex].ty = -val * GRID_UNIT;
       document.getElementById('inputTy').value = val;
@@ -2969,6 +2972,7 @@
       if (numInput.value === '' || numInput.value === '-') return;
       let val = parseInt(numInput.value) || 0;
       val = Math.max(-360, Math.min(360, val));
+      shapes[activeIndex].usedControls = true;
       shapes[activeIndex].rotation = val;
       document.getElementById('inputRot').value = val;
       updateLabelValues();
@@ -3135,6 +3139,7 @@
     function toggleAnim(type) {
       if (activeIndex === -1) return;
       const s = shapes[activeIndex];
+      s.usedControls = true;
       s.anim[type] = !s.anim[type];
 
       const hasAny = shapes.some(sh => sh.anim.x || sh.anim.y || sh.anim.rot);
@@ -3762,7 +3767,7 @@
       shapes.forEach((shape, idx) => {
         const isSelected = idx === activeIndex;
         // Ghost: draw original position when transformations are applied (translation or rotation)
-        if (!ghostHidden && !shape.isSymAxis && shape.isClosed && (Math.abs(shape.tx) > 0.5 || Math.abs(shape.ty) > 0.5 || Math.abs(shape.rotation) > 0.5)) {
+        if (!ghostHidden && !shape.isSymAxis && shape.isClosed && shape.usedControls && (Math.abs(shape.tx) > 0.5 || Math.abs(shape.ty) > 0.5 || Math.abs(shape.rotation) > 0.5)) {
           drawGhostShape(shape);
         }
         drawShape(shape, false, isSelected);
