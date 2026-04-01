@@ -1039,12 +1039,13 @@
                     let erros = 0;
                     let totalChars = 0;
                     let dissertativasRespondidas = 0;
+                    let acertosPractical = 0;
                     Object.values(respostas).forEach(r => {
                         if (r && r.tipo === 'choice') {
                             if (r.acertou) { acertos++; acertosMC++; }
                             else erros++;
                         } else if (r && r.tipo === 'practical') {
-                            if (r.concluida === true) acertos++;
+                            if (r.concluida === true) { acertos++; acertosPractical++; }
                         } else if (r && r.resposta) {
                             // Dissertative answers count as correct
                             acertos++;
@@ -1067,6 +1068,7 @@
                         erros: erros,
                         totalChars: totalChars,
                         dissertativasRespondidas: dissertativasRespondidas,
+                        acertosPractical: acertosPractical,
                         respostas: respostas,
                         snapshots: aluno.snapshots || {},
                         data: toISODate(timestamp),
@@ -1095,11 +1097,14 @@
                 return bateData && bateAno && bateTurma;
             });
             filtrados.sort((a, b) => {
-                // Primary: multiple choice accuracy (more MC correct = higher rank)
+                // 1. Multiple choice correct (most weight)
                 if ((b.acertosMC || 0) !== (a.acertosMC || 0)) return (b.acertosMC || 0) - (a.acertosMC || 0);
-                // Secondary: dissertative quality (more chars = better detail)
+                // 2. Dissertative responses (more answered + better quality)
+                if ((b.dissertativasRespondidas || 0) !== (a.dissertativasRespondidas || 0)) return (b.dissertativasRespondidas || 0) - (a.dissertativasRespondidas || 0);
                 if ((b.totalChars || 0) !== (a.totalChars || 0)) return (b.totalChars || 0) - (a.totalChars || 0);
-                // Tertiary: time to complete (earlier timestamp = faster student = higher rank)
+                // 3. Practical activities completed
+                if ((b.acertosPractical || 0) !== (a.acertosPractical || 0)) return (b.acertosPractical || 0) - (a.acertosPractical || 0);
+                // 4. Time to complete (earlier = better)
                 return (a.timestamp || 0) - (b.timestamp || 0);
             });
 
