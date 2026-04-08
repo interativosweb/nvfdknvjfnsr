@@ -910,9 +910,10 @@
         </div>
 
         <div class="rodape-gestao">
-            <button class="btn-acao-rodape" onclick="abrirModalReset()">Gerenciar Histórico</button>
+            <button class="btn-acao-rodape" onclick="abrirModalReset()">Gerenciar Historico</button>
+            <button class="btn-acao-rodape" onclick="abrirModalGerenciar()" style="background:#CE82FF;color:white;border-color:#CE82FF;box-shadow:0 4px 0 #9C3FA6;">Gerenciar Perguntas</button>
             <div style="display:flex; flex-direction:column; gap:4px;">
-                <span class="texto-creditos">Área restrita ao professor</span>
+                <span class="texto-creditos">Area restrita ao professor</span>
                 <span class="texto-creditos" style="font-weight:900; color:var(--text)">Desenvolvido por Gilberto
                     Fernandes</span>
             </div>
@@ -944,6 +945,19 @@
         </div>
     </div>
 
+    <!-- Modal: Senha para Gerenciar Perguntas -->
+    <div id="modalGerenciar" class="modal-overlay">
+        <div class="modal-box-admin">
+            <div class="modal-titulo" style="margin-bottom:4px;">Gerenciar Perguntas</div>
+            <div class="modal-desc">Digite a senha para acessar.</div>
+            <input type="password" id="inputSenhaGerenciar" class="input-senha" placeholder="Senha">
+            <div class="botoes-confirmacao">
+                <button class="btn-conf-nao" onclick="fecharModalGerenciar()">Cancelar</button>
+                <button class="btn-conf-sim" style="background:var(--green);box-shadow:0 4px 0 var(--green-shadow);" onclick="verificarSenhaGerenciar()">Acessar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Senha para confirmar reset -->
     <div id="modalSenhaAction" class="modal-overlay">
         <div class="modal-box-admin">
@@ -959,7 +973,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, onValue, remove, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAKEQC9tEOEtEL6rmueYmHD20P7Gz3zjGs",
@@ -975,19 +989,59 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        /* --- All quiz questions (must match index.html) --- */
-        const allQuestions = [
-            { question: "O que é uma transformação geométrica?", type: "text" },
-            { question: "O que é uma translação?", type: "text" },
-            { question: "O que é uma simetria?", type: "text" },
-            { question: "Se girarmos um quadrado em torno de um ponto, qual transformação geométrica está ocorrendo?", type: "choice", options: ["Rotação", "Giro", "Translação", "Simetria"] },
-            { question: "Quando uma figura apenas muda de lugar, sem girar ou mudar de tamanho, qual transformação ocorreu?", type: "choice", options: ["Translação", "Rotação", "Simetria", "Ampliação"] },
-            { question: "Quando uma figura é refletida como se estivesse em um espelho, qual transformação geométrica acontece?", type: "choice", options: ["Translação", "Simetria", "Rotação", "Redução"] },
-            { question: "Crie duas figuras diferentes e aplique uma translação em cada uma.", type: "practical" },
-            { question: "Faça duas figuras e faça uma rotação em cada uma.", type: "practical" },
-            { question: "Construa 3 figuras e faça uma simetria em cada uma.", type: "practical" },
-            { question: "Faça uma nova figura e aplique as 3 transformações geométricas.", type: "practical" }
+        /* --- Load quiz questions from Firebase (with fallback) --- */
+        let allQuestions = [
+            { question: "O que e uma transformacao geometrica?", type: "text" },
+            { question: "O que e uma translacao?", type: "text" },
+            { question: "O que e uma simetria?", type: "text" },
+            { question: "Se girarmos um quadrado em torno de um ponto, qual transformacao geometrica esta ocorrendo?", type: "choice", options: ["Rotacao", "Giro", "Translacao", "Simetria"] },
+            { question: "Quando uma figura apenas muda de lugar, sem girar ou mudar de tamanho, qual transformacao ocorreu?", type: "choice", options: ["Translacao", "Rotacao", "Simetria", "Ampliacao"] },
+            { question: "Quando uma figura e refletida como se estivesse em um espelho, qual transformacao geometrica acontece?", type: "choice", options: ["Translacao", "Simetria", "Rotacao", "Reducao"] },
+            { question: "Crie duas figuras diferentes e aplique uma translacao em cada uma.", type: "practical" },
+            { question: "Faca duas figuras e faca uma rotacao em cada uma.", type: "practical" },
+            { question: "Construa 3 figuras e faca uma simetria em cada uma.", type: "practical" },
+            { question: "Faca uma nova figura e aplique as 3 transformacoes geometricas.", type: "practical" }
         ];
+
+        // Practical tasks (always appended, not editable)
+        const practicalQuestions = [
+            { question: "Crie duas figuras diferentes e aplique uma translacao em cada uma.", type: "practical" },
+            { question: "Faca duas figuras e faca uma rotacao em cada uma.", type: "practical" },
+            { question: "Construa 3 figuras e faca uma simetria em cada uma.", type: "practical" },
+            { question: "Faca uma nova figura e aplique as 3 transformacoes geometricas.", type: "practical" }
+        ];
+
+        // Load questions from Firebase
+        async function loadQuestionsFromFirebase() {
+            try {
+                const snap = await get(ref(db, 'geolab_perguntas'));
+                if (snap.exists()) {
+                    let fbQuestions = snap.val();
+                    if (!Array.isArray(fbQuestions)) fbQuestions = Object.values(fbQuestions);
+                    // Combine: firebase questions + practical tasks
+                    allQuestions = [...fbQuestions, ...practicalQuestions];
+                }
+            } catch (e) {
+                console.warn('Error loading questions from Firebase:', e);
+            }
+        }
+        loadQuestionsFromFirebase();
+
+        /* --- Initialize default passwords in Firebase if they don't exist --- */
+        async function initPasswords() {
+            try {
+                const snap = await get(ref(db, 'geolab_config/senhas'));
+                if (!snap.exists()) {
+                    await set(ref(db, 'geolab_config/senhas'), {
+                        professor: '4241',
+                        gerenciar: '9141'
+                    });
+                }
+            } catch (e) {
+                console.warn('Error initializing passwords:', e);
+            }
+        }
+        initPasswords();
 
         /* --- Helpers --- */
         function toISODate(v) {
@@ -1020,7 +1074,7 @@
         let filtroAnoAtual = "todas";
         let filtroTurmaAtual = "todas";
         let tipoResetPendente = null;
-        const TOTAL_PERGUNTAS = 10; // 6 quiz + 4 practical activities
+        let TOTAL_PERGUNTAS = 10; // updated dynamically from allQuestions.length
         let nomesOcultos = false;
 
         /* --- Firebase Listener --- */
@@ -1062,6 +1116,7 @@
                         ano: aluno.ano || '',
                         turma: aluno.turma || '',
                         serie: aluno.serie || ((aluno.ano || '') + ' ' + (aluno.turma || '')),
+                        codigo: aluno.codigo || '',
                         numRespostas: numRespostas,
                         acertos: acertos,
                         acertosMC: acertosMC,
@@ -1089,6 +1144,7 @@
         filtroData.addEventListener('change', () => renderizarLista());
 
         function renderizarLista() {
+            TOTAL_PERGUNTAS = allQuestions.length;
             const dataSel = filtroData.value;
             let filtrados = todosRegistros.filter(item => {
                 const bateData = item.data === dataSel;
@@ -1155,7 +1211,8 @@
 
         window.abrirModalAluno = (aluno) => {
             document.getElementById('alunoModalNome').textContent = aluno.nome;
-            document.getElementById('alunoModalInfo').textContent = (aluno.serie || 'Série n/a') + ' • Entrada: ' + aluno.hora;
+            const codigoText = aluno.codigo ? ` • Codigo: ${aluno.codigo}` : '';
+            document.getElementById('alunoModalInfo').textContent = (aluno.serie || 'Serie n/a') + ' • Entrada: ' + aluno.hora + codigoText;
 
             const container = document.getElementById('alunoRespostas');
             container.innerHTML = '';
@@ -1306,9 +1363,14 @@
 
         window.fecharModalSenhaAction = () => toggleModal('modalSenhaAction', false);
 
-        window.executarResetConfirmado = () => {
+        window.executarResetConfirmado = async () => {
             const senha = document.getElementById('inputSenhaAction').value;
-            if (senha !== '4241') {
+            let senhaCorreta = '4241'; // fallback
+            try {
+                const snap = await get(ref(db, 'geolab_config/senhas/professor'));
+                if (snap.exists()) senhaCorreta = String(snap.val());
+            } catch (e) { }
+            if (senha !== senhaCorreta) {
                 alert('Senha incorreta!');
                 return;
             }
@@ -1371,6 +1433,34 @@
             container.appendChild(toast);
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 3000);
         }
+
+        /* --- Gerenciar Perguntas Modal --- */
+        window.abrirModalGerenciar = () => {
+            document.getElementById('inputSenhaGerenciar').value = '';
+            toggleModal('modalGerenciar', true);
+            setTimeout(() => document.getElementById('inputSenhaGerenciar').focus(), 100);
+        };
+        window.fecharModalGerenciar = () => toggleModal('modalGerenciar', false);
+
+        window.verificarSenhaGerenciar = async () => {
+            const senha = document.getElementById('inputSenhaGerenciar').value;
+            let senhaCorreta = '9141'; // fallback
+            try {
+                const snap = await get(ref(db, 'geolab_config/senhas/gerenciar'));
+                if (snap.exists()) senhaCorreta = String(snap.val());
+            } catch (e) { }
+            if (senha === senhaCorreta) {
+                fecharModalGerenciar();
+                window.open('gerenciar_perguntas.html', '_blank');
+            } else {
+                alert('Senha incorreta!');
+            }
+        };
+
+        // Enter key on gerenciar password
+        document.getElementById('inputSenhaGerenciar')?.addEventListener('keydown', e => {
+            if (e.key === 'Enter') verificarSenhaGerenciar();
+        });
 
         /* --- Toggle nomes dos alunos --- */
         window.toggleNomes = () => {
