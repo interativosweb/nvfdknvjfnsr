@@ -2163,10 +2163,22 @@
       <div class="popup-error" id="popupError">Preencha todos os campos para continuar.</div>
 
       <div class="popup-actions">
-        <button type="button" class="btn-popup-enter" id="btnEntrar">COMEÇAR</button>
+        <button type="button" class="btn-popup-enter" id="btnEntrar">COMECAR</button>
       </div>
+
+      <div class="popup-divider" style="margin:20px 0 16px;"></div>
+
+      <div class="popup-field">
+        <label>Ja tem um codigo? Continue de onde parou:</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="inputCodigo" class="popup-input" placeholder="Ex: ABC123" autocomplete="off" style="text-transform:uppercase; letter-spacing:2px; font-weight:900; text-align:center;" maxlength="6" />
+          <button type="button" class="btn-popup-enter" id="btnEntrarCodigo" style="min-width:100px; padding:14px 16px; font-size:0.82rem;">ENTRAR</button>
+        </div>
+      </div>
+      <div class="popup-error" id="codigoError" style="display:none;">Codigo nao encontrado. Verifique e tente novamente.</div>
+
       <div class="popup-actions" style="margin-top:8px; gap:8px;">
-        <button type="button" class="btn-popup-teacher" id="btnProfessor">ÁREA DO PROFESSOR</button>
+        <button type="button" class="btn-popup-teacher" id="btnProfessor">AREA DO PROFESSOR</button>
       </div>
     </div>
   </div>
@@ -4723,6 +4735,57 @@
       }, 400);
     }
 
+    async function entrarComCodigo() {
+      const codigo = document.getElementById('inputCodigo').value.trim().toUpperCase();
+      const erro = document.getElementById('codigoError');
+      if (!codigo || codigo.length < 4) {
+        erro.style.display = 'block';
+        erro.textContent = 'Digite um codigo valido.';
+        return;
+      }
+      erro.style.display = 'none';
+
+      // Wait for Firebase to be ready
+      if (!geolabDb) {
+        erro.style.display = 'block';
+        erro.textContent = 'Aguarde, carregando...';
+        setTimeout(() => entrarComCodigo(), 1000);
+        return;
+      }
+
+      const aluno = await lookupStudentByCode(codigo);
+      if (!aluno) {
+        erro.style.display = 'block';
+        erro.textContent = 'Codigo nao encontrado. Verifique e tente novamente.';
+        return;
+      }
+
+      // Restore session from Firebase data
+      const identificacao = {
+        nome: aluno.nome || 'Aluno',
+        ano: aluno.ano || '',
+        turma: aluno.turma || '',
+        timestamp: new Date().toLocaleString('pt-BR')
+      };
+      localStorage.setItem('geolab_aluno', JSON.stringify(identificacao));
+      localStorage.setItem('geolab_aluno_fb_id', aluno.id);
+      localStorage.setItem('geolab_aluno_codigo', codigo);
+      geolabAlunoId = aluno.id;
+
+      // Update badge
+      document.getElementById('badgeNome').textContent = identificacao.nome;
+      document.getElementById('badgeInfo').textContent = `${identificacao.ano} Ano | Turma ${identificacao.turma}`;
+      document.getElementById('studentBadge').style.display = 'flex';
+
+      // Close popup
+      const overlay = document.getElementById('popupOverlay');
+      overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        iniciarTutorial();
+      }, 400);
+    }
+
     function abrirSenhaClassificacao() {
       const modal = document.getElementById('classificacaoModal');
       modal.style.display = 'flex';
@@ -4736,9 +4799,16 @@
       document.getElementById('classificacaoModal').style.display = 'none';
     }
 
-    function verificarSenhaClassificacao() {
+    async function verificarSenhaClassificacao() {
       const senha = document.getElementById('inputSenhaClassificacao').value;
-      if (senha === '4241') {
+      let senhaCorreta = '4241';
+      try {
+        if (geolabDb) {
+          const snap = await geolabDb.ref('geolab_config/senhas/professor').once('value');
+          if (snap.exists()) senhaCorreta = String(snap.val());
+        }
+      } catch (e) { }
+      if (senha === senhaCorreta) {
         fecharClassificacaoModal();
         window.open('classificacao.html', '_blank');
       } else {
@@ -4767,11 +4837,16 @@
       document.getElementById('professorModal').classList.remove('visible');
     }
 
-    function verificarSenhaProfessor() {
+    async function verificarSenhaProfessor() {
       const senha = document.getElementById('inputSenhaProfessor').value;
-      const SENHA_PROFESSOR = '4241';
-
-      if (senha === SENHA_PROFESSOR) {
+      let senhaCorreta = '4241';
+      try {
+        if (geolabDb) {
+          const snap = await geolabDb.ref('geolab_config/senhas/professor').once('value');
+          if (snap.exists()) senhaCorreta = String(snap.val());
+        }
+      } catch (e) { }
+      if (senha === senhaCorreta) {
         fecharAreaProfessor();
         window.open('classificacao.html', '_blank');
       } else {
@@ -4859,9 +4934,13 @@
       // Wire enter buttons
       document.getElementById('btnEntrar').addEventListener('click', entrarGeolab);
       document.getElementById('btnProfessor').addEventListener('click', abrirAreaProfessor);
+      document.getElementById('btnEntrarCodigo').addEventListener('click', entrarComCodigo);
 
       document.getElementById('inputNome').addEventListener('keydown', e => {
         if (e.key === 'Enter') entrarGeolab();
+      });
+      document.getElementById('inputCodigo').addEventListener('keydown', e => {
+        if (e.key === 'Enter') entrarComCodigo();
       });
       document.getElementById('inputSenhaProfessor').addEventListener('keydown', e => {
         if (e.key === 'Enter') verificarSenhaProfessor();
@@ -5250,6 +5329,79 @@
       }
     }
 
+    // Initialize default passwords in Firebase
+    function initGeolabPasswords() {
+      if (!geolabDb) return;
+      geolabDb.ref('geolab_config/senhas').once('value', (snap) => {
+        if (!snap.exists()) {
+          geolabDb.ref('geolab_config/senhas').set({
+            professor: '4241',
+            gerenciar: '9141'
+          });
+        }
+      });
+    }
+
+    // Load questions from Firebase
+    function loadQuestionsFromFirebase() {
+      if (!geolabDb) return;
+      geolabDb.ref('geolab_perguntas').once('value', (snap) => {
+        if (snap.exists()) {
+          let fbQuestions = snap.val();
+          if (!Array.isArray(fbQuestions)) fbQuestions = Object.values(fbQuestions);
+          // Only replace the non-practical questions
+          quizQuestions.length = 0;
+          fbQuestions.forEach(q => quizQuestions.push(q));
+        }
+      });
+    }
+
+    // Generate unique student code (6 chars, no confusing chars)
+    function generateStudentCode() {
+      const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+      let code = '';
+      for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+      return code;
+    }
+
+    // Show student code notification
+    function showStudentCodeNotification(code) {
+      const existing = document.getElementById('studentCodeNotif');
+      if (existing) existing.remove();
+
+      const notif = document.createElement('div');
+      notif.id = 'studentCodeNotif';
+      notif.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10002;background:var(--white);border:3px solid var(--green);border-radius:20px;padding:20px 24px;box-shadow:0 8px 0 var(--green-shadow),0 24px 60px rgba(0,0,0,0.15);animation:popupIn 0.4s cubic-bezier(0.34,1.56,0.64,1);max-width:320px;font-family:var(--font);';
+      notif.innerHTML = `
+        <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--medium-gray);margin-bottom:6px;">Seu codigo de acesso</div>
+        <div style="font-size:1.8rem;font-weight:900;color:var(--green-dark);letter-spacing:4px;text-align:center;margin:8px 0;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;padding:10px;">${code}</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--dark-gray);line-height:1.4;">Anote este codigo! Com ele voce pode voltar onde parou em outra sessao.</div>
+        <button onclick="this.parentElement.remove()" style="margin-top:12px;width:100%;padding:10px;border:none;border-radius:10px;background:var(--green);color:white;font-weight:800;font-family:var(--font);cursor:pointer;box-shadow:0 3px 0 var(--green-shadow);font-size:0.82rem;">ENTENDI</button>
+      `;
+      document.body.appendChild(notif);
+
+      // Auto-remove after 30 seconds
+      setTimeout(() => { if (notif.parentElement) notif.remove(); }, 30000);
+    }
+
+    // Look up student by code in Firebase
+    function lookupStudentByCode(code) {
+      return new Promise((resolve) => {
+        if (!geolabDb) { resolve(null); return; }
+        geolabDb.ref('geolab_respostas').once('value', (snap) => {
+          if (!snap.exists()) { resolve(null); return; }
+          const data = snap.val();
+          for (const key of Object.keys(data)) {
+            if (data[key].codigo === code.toUpperCase()) {
+              resolve({ id: key, ...data[key] });
+              return;
+            }
+          }
+          resolve(null);
+        });
+      });
+    }
+
     function getGeolabAlunoId() {
       if (geolabAlunoId) return geolabAlunoId;
       // Reuse existing Firebase ID from localStorage if available
@@ -5287,13 +5439,27 @@
       try {
         const alunoId = getGeolabAlunoId();
         const alunoRef = geolabDb.ref('geolab_respostas/' + alunoId);
-        alunoRef.update({
-          nome: identificacao.nome,
-          ano: identificacao.ano,
-          turma: identificacao.turma,
-          serie: (identificacao.ano || '') + ' ' + (identificacao.turma || ''),
-          entradaEm: Date.now(),
-          enviadoEm: Date.now()
+
+        // Check if this student already has a code
+        alunoRef.once('value', (snap) => {
+          const existing = snap.val();
+          let codigo = existing && existing.codigo ? existing.codigo : generateStudentCode();
+
+          alunoRef.update({
+            nome: identificacao.nome,
+            ano: identificacao.ano,
+            turma: identificacao.turma,
+            serie: (identificacao.ano || '') + ' ' + (identificacao.turma || ''),
+            codigo: codigo,
+            entradaEm: Date.now(),
+            enviadoEm: Date.now()
+          });
+
+          // Save code to localStorage
+          localStorage.setItem('geolab_aluno_codigo', codigo);
+
+          // Show the code to the student
+          showStudentCodeNotification(codigo);
         });
       } catch (e) {
         console.warn('Erro ao registrar aluno no Firebase:', e);
@@ -5980,8 +6146,12 @@
           loaded++;
           if (loaded === scripts.length) {
             initGeolabFirebase();
-            // Start listening for pause/resume after Firebase is ready
-            setTimeout(iniciarListenerPausa, 500);
+            // Initialize passwords and load questions from Firebase
+            setTimeout(() => {
+              initGeolabPasswords();
+              loadQuestionsFromFirebase();
+              iniciarListenerPausa();
+            }, 500);
           }
         };
         document.head.appendChild(s);
