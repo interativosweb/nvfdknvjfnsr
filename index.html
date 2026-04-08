@@ -2131,53 +2131,63 @@
     <div id="popupBox">
       <div class="popup-header">
         <div class="popup-title">Geo<span>Lab</span></div>
-        <div class="popup-tagline">Laboratório de Geometria Interativo</div>
-      </div>
-      <div class="popup-divider"></div>
-
-      <div class="popup-field">
-        <label>Qual é o seu nome?</label>
-        <input type="text" id="inputNome" class="popup-input" placeholder="Digite seu nome completo..."
-          autocomplete="off" />
+        <div class="popup-tagline">Laboratorio de Geometria Interativo</div>
       </div>
 
-      <div class="popup-field">
-        <label>Qual é o seu ano?</label>
-        <div class="popup-select-group" id="grupoAno">
-          <button type="button" class="popup-chip" data-tipo="ano" data-valor="6°">6º Ano</button>
-          <button type="button" class="popup-chip" data-tipo="ano" data-valor="7°">7º Ano</button>
-          <button type="button" class="popup-chip" data-tipo="ano" data-valor="8°">8º Ano</button>
-          <button type="button" class="popup-chip" data-tipo="ano" data-valor="9°">9º Ano</button>
+      <!-- Tabs -->
+      <div style="display:flex; gap:0; margin-bottom:20px; border-radius:12px; overflow:hidden; border:2px solid var(--light-gray);">
+        <button type="button" id="tabNovoAluno" class="popup-tab active" onclick="switchPopupTab('novo')" style="flex:1; padding:12px; border:none; font-family:var(--font); font-size:0.82rem; font-weight:800; cursor:pointer; transition:all 0.2s; background:var(--green); color:white;">Novo Aluno</button>
+        <button type="button" id="tabCodigo" class="popup-tab" onclick="switchPopupTab('codigo')" style="flex:1; padding:12px; border:none; font-family:var(--font); font-size:0.82rem; font-weight:800; cursor:pointer; transition:all 0.2s; background:var(--off-white); color:var(--medium-gray);">Entrar com Codigo</button>
+      </div>
+
+      <!-- Tab: Novo Aluno -->
+      <div id="panelNovoAluno">
+        <div class="popup-field">
+          <label>Qual e o seu nome?</label>
+          <input type="text" id="inputNome" class="popup-input" placeholder="Digite seu nome completo..."
+            autocomplete="off" />
+        </div>
+
+        <div class="popup-field">
+          <label>Qual e o seu ano?</label>
+          <div class="popup-select-group" id="grupoAno">
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="6°">6o Ano</button>
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="7°">7o Ano</button>
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="8°">8o Ano</button>
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="9°">9o Ano</button>
+          </div>
+        </div>
+
+        <div class="popup-field">
+          <label>Qual e a sua turma?</label>
+          <div class="popup-select-group" id="grupoTurma">
+            <button type="button" class="popup-chip" data-tipo="turma" data-valor="A">A</button>
+            <button type="button" class="popup-chip" data-tipo="turma" data-valor="B">B</button>
+            <button type="button" class="popup-chip" data-tipo="turma" data-valor="C">C</button>
+          </div>
+        </div>
+
+        <div class="popup-error" id="popupError">Preencha todos os campos para continuar.</div>
+
+        <div class="popup-actions">
+          <button type="button" class="btn-popup-enter" id="btnEntrar">COMECAR</button>
         </div>
       </div>
 
-      <div class="popup-field">
-        <label>Qual é a sua turma?</label>
-        <div class="popup-select-group" id="grupoTurma">
-          <button type="button" class="popup-chip" data-tipo="turma" data-valor="A">A</button>
-          <button type="button" class="popup-chip" data-tipo="turma" data-valor="B">B</button>
-          <button type="button" class="popup-chip" data-tipo="turma" data-valor="C">C</button>
+      <!-- Tab: Entrar com Codigo -->
+      <div id="panelCodigo" style="display:none;">
+        <div class="popup-field" style="text-align:center;">
+          <label>Digite seu codigo de acesso</label>
+          <input type="text" id="inputCodigo" class="popup-input" placeholder="Ex: ABC123" autocomplete="off" style="text-transform:uppercase; letter-spacing:3px; font-weight:900; text-align:center; font-size:1.3rem; padding:18px 16px;" maxlength="6" />
         </div>
-      </div>
-
-      <div class="popup-error" id="popupError">Preencha todos os campos para continuar.</div>
-
-      <div class="popup-actions">
-        <button type="button" class="btn-popup-enter" id="btnEntrar">COMECAR</button>
-      </div>
-
-      <div class="popup-divider" style="margin:20px 0 16px;"></div>
-
-      <div class="popup-field">
-        <label>Ja tem um codigo? Continue de onde parou:</label>
-        <div style="display:flex; gap:8px;">
-          <input type="text" id="inputCodigo" class="popup-input" placeholder="Ex: ABC123" autocomplete="off" style="text-transform:uppercase; letter-spacing:2px; font-weight:900; text-align:center;" maxlength="6" />
-          <button type="button" class="btn-popup-enter" id="btnEntrarCodigo" style="min-width:100px; padding:14px 16px; font-size:0.82rem;">ENTRAR</button>
+        <div class="popup-error" id="codigoError" style="display:none;">Codigo nao encontrado. Verifique e tente novamente.</div>
+        <div class="popup-actions">
+          <button type="button" class="btn-popup-enter" id="btnEntrarCodigo">ENTRAR</button>
         </div>
+        <p style="text-align:center; font-size:0.75rem; color:var(--medium-gray); font-weight:700; margin-top:12px;">O codigo foi exibido quando voce entrou pela primeira vez.</p>
       </div>
-      <div class="popup-error" id="codigoError" style="display:none;">Codigo nao encontrado. Verifique e tente novamente.</div>
 
-      <div class="popup-actions" style="margin-top:8px; gap:8px;">
+      <div class="popup-actions" style="margin-top:12px; gap:8px;">
         <button type="button" class="btn-popup-teacher" id="btnProfessor">AREA DO PROFESSOR</button>
       </div>
     </div>
@@ -2341,6 +2351,7 @@
       </div>
       <div id="studentBadge">
         <span id="badgeNome"></span> &bull; <span id="badgeInfo"></span>
+        <span id="badgeCodigo" style="display:none; margin-left:4px; background:var(--white); border:2px solid var(--green); border-radius:8px; padding:2px 8px; font-size:0.72rem; letter-spacing:1.5px; color:var(--green-dark); font-weight:900; cursor:default;" title="Seu codigo de acesso"></span>
       </div>
     </div>
 
@@ -4688,6 +4699,29 @@
     /* ===== LÓGICA DO POPUP DE IDENTIFICAÇÃO ===== */
     const popupState = { ano: null, turma: null };
 
+    function switchPopupTab(tab) {
+      const tabNovo = document.getElementById('tabNovoAluno');
+      const tabCodigo = document.getElementById('tabCodigo');
+      const panelNovo = document.getElementById('panelNovoAluno');
+      const panelCodigo = document.getElementById('panelCodigo');
+      if (tab === 'novo') {
+        tabNovo.style.background = 'var(--green)';
+        tabNovo.style.color = 'white';
+        tabCodigo.style.background = 'var(--off-white)';
+        tabCodigo.style.color = 'var(--medium-gray)';
+        panelNovo.style.display = 'block';
+        panelCodigo.style.display = 'none';
+      } else {
+        tabCodigo.style.background = 'var(--green)';
+        tabCodigo.style.color = 'white';
+        tabNovo.style.background = 'var(--off-white)';
+        tabNovo.style.color = 'var(--medium-gray)';
+        panelNovo.style.display = 'none';
+        panelCodigo.style.display = 'block';
+        setTimeout(() => document.getElementById('inputCodigo').focus(), 100);
+      }
+    }
+
     function selectChip(tipo, valor, el) {
       popupState[tipo] = valor;
       const grupo = document.getElementById('grupo' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
@@ -4776,6 +4810,8 @@
       document.getElementById('badgeNome').textContent = identificacao.nome;
       document.getElementById('badgeInfo').textContent = `${identificacao.ano} Ano | Turma ${identificacao.turma}`;
       document.getElementById('studentBadge').style.display = 'flex';
+      const badgeCode = document.getElementById('badgeCodigo');
+      if (badgeCode) { badgeCode.textContent = codigo; badgeCode.style.display = 'inline-block'; }
 
       // Close popup
       const overlay = document.getElementById('popupOverlay');
@@ -5457,6 +5493,10 @@
 
           // Save code to localStorage
           localStorage.setItem('geolab_aluno_codigo', codigo);
+
+          // Show code in badge
+          const badgeCode = document.getElementById('badgeCodigo');
+          if (badgeCode) { badgeCode.textContent = codigo; badgeCode.style.display = 'inline-block'; }
 
           // Show the code to the student
           showStudentCodeNotification(codigo);
