@@ -102,8 +102,8 @@
       font-size: 0.78rem;
       font-weight: 800;
       color: var(--green-dark);
-      gap: 6px;
-      align-items: center;
+      gap: 4px;
+      flex-direction: column;
       margin-top: 12px;
     }
 
@@ -2131,35 +2131,35 @@
     <div id="popupBox">
       <div class="popup-header">
         <div class="popup-title">Geo<span>Lab</span></div>
-        <div class="popup-tagline">Laboratorio de Geometria Interativo</div>
+        <div class="popup-tagline">Laboratório de Geometria Interativo</div>
       </div>
 
       <!-- Tabs -->
       <div style="display:flex; gap:0; margin-bottom:20px; border-radius:12px; overflow:hidden; border:2px solid var(--light-gray);">
-        <button type="button" id="tabNovoAluno" class="popup-tab active" onclick="switchPopupTab('novo')" style="flex:1; padding:12px; border:none; font-family:var(--font); font-size:0.82rem; font-weight:800; cursor:pointer; transition:all 0.2s; background:var(--green); color:white;">Novo Aluno</button>
-        <button type="button" id="tabCodigo" class="popup-tab" onclick="switchPopupTab('codigo')" style="flex:1; padding:12px; border:none; font-family:var(--font); font-size:0.82rem; font-weight:800; cursor:pointer; transition:all 0.2s; background:var(--off-white); color:var(--medium-gray);">Entrar com Codigo</button>
+        <button type="button" id="tabNovoAluno" onclick="switchPopupTab('novo')" style="flex:1; padding:12px; border:none; font-family:var(--font); font-size:0.82rem; font-weight:800; cursor:pointer; transition:background 0.2s, color 0.2s; background:var(--green); color:white; outline:none; box-shadow:none;">Novo Aluno</button>
+        <button type="button" id="tabCodigo" onclick="switchPopupTab('codigo')" style="flex:1; padding:12px; border:none; font-family:var(--font); font-size:0.82rem; font-weight:800; cursor:pointer; transition:background 0.2s, color 0.2s; background:var(--off-white); color:var(--medium-gray); outline:none; box-shadow:none;">Entrar com Código</button>
       </div>
 
       <!-- Tab: Novo Aluno -->
       <div id="panelNovoAluno">
         <div class="popup-field">
-          <label>Qual e o seu nome?</label>
+          <label>Qual é o seu nome?</label>
           <input type="text" id="inputNome" class="popup-input" placeholder="Digite seu nome completo..."
             autocomplete="off" />
         </div>
 
         <div class="popup-field">
-          <label>Qual e o seu ano?</label>
+          <label>Qual é o seu ano?</label>
           <div class="popup-select-group" id="grupoAno">
-            <button type="button" class="popup-chip" data-tipo="ano" data-valor="6°">6o Ano</button>
-            <button type="button" class="popup-chip" data-tipo="ano" data-valor="7°">7o Ano</button>
-            <button type="button" class="popup-chip" data-tipo="ano" data-valor="8°">8o Ano</button>
-            <button type="button" class="popup-chip" data-tipo="ano" data-valor="9°">9o Ano</button>
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="6°">6º Ano</button>
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="7°">7º Ano</button>
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="8°">8º Ano</button>
+            <button type="button" class="popup-chip" data-tipo="ano" data-valor="9°">9º Ano</button>
           </div>
         </div>
 
         <div class="popup-field">
-          <label>Qual e a sua turma?</label>
+          <label>Qual é a sua turma?</label>
           <div class="popup-select-group" id="grupoTurma">
             <button type="button" class="popup-chip" data-tipo="turma" data-valor="A">A</button>
             <button type="button" class="popup-chip" data-tipo="turma" data-valor="B">B</button>
@@ -2170,25 +2170,25 @@
         <div class="popup-error" id="popupError">Preencha todos os campos para continuar.</div>
 
         <div class="popup-actions">
-          <button type="button" class="btn-popup-enter" id="btnEntrar">COMECAR</button>
+          <button type="button" class="btn-popup-enter" id="btnEntrar">COMEÇAR</button>
         </div>
       </div>
 
       <!-- Tab: Entrar com Codigo -->
       <div id="panelCodigo" style="display:none;">
         <div class="popup-field" style="text-align:center;">
-          <label>Digite seu codigo de acesso</label>
+          <label>Digite seu código de acesso</label>
           <input type="text" id="inputCodigo" class="popup-input" placeholder="Ex: ABC123" autocomplete="off" style="text-transform:uppercase; letter-spacing:3px; font-weight:900; text-align:center; font-size:1.3rem; padding:18px 16px;" maxlength="6" />
         </div>
-        <div class="popup-error" id="codigoError" style="display:none;">Codigo nao encontrado. Verifique e tente novamente.</div>
+        <div class="popup-error" id="codigoError" style="display:none;">Código não encontrado. Verifique e tente novamente.</div>
         <div class="popup-actions">
           <button type="button" class="btn-popup-enter" id="btnEntrarCodigo">ENTRAR</button>
         </div>
-        <p style="text-align:center; font-size:0.75rem; color:var(--medium-gray); font-weight:700; margin-top:12px;">O codigo foi exibido quando voce entrou pela primeira vez.</p>
+        <p style="text-align:center; font-size:0.75rem; color:var(--medium-gray); font-weight:700; margin-top:12px;">O código foi exibido quando você entrou pela primeira vez.</p>
       </div>
 
       <div class="popup-actions" style="margin-top:12px; gap:8px;">
-        <button type="button" class="btn-popup-teacher" id="btnProfessor">AREA DO PROFESSOR</button>
+        <button type="button" class="btn-popup-teacher" id="btnProfessor">ÁREA DO PROFESSOR</button>
       </div>
     </div>
   </div>
@@ -2350,8 +2350,8 @@
         <button id="btnGearSettings" onclick="abrirSenhaClassificacao()" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--medium-gray);opacity:0.5;transition:opacity 0.2s;padding:4px;margin:0;box-shadow:none;width:auto;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" title="Configurações">⚙</button>
       </div>
       <div id="studentBadge">
-        <span id="badgeNome"></span> &bull; <span id="badgeInfo"></span>
-        <span id="badgeCodigo" style="display:none; margin-left:4px; background:var(--white); border:2px solid var(--green); border-radius:8px; padding:2px 8px; font-size:0.72rem; letter-spacing:1.5px; color:var(--green-dark); font-weight:900; cursor:default;" title="Seu codigo de acesso"></span>
+        <div><span id="badgeNome"></span> &bull; <span id="badgeInfo"></span></div>
+        <div id="badgeCodigo" style="display:none; background:var(--white); border:2px solid var(--green); border-radius:8px; padding:3px 10px; font-size:0.7rem; letter-spacing:2px; color:var(--green-dark); font-weight:900; text-align:center; cursor:default;" title="Seu código de acesso"></div>
       </div>
     </div>
 
@@ -2611,7 +2611,7 @@
         }
       }, { capture: true });
       // Warn on page close/refresh
-      window.addEventListener('beforeunload', (e) => { e.preventDefault(); e.returnValue = ''; });
+      window.addEventListener('beforeunload', (e) => { e.preventDefault(); e.returnValue = ''; if (typeof saveStateToFirebase === 'function') saveStateToFirebase(); });
     })();
 
     /* =========================================================
@@ -4774,7 +4774,7 @@
       const erro = document.getElementById('codigoError');
       if (!codigo || codigo.length < 4) {
         erro.style.display = 'block';
-        erro.textContent = 'Digite um codigo valido.';
+        erro.textContent = 'Digite um código válido.';
         return;
       }
       erro.style.display = 'none';
@@ -4782,7 +4782,7 @@
       // Wait for Firebase to be ready
       if (!geolabDb) {
         erro.style.display = 'block';
-        erro.textContent = 'Aguarde, carregando...';
+        erro.textContent = 'Aguarde, carregando o sistema...';
         setTimeout(() => entrarComCodigo(), 1000);
         return;
       }
@@ -4790,7 +4790,7 @@
       const aluno = await lookupStudentByCode(codigo);
       if (!aluno) {
         erro.style.display = 'block';
-        erro.textContent = 'Codigo nao encontrado. Verifique e tente novamente.';
+        erro.textContent = 'Código não encontrado. Verifique e tente novamente.';
         return;
       }
 
@@ -4811,14 +4811,18 @@
       document.getElementById('badgeInfo').textContent = `${identificacao.ano} Ano | Turma ${identificacao.turma}`;
       document.getElementById('studentBadge').style.display = 'flex';
       const badgeCode = document.getElementById('badgeCodigo');
-      if (badgeCode) { badgeCode.textContent = codigo; badgeCode.style.display = 'inline-block'; }
+      if (badgeCode) { badgeCode.textContent = 'Código: ' + codigo; badgeCode.style.display = 'block'; }
+
+      // Skip tutorial for returning students
+      localStorage.setItem('geolab_tutorial_done', 'true');
 
       // Close popup
       const overlay = document.getElementById('popupOverlay');
       overlay.style.animation = 'fadeOutOverlay 0.4s ease forwards';
-      setTimeout(() => {
+      setTimeout(async () => {
         overlay.style.display = 'none';
-        iniciarTutorial();
+        // Restore saved state (figures, quiz progress)
+        await restoreFullState(aluno.id);
       }, 400);
     }
 
@@ -5409,9 +5413,9 @@
       notif.id = 'studentCodeNotif';
       notif.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10002;background:var(--white);border:3px solid var(--green);border-radius:20px;padding:20px 24px;box-shadow:0 8px 0 var(--green-shadow),0 24px 60px rgba(0,0,0,0.15);animation:popupIn 0.4s cubic-bezier(0.34,1.56,0.64,1);max-width:320px;font-family:var(--font);';
       notif.innerHTML = `
-        <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--medium-gray);margin-bottom:6px;">Seu codigo de acesso</div>
+        <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--medium-gray);margin-bottom:6px;">Seu código de acesso</div>
         <div style="font-size:1.8rem;font-weight:900;color:var(--green-dark);letter-spacing:4px;text-align:center;margin:8px 0;background:var(--off-white);border:2px solid var(--light-gray);border-radius:12px;padding:10px;">${code}</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--dark-gray);line-height:1.4;">Anote este codigo! Com ele voce pode voltar onde parou em outra sessao.</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--dark-gray);line-height:1.4;">Anote este código! Com ele você pode voltar de onde parou em outra sessão.</div>
         <button onclick="this.parentElement.remove()" style="margin-top:12px;width:100%;padding:10px;border:none;border-radius:10px;background:var(--green);color:white;font-weight:800;font-family:var(--font);cursor:pointer;box-shadow:0 3px 0 var(--green-shadow);font-size:0.82rem;">ENTENDI</button>
       `;
       document.body.appendChild(notif);
@@ -5496,7 +5500,7 @@
 
           // Show code in badge
           const badgeCode = document.getElementById('badgeCodigo');
-          if (badgeCode) { badgeCode.textContent = codigo; badgeCode.style.display = 'inline-block'; }
+          if (badgeCode) { badgeCode.textContent = 'Código: ' + codigo; badgeCode.style.display = 'block'; }
 
           // Show the code to the student
           showStudentCodeNotification(codigo);
@@ -5613,6 +5617,8 @@
       clearAllFigures();
 
       currentQuestion++;
+      // Auto-save progress
+      saveStateToFirebase();
       updateQuizProgress();
 
       if (currentQuestion < quizQuestions.length) {
@@ -6171,6 +6177,141 @@
         });
       });
     };
+
+    /* ===== AUTO-SAVE STATE TO FIREBASE ===== */
+    function serializeShapesForSave() {
+      return shapes.map(s => ({
+        id: s.id,
+        name: s.name,
+        type: s.type,
+        points: s.points.map(p => ({ x: p.x, y: p.y, label: p.label || '' })),
+        color: s.color,
+        isClosed: s.isClosed,
+        tx: s.tx, ty: s.ty,
+        rotation: s.rotation,
+        scale: s.scale,
+        reflectX: s.reflectX || false,
+        reflectY: s.reflectY || false,
+        symmetryLineId: s.symmetryLineId || null,
+        symmetryPointId: s.symmetryPointId || null,
+        isSymAxis: s.isSymAxis || false,
+        isSymPoint: s.isSymPoint || false,
+        anchor: s.anchor || { x: 0, y: 0 },
+        pointRadius: s.pointRadius || 5,
+        lineLength: s.lineLength || 1000,
+        showExtension: s.showExtension !== false,
+        radius: s.radius || 0
+      }));
+    }
+
+    function saveStateToFirebase() {
+      if (!geolabDb) return;
+      const alunoId = localStorage.getItem('geolab_aluno_fb_id');
+      if (!alunoId) return;
+      try {
+        const stateData = {
+          shapes: serializeShapesForSave(),
+          activeIndex: activeIndex,
+          quizActive: quizActive,
+          currentQuestion: currentQuestion,
+          currentPractical: currentPractical,
+          quizScore: quizScore,
+          nextVertexLetterCode: nextVertexLetterCode,
+          savedAt: Date.now()
+        };
+        geolabDb.ref('geolab_respostas/' + alunoId + '/estado_salvo').set(stateData);
+      } catch (e) {
+        console.warn('Erro ao salvar estado:', e);
+      }
+    }
+
+    // Save state periodically (every 30s) and on page close
+    setInterval(() => {
+      if (localStorage.getItem('geolab_aluno')) saveStateToFirebase();
+    }, 30000);
+
+    window.addEventListener('beforeunload', () => {
+      saveStateToFirebase();
+    });
+
+    // Also save after each figure is closed or quiz answer
+    const _origAutoClose = autoCloseCurrentFigure;
+    autoCloseCurrentFigure = function() {
+      _origAutoClose();
+      saveStateToFirebase();
+    };
+
+    function restoreShapesFromData(shapesData) {
+      shapes = [];
+      if (!shapesData || !Array.isArray(shapesData)) return;
+      shapesData.forEach(s => {
+        shapes.push({
+          id: s.id || Date.now(),
+          name: s.name || 'Figura',
+          type: s.type || SHAPE_TYPES.POLYGON,
+          points: (s.points || []).map(p => ({ x: p.x, y: p.y, label: p.label || '' })),
+          color: s.color || colors[shapes.length % colors.length],
+          isClosed: s.isClosed !== false,
+          tx: s.tx || 0, ty: s.ty || 0,
+          rotation: s.rotation || 0,
+          scale: s.scale || 1.0,
+          reflectX: s.reflectX || false,
+          reflectY: s.reflectY || false,
+          symmetryAxis: 'none',
+          symmetry: { x: false, y: false },
+          symmetryLineId: s.symmetryLineId || null,
+          symmetryPointId: s.symmetryPointId || null,
+          isSymAxis: s.isSymAxis || false,
+          isSymPoint: s.isSymPoint || false,
+          anchor: s.anchor || { x: 0, y: 0 },
+          anim: { x: false, y: false, rot: false, dirX: 1, dirY: 1 },
+          speed: { trans: 1.0, rot: 1.0 },
+          pointRadius: s.pointRadius || 5,
+          lineLength: s.lineLength || 1000,
+          showExtension: s.showExtension !== false,
+          radius: s.radius || 0
+        });
+      });
+    }
+
+    async function restoreFullState(alunoId) {
+      if (!geolabDb) return false;
+      try {
+        const snap = await new Promise((resolve) => {
+          geolabDb.ref('geolab_respostas/' + alunoId + '/estado_salvo').once('value', resolve);
+        });
+        if (!snap.exists()) return false;
+        const state = snap.val();
+        if (!state || !state.shapes) return false;
+
+        // Restore shapes
+        let shapesArr = state.shapes;
+        if (!Array.isArray(shapesArr)) shapesArr = Object.values(shapesArr);
+        restoreShapesFromData(shapesArr);
+
+        activeIndex = state.activeIndex >= 0 && state.activeIndex < shapes.length ? state.activeIndex : -1;
+        mode = 'IDLE';
+        if (state.nextVertexLetterCode) nextVertexLetterCode = state.nextVertexLetterCode;
+
+        updateUI();
+        draw();
+
+        // Restore quiz state if quiz was active
+        if (state.quizActive) {
+          quizActive = true;
+          currentQuestion = state.currentQuestion || 0;
+          currentPractical = state.currentPractical || 0;
+          quizScore = state.quizScore || 0;
+          // Trigger quiz UI
+          checkFigureCountForQuiz();
+        }
+
+        return true;
+      } catch (e) {
+        console.warn('Erro ao restaurar estado:', e);
+        return false;
+      }
+    }
 
     // Load Firebase compat SDK and initialize
     (function loadFirebaseSDK() {
