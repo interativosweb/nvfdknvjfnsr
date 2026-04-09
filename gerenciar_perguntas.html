@@ -412,9 +412,63 @@
             line-height: 1.5;
         }
 
+        /* Animation selector */
+        .anim-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: #FFF8E1;
+            border: 2px solid var(--yellow);
+            border-radius: 12px;
+        }
+        .anim-row .anim-icon {
+            font-size: 1.2rem;
+        }
+        .anim-row .anim-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--orange);
+            white-space: nowrap;
+        }
+        .anim-select {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-family: var(--font);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text);
+            outline: none;
+            background: var(--white);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .anim-select:focus { border-color: var(--orange); }
+        .anim-preview-btn {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 2px solid var(--orange);
+            background: var(--white);
+            color: var(--orange);
+            font-family: var(--font);
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .anim-preview-btn:hover { background: #FFF3E0; }
+        .anim-preview-btn:disabled { opacity: 0.3; cursor: default; }
+
         @media (max-width: 600px) {
             .option-row { flex-wrap: wrap; }
             .q-actions { flex-wrap: wrap; }
+            .anim-row { flex-wrap: wrap; }
         }
     </style>
 </head>
@@ -477,7 +531,7 @@
                 type: "choice",
                 options: ["Translação e rotação", "Reflexão e rotação", "Translação e reflexão", "Rotação e ampliação"],
                 correct: 1,
-                visualId: "visual_rotacao_reflexao"
+                animacao: 1
             },
             {
                 question: "Se girarmos um quadrado em torno de um ponto, qual transformação geométrica está ocorrendo?",
@@ -556,6 +610,24 @@
                     `;
                 }
 
+                const animVal = q.animacao || 0;
+                const animHTML = `
+                    <div class="anim-row">
+                        <span class="anim-icon">🎬</span>
+                        <span class="anim-label">Animação</span>
+                        <select class="anim-select" onchange="updateAnimacao(${idx}, this.value)">
+                            <option value="0" ${animVal == 0 ? 'selected' : ''}>Nenhuma</option>
+                            <option value="1" ${animVal == 1 ? 'selected' : ''}>01 — Rotação e Reflexão</option>
+                            <option value="2" ${animVal == 2 ? 'selected' : ''}>02 — (em breve)</option>
+                            <option value="3" ${animVal == 3 ? 'selected' : ''}>03 — (em breve)</option>
+                            <option value="4" ${animVal == 4 ? 'selected' : ''}>04 — (em breve)</option>
+                            <option value="5" ${animVal == 5 ? 'selected' : ''}>05 — (em breve)</option>
+                            <option value="6" ${animVal == 6 ? 'selected' : ''}>06 — (em breve)</option>
+                        </select>
+                        <button class="anim-preview-btn" onclick="previewAnimacao(${idx})" ${animVal == 0 ? 'disabled' : ''}>Visualizar</button>
+                    </div>
+                `;
+
                 card.innerHTML = `
                     <div class="q-header">
                         <div class="q-number">${idx + 1}</div>
@@ -569,6 +641,7 @@
                     <div class="q-label">Pergunta</div>
                     <textarea class="q-text-input" rows="2" placeholder="Digite a pergunta..." onchange="updateQuestionText(${idx}, this.value)">${escapeHTML(q.question || '')}</textarea>
                     ${optionsHTML}
+                    ${animHTML}
                 `;
 
                 container.appendChild(card);
@@ -632,6 +705,22 @@
                 questions[idx].correct = questions[idx].options.length - 1;
             }
             renderQuestions();
+        };
+
+        window.updateAnimacao = (idx, val) => {
+            const num = parseInt(val) || 0;
+            if (num > 0) {
+                questions[idx].animacao = num;
+            } else {
+                delete questions[idx].animacao;
+            }
+        };
+
+        window.previewAnimacao = (idx) => {
+            const anim = questions[idx].animacao;
+            if (anim && anim > 0) {
+                window.open('animacoes.html?anim=' + anim, '_blank', 'width=600,height=450');
+            }
         };
 
         window.moveQuestion = (idx, dir) => {
