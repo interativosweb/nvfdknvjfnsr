@@ -578,7 +578,7 @@
         function renderQuestions() {
             const container = document.getElementById('questionsList');
             if (questions.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="icon">📝</div><div>Nenhuma pergunta cadastrada.<br>Clique nos botoes abaixo para adicionar.</div></div>';
+                container.innerHTML = '<div class="empty-state"><div>Nenhuma pergunta cadastrada.<br>Clique nos botoes abaixo para adicionar.</div></div>';
                 return;
             }
 
@@ -613,7 +613,7 @@
                 const animVal = q.animacao || 0;
                 const animHTML = `
                     <div class="anim-row">
-                        <span class="anim-icon">🎬</span>
+                        <span class="anim-icon" style="font-size:0.85rem;color:var(--orange);font-weight:900;">&#9654;</span>
                         <span class="anim-label">Animação</span>
                         <select class="anim-select" onchange="updateAnimacao(${idx}, this.value)">
                             <option value="0" ${animVal == 0 ? 'selected' : ''}>Nenhuma</option>
@@ -635,7 +635,7 @@
                         <div class="q-actions">
                             <button class="btn-move" onclick="moveQuestion(${idx}, -1)" title="Mover para cima" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>&#9650;</button>
                             <button class="btn-move" onclick="moveQuestion(${idx}, 1)" title="Mover para baixo" ${idx === questions.length - 1 ? 'disabled style="opacity:0.3"' : ''}>&#9660;</button>
-                            <button class="btn-icon delete" onclick="deleteQuestion(${idx})" title="Excluir pergunta">&#128465;</button>
+                            <button class="btn-icon delete" onclick="deleteQuestion(${idx})" title="Excluir pergunta">&times;</button>
                         </div>
                     </div>
                     <div class="q-label">Pergunta</div>
