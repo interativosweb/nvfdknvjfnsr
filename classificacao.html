@@ -997,6 +997,7 @@
             { question: "O que é uma transformação geométrica?", type: "text" },
             { question: "O que é uma translação?", type: "text" },
             { question: "O que é uma simetria?", type: "text" },
+            { question: "A figura ao lado foi obtida por meio de dois movimentos. Quais foram esses movimentos?", type: "choice", options: ["Translação e rotação", "Reflexão e rotação", "Translação e reflexão", "Rotação e ampliação"], visualId: "visual_rotacao_reflexao" },
             { question: "Se girarmos um quadrado em torno de um ponto, qual transformação geométrica está ocorrendo?", type: "choice", options: ["Rotação", "Giro", "Translação", "Simetria"] },
             { question: "Quando uma figura apenas muda de lugar, sem girar ou mudar de tamanho, qual transformação ocorreu?", type: "choice", options: ["Translação", "Rotação", "Simetria", "Ampliação"] },
             { question: "Quando uma figura é refletida como se estivesse em um espelho, qual transformação geométrica acontece?", type: "choice", options: ["Translação", "Simetria", "Rotação", "Redução"] },
@@ -1077,7 +1078,7 @@
         let filtroAnoAtual = "todas";
         let filtroTurmaAtual = "todas";
         let tipoResetPendente = null;
-        let TOTAL_PERGUNTAS = 10; // updated dynamically from allQuestions.length
+        let TOTAL_PERGUNTAS = 11; // updated dynamically from allQuestions.length
         let nomesOcultos = false;
 
         /* --- Firebase Listener --- */
