@@ -5015,11 +5015,8 @@
     let quizScore = 0;
     let selectedAnswers = {};
 
-    // Mapeamento de visualId para arquivo HTML de animação
-    const VISUAL_MAP = {
-      'visual_rotacao_reflexao': 'questao_visual_1.html'
-      // Adicione novas visualizações aqui: 'visual_id': 'arquivo.html'
-    };
+    // Arquivo de animações (todas em um único HTML, selecionadas por ?anim=N)
+    const ANIMACOES_URL = 'animacoes.html';
 
     const quizQuestions = [
       {
@@ -5039,7 +5036,7 @@
         options: ["Translação e rotação", "Reflexão e rotação", "Translação e reflexão", "Rotação e ampliação"],
         correct: 1,
         type: "choice",
-        visualId: "visual_rotacao_reflexao"
+        animacao: 1
       },
       {
         question: "Se girarmos um quadrado em torno de um ponto, qual transformação geométrica está ocorrendo?",
@@ -5139,15 +5136,17 @@
       draw();
     }
 
-    // Mostra/esconde visualização animada para questões com visualId
+    // Mostra/esconde visualização animada para questões com animacao
     function showQuestionVisual(qIdx) {
       hideQuestionVisual();
       const q = quizQuestions[qIdx];
-      if (!q || !q.visualId || !VISUAL_MAP[q.visualId]) return;
+      if (!q || !q.animacao) return;
+      const animId = parseInt(q.animacao);
+      if (!animId || animId <= 0) return;
       const mainArea = document.getElementById('mainArea');
       const iframe = document.createElement('iframe');
       iframe.id = 'questionVisualIframe';
-      iframe.src = VISUAL_MAP[q.visualId];
+      iframe.src = ANIMACOES_URL + '?anim=' + animId;
       iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;z-index:20;background:transparent;pointer-events:none;';
       iframe.setAttribute('allowtransparency', 'true');
       mainArea.appendChild(iframe);
