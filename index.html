@@ -5139,8 +5139,8 @@
     // Mostra/esconde visualização animada para questões com animacao
     function showQuestionVisual(qIdx) {
       hideQuestionVisual();
+      if (qIdx < 0 || qIdx >= quizQuestions.length) return;
       const q = quizQuestions[qIdx];
-      if (!q || !q.animacao) return;
       const animId = parseInt(q.animacao);
       if (!animId || animId <= 0) return;
       const mainArea = document.getElementById('mainArea');
