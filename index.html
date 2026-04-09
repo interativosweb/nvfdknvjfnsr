@@ -5015,6 +5015,12 @@
     let quizScore = 0;
     let selectedAnswers = {};
 
+    // Mapeamento de visualId para arquivo HTML de animação
+    const VISUAL_MAP = {
+      'visual_rotacao_reflexao': 'questao_visual_1.html'
+      // Adicione novas visualizações aqui: 'visual_id': 'arquivo.html'
+    };
+
     const quizQuestions = [
       {
         question: "O que é uma transformação geométrica?",
@@ -5027,6 +5033,13 @@
       {
         question: "O que é uma simetria?",
         type: "text"
+      },
+      {
+        question: "A figura ao lado foi obtida por meio de dois movimentos. Quais foram esses movimentos?",
+        options: ["Translação e rotação", "Reflexão e rotação", "Translação e reflexão", "Rotação e ampliação"],
+        correct: 1,
+        type: "choice",
+        visualId: "visual_rotacao_reflexao"
       },
       {
         question: "Se girarmos um quadrado em torno de um ponto, qual transformação geométrica está ocorrendo?",
@@ -5124,6 +5137,25 @@
       nextVertexLetterCode = 65;
       updateUI();
       draw();
+    }
+
+    // Mostra/esconde visualização animada para questões com visualId
+    function showQuestionVisual(qIdx) {
+      hideQuestionVisual();
+      const q = quizQuestions[qIdx];
+      if (!q || !q.visualId || !VISUAL_MAP[q.visualId]) return;
+      const mainArea = document.getElementById('mainArea');
+      const iframe = document.createElement('iframe');
+      iframe.id = 'questionVisualIframe';
+      iframe.src = VISUAL_MAP[q.visualId];
+      iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;z-index:20;background:transparent;pointer-events:none;';
+      iframe.setAttribute('allowtransparency', 'true');
+      mainArea.appendChild(iframe);
+    }
+
+    function hideQuestionVisual() {
+      const existing = document.getElementById('questionVisualIframe');
+      if (existing) existing.remove();
     }
 
     // Position quiz panel below floating-layers with spacing
@@ -5305,6 +5337,9 @@
       });
 
       updateQuizProgress();
+
+      // Mostra visualização da primeira questão se houver
+      showQuestionVisual(0);
     }
 
     function confirmTextAnswer(qIdx) {
@@ -5613,7 +5648,8 @@
 
       // Do NOT save canvas snapshot for quiz questions (only practical activities save)
 
-      // Clear all figures for the next question
+      // Remove visualização da questão anterior e limpar figuras
+      hideQuestionVisual();
       clearAllFigures();
 
       currentQuestion++;
@@ -5631,6 +5667,8 @@
           // Enable textarea if it's a text question
           const textarea = nextCard.querySelector('.question-text-input');
           if (textarea) textarea.disabled = false;
+          // Mostra visualização da próxima questão se houver
+          showQuestionVisual(currentQuestion);
           setTimeout(() => {
             nextCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }, 300);
@@ -5644,7 +5682,8 @@
     }
 
     function showPracticalSection() {
-      // Clear all figures when practical activities start
+      // Remove visualização e limpar figuras quando atividades práticas começam
+      hideQuestionVisual();
       clearAllFigures();
 
       const divider = document.getElementById('practicalDivider');
