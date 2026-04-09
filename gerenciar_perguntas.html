@@ -714,6 +714,12 @@
             } else {
                 delete questions[idx].animacao;
             }
+            // Atualiza o botão Visualizar
+            const card = document.querySelectorAll('.question-card')[idx];
+            if (card) {
+                const btn = card.querySelector('.anim-preview-btn');
+                if (btn) btn.disabled = (num === 0);
+            }
         };
 
         window.previewAnimacao = (idx) => {
