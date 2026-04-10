@@ -882,6 +882,22 @@
             <button class="btn-filtro-trigger" onclick="abrirModalGerenciar()" style="min-width:auto;">
                 <span>Gerenciar Perguntas</span>
             </button>
+
+            <button class="btn-filtro-trigger" onclick="abrirModalLiberar()" style="min-width:auto;">
+                <span>Liberar atividade</span>
+            </button>
+        </div>
+
+        <!-- Modal: Confirmar liberacao da atividade -->
+        <div id="modalLiberar" class="modal-overlay">
+            <div class="modal-box-admin">
+                <div class="modal-titulo" style="margin-bottom:4px;">Liberar atividade</div>
+                <div class="modal-desc">Todos os alunos conectados receberão a atividade agora, independente do número de figuras criadas. Confirmar?</div>
+                <div class="botoes-confirmacao">
+                    <button class="btn-conf-nao" onclick="fecharModalLiberar()">Cancelar</button>
+                    <button class="btn-conf-sim" style="background:var(--green);box-shadow:0 4px 0 var(--green-shadow);" onclick="confirmarLiberarAtividade()">Liberar</button>
+                </div>
+            </div>
         </div>
 
         <div class="grid-resumo">
@@ -1465,6 +1481,19 @@
         document.getElementById('inputSenhaGerenciar')?.addEventListener('keydown', e => {
             if (e.key === 'Enter') verificarSenhaGerenciar();
         });
+
+        /* --- Liberar Atividade --- */
+        window.abrirModalLiberar = () => toggleModal('modalLiberar', true);
+        window.fecharModalLiberar = () => toggleModal('modalLiberar', false);
+
+        window.confirmarLiberarAtividade = async () => {
+            try {
+                await set(ref(db, 'geolab_controle/liberarAtividade'), Date.now());
+                fecharModalLiberar();
+            } catch (e) {
+                alert('Erro ao liberar atividade: ' + e.message);
+            }
+        };
 
         /* --- Toggle nomes dos alunos --- */
         window.toggleNomes = () => {
