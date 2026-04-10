@@ -5874,6 +5874,8 @@
           if (quizActive) return;
           const saved = localStorage.getItem('geolab_aluno');
           if (!saved) return;
+          const overlay = document.getElementById('activityPopupOverlay');
+          if (overlay && overlay.classList.contains('visible')) return;
           showActivityPopup();
         }
       });
